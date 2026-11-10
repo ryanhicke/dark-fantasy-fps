@@ -164,4 +164,3 @@ Planned later (not now): more weapons, healing and armor spells, lightning, more
 - Procedural level generation
 - Heavy post-processing or advanced lighting
 - Open-world or large streaming levels
-Don’t modify anything in addons/
