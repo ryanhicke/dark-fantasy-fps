@@ -6,4 +6,3 @@ builds/
 *.translation
 .DS_Store
 .vscode/
-addons/

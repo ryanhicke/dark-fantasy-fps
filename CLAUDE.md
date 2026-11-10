@@ -113,13 +113,13 @@ All damage flows through a single `HealthComponent` (or equivalent) with `take_d
 
 ```bash
 # Check that the project loads and scripts parse without errors (headless)
-godot --headless --path . --quit
+C:\GoDot\Godot_v4.7.2-stable_win64.exe --headless --path . --quit
 
 # Run GUT tests headless
-godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests -gexit
+C:\GoDot\Godot_v4.7.2-stable_win64.exe --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests -gexit
 
 # Run the project
-godot --path .
+C:\GoDot\Godot_v4.7.2-stable_win64.exe --path .
 ```
 
 (Adjust the `godot` executable name or path for the local install.)
