@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://spells/explosion_effect.gd" id="1_effect"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_burst"]
+size = Vector2(0.6, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Material_burst"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.7, 0.2, 0.9)
+billboard_mode = 1
+billboard_keep_scale = true
+
+[node name="FireballExplosion" type="Node3D"]
+script = ExtResource("1_effect")
+
+[node name="Sprite" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+material_override = SubResource("Material_burst")
+mesh = SubResource("QuadMesh_burst")

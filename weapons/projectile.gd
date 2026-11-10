@@ -42,6 +42,12 @@ func launch(
 	_face_velocity()
 
 
+## Called by the firing weapon after launch() so subclasses can read extra
+## fields from their data (e.g. splash from SpellData). Base needs nothing.
+func apply_weapon_data(_weapon_data: WeaponData) -> void:
+	pass
+
+
 ## One step of the flight model. Static so tests can run the exact same
 ## math the game uses.
 static func integrate_velocity(current: Vector3, gravity_strength: float, delta: float) -> Vector3:

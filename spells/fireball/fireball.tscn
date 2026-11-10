@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://spells/fireball/fireball_projectile.gd" id="1_fireball"]
+[ext_resource type="PackedScene" path="res://spells/fireball/fireball_explosion.tscn" id="2_explosion"]
+
+[sub_resource type="StandardMaterial3D" id="Material_fireball"]
+shading_mode = 0
+albedo_color = Color(1, 0.55, 0.1, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_fireball"]
+material = SubResource("Material_fireball")
+size = Vector2(0.4, 0.4)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_splash"]
+resource_local_to_scene = true
+radius = 2.5
+
+[node name="Fireball" type="Node3D"]
+script = ExtResource("1_fireball")
+explosion_scene = ExtResource("2_explosion")
+
+[node name="Sprite" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("QuadMesh_fireball")
+
+[node name="PathCast" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, 0)
+
+[node name="SplashCast" type="ShapeCast3D" parent="."]
+enabled = false
+shape = SubResource("SphereShape3D_splash")
+target_position = Vector3(0, 0, 0)
+
+[node name="SplashSightCast" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, 0)

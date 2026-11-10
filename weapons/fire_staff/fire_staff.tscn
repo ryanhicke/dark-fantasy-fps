@@ -1,0 +1,36 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/spell_weapon.gd" id="1_spell"]
+[ext_resource type="Resource" path="res://spells/fireball/fireball.tres" id="2_data"]
+
+[sub_resource type="StandardMaterial3D" id="Material_wood"]
+albedo_color = Color(0.3, 0.2, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_orb"]
+shading_mode = 0
+albedo_color = Color(1, 0.5, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_shaft"]
+material = SubResource("Material_wood")
+size = Vector3(0.035, 0.035, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_orb"]
+material = SubResource("Material_orb")
+size = Vector3(0.09, 0.09, 0.09)
+
+[node name="FireStaff" type="Node3D"]
+script = ExtResource("1_spell")
+data = ExtResource("2_data")
+muzzle_offset = 0.5
+
+[node name="ViewModel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.927184, -0.374607, 0, 0.374607, 0.927184, 0.2, -0.28, -0.6)
+
+[node name="Shaft" type="MeshInstance3D" parent="ViewModel"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_shaft")
+
+[node name="Orb" type="MeshInstance3D" parent="ViewModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.47)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_orb")

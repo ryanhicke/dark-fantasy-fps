@@ -45,6 +45,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		request_slot(0)
 	elif event.is_action_pressed("weapon_2"):
 		request_slot(1)
+	elif event.is_action_pressed("weapon_3"):
+		request_slot(2)
 	elif event.is_action_pressed("weapon_next"):
 		_cycle(1)
 	elif event.is_action_pressed("weapon_prev"):

@@ -7,15 +7,40 @@ extends Node
 
 signal ammo_changed(ammo_type: StringName, amount: int, maximum: int)
 
-@export var max_ammo: Dictionary[StringName, int] = {&"arrows": 100}
+@export var max_ammo: Dictionary[StringName, int] = {&"arrows": 100, &"mana": 200}
 ## Ammo given on a fresh (pistol) start.
-@export var starting_ammo: Dictionary[StringName, int] = {&"arrows": 10}
+@export var starting_ammo: Dictionary[StringName, int] = {&"arrows": 10, &"mana": 100}
+## Points regained per second, up to the max. Set a type to 0 to disable
+## regen (e.g. once mana pickups exist).
+@export var regen_per_second: Dictionary[StringName, float] = {&"mana": 2.0}
 
 var _ammo: Dictionary[StringName, int] = {}
+## Fractional regen carried between ticks, since ammo counts are whole numbers.
+var _regen_progress: Dictionary[StringName, float] = {}
 
 
 func _ready() -> void:
 	reset_to_starting()
+
+
+func _physics_process(delta: float) -> void:
+	regenerate(delta)
+
+
+## Applies [param delta] seconds of regen. Public so tests can drive it.
+func regenerate(delta: float) -> void:
+	for ammo_type: StringName in regen_per_second:
+		var rate: float = regen_per_second[ammo_type]
+		# Reset when full so a just-spent point doesn't refill instantly.
+		if rate <= 0.0 or get_ammo(ammo_type) >= get_max_ammo(ammo_type):
+			_regen_progress[ammo_type] = 0.0
+			continue
+		var progress: float = _regen_progress.get(ammo_type, 0.0) + rate * delta
+		var whole: int = floori(progress)
+		if whole > 0:
+			add_ammo(ammo_type, whole)
+			progress -= whole
+		_regen_progress[ammo_type] = progress
 
 
 func reset_to_starting() -> void:

@@ -83,6 +83,7 @@ func _fire(charge: float) -> void:
 		data.damage_type,
 		_owner_body
 	)
+	projectile.apply_weapon_data(data)
 
 
 func _charge_ratio() -> float:

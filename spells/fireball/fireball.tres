@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://spells/spell_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="2_projectile"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Fireball"
+damage = 30.0
+damage_type = 1
+cooldown = 0.8
+windup = 0.0
+ammo_type = &"mana"
+ammo_cost = 10
+projectile_scene = ExtResource("2_projectile")
+projectile_speed = 20.0
+projectile_gravity = 0.0
+splash_radius = 2.5
+splash_damage = 20.0
+caster_splash_scale = 0.5

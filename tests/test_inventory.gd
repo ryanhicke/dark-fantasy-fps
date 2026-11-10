@@ -53,3 +53,54 @@ func test_reset_restores_starting_ammo() -> void:
 	_inventory.consume_ammo(ARROWS, 30)
 	_inventory.reset_to_starting()
 	assert_eq(_inventory.get_ammo(ARROWS), START_ARROWS)
+
+
+# --- Regen -------------------------------------------------------------------
+
+const MANA: StringName = &"mana"
+const MAX_MANA: int = 200
+const MANA_REGEN: float = 2.0
+
+
+func _setup_mana(start: int) -> void:
+	_inventory.max_ammo = {ARROWS: MAX_ARROWS, MANA: MAX_MANA}
+	_inventory.starting_ammo = {ARROWS: START_ARROWS, MANA: start}
+	_inventory.regen_per_second = {MANA: MANA_REGEN}
+	_inventory.reset_to_starting()
+	# Stop the real physics tick so only the test drives regen.
+	_inventory.set_physics_process(false)
+
+
+func test_regen_adds_whole_points_over_time() -> void:
+	_setup_mana(100)
+	_inventory.regenerate(1.0)
+	assert_eq(_inventory.get_ammo(MANA), 102)
+
+
+func test_regen_accumulates_fractions_across_ticks() -> void:
+	_setup_mana(100)
+	for i: int in 60:
+		_inventory.regenerate(1.0 / 60.0)
+	# Float residue can leave the 2nd point a hair short; allow for it.
+	assert_between(_inventory.get_ammo(MANA), 101, 102)
+	_inventory.regenerate(0.1)
+	assert_eq(_inventory.get_ammo(MANA), 102)
+
+
+func test_regen_stops_at_max() -> void:
+	_setup_mana(MAX_MANA - 1)
+	_inventory.regenerate(10.0)
+	assert_eq(_inventory.get_ammo(MANA), MAX_MANA)
+
+
+func test_regen_does_not_touch_other_ammo() -> void:
+	_setup_mana(100)
+	_inventory.regenerate(5.0)
+	assert_eq(_inventory.get_ammo(ARROWS), START_ARROWS)
+
+
+func test_zero_regen_rate_disables_regen() -> void:
+	_setup_mana(100)
+	_inventory.regen_per_second = {MANA: 0.0}
+	_inventory.regenerate(5.0)
+	assert_eq(_inventory.get_ammo(MANA), 100)
