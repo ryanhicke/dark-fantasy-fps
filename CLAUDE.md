@@ -108,7 +108,7 @@ All damage flows through a single `HealthComponent` (or equivalent) with `take_d
 7. If a request conflicts with the performance constraints or this document, say so before proceeding.
 8. If you are unsure how something behaves in Godot 4, say so rather than guessing. Check the official docs when possible. Do not use Godot 3 syntax or APIs (for example, use `@export`, not `export`; `await`, not `yield`).
 9. Commit-friendly changes: keep each task focused so I can review the diff and commit it on its own.
-10. Don’t modify anything in addons/
+10. Don’t modify anything in addons/ but it's ok to commit changes that I make to git
 
 ## Useful commands
 
