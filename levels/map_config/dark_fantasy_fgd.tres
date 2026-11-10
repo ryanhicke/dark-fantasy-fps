@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDFile" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="1_fgd"]
+[ext_resource type="Resource" path="res://addons/func_godot/fgd/func_godot_fgd.tres" id="2_base"]
+[ext_resource type="Resource" path="res://levels/map_config/info_player_start.tres" id="3_start"]
+[ext_resource type="Resource" path="res://levels/map_config/monster_ghoul.tres" id="4_ghoul"]
+[ext_resource type="Resource" path="res://levels/map_config/item_key.tres" id="5_key"]
+[ext_resource type="Resource" path="res://levels/map_config/func_door.tres" id="6_door"]
+[ext_resource type="Resource" path="res://levels/map_config/trigger_exit.tres" id="7_exit"]
+
+[resource]
+script = ExtResource("1_fgd")
+fgd_name = "DarkFantasyFPS"
+base_fgd_files = Array[Resource]([ExtResource("2_base")])
+entity_definitions = Array[Resource]([ExtResource("3_start"), ExtResource("4_ghoul"), ExtResource("5_key"), ExtResource("6_door"), ExtResource("7_exit")])

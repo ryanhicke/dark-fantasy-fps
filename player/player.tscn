@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://weapons/bow/bow.tscn" id="5_bow"]
 [ext_resource type="Script" path="res://core/components/health_component.gd" id="6_health"]
 [ext_resource type="PackedScene" path="res://weapons/fire_staff/fire_staff.tscn" id="7_staff"]
+[ext_resource type="Script" path="res://player/key_ring.gd" id="8_keys"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -26,6 +27,9 @@ script = ExtResource("4_inventory")
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("6_health")
 
+[node name="KeyRing" type="Node" parent="."]
+script = ExtResource("8_keys")
+
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
@@ -36,3 +40,7 @@ current = true
 script = ExtResource("2_holder")
 weapon_scenes = Array[PackedScene]([ExtResource("3_sword"), ExtResource("5_bow"), ExtResource("7_staff")])
 inventory = NodePath("../../../Inventory")
+
+[node name="UseCast" type="RayCast3D" parent="Head/Camera3D"]
+enabled = false
+target_position = Vector3(0, 0, -2)

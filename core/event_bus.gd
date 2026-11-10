@@ -21,6 +21,17 @@ signal player_died
 @warning_ignore("unused_signal")
 signal player_respawn_requested
 
+## Sorted list of KeyRing.KeyType values the player holds in this level.
+@warning_ignore("unused_signal")
+signal player_keys_changed(keys: Array[int])
+
+@warning_ignore("unused_signal")
+signal key_picked_up(key_type: int)
+
+## The player tried a door that needs [param required_key] and lacks it.
+@warning_ignore("unused_signal")
+signal door_locked(required_key: int)
+
 @warning_ignore("unused_signal")
 signal enemy_killed(enemy: Node)
 

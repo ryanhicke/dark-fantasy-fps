@@ -57,8 +57,14 @@ func _ready() -> void:
 	_sight_cast.add_exception(self)
 	_base_color = _material.albedo_color
 	_sight_timer = randf() * SIGHT_CHECK_INTERVAL
-	# One group lookup at spawn, never per frame. Levels are reloaded on
-	# respawn, so the target never changes during an enemy's life.
+	# Deferred: in map levels the player is spawned by the Level root, whose
+	# _ready runs after its children's.
+	_acquire_target.call_deferred()
+
+
+## One group lookup at spawn, never per frame. Levels are reloaded on
+## respawn, so the target never changes during an enemy's life.
+func _acquire_target() -> void:
 	_target = get_tree().get_first_node_in_group(Player.GROUP) as Node3D
 	_target_health = HealthComponent.find_on(_target)
 

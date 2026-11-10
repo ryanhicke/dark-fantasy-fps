@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_solid"]
+[ext_resource type="Script" path="res://levels/entities/door.gd" id="2_door"]
+
+[resource]
+script = ExtResource("1_solid")
+spawn_type = 2
+origin_type = 4
+collision_shape_type = 1
+classname = "func_door"
+description = "Door that slides up when the player presses use (E). Optionally needs a key."
+class_properties = Dictionary[String, Variant]({
+"key_type": {
+"None": -1,
+"Gold": 0,
+"Silver": 1,
+"Bone": 2
+},
+"lip": 8.0,
+"speed": 100.0,
+"wait": 3.0
+})
+class_property_descriptions = Dictionary[String, Variant]({
+"key_type": ["Key required", -1],
+"lip": "Units of door left showing when fully open",
+"speed": "Movement speed in units per second",
+"wait": "Seconds before closing again (-1 = stay open)"
+})
+meta_properties = Dictionary[String, Variant]({
+"color": Color(0.6, 0.4, 0.2, 1)
+})
+node_class = "AnimatableBody3D"
+script_class = ExtResource("2_door")

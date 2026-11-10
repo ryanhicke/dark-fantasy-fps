@@ -41,6 +41,10 @@ const HEAD_BOB_BLEND_SPEED: float = 6.0
 @export var death_head_height: float = 0.3
 @export var death_head_drop_time: float = 0.5
 
+@export_group("Use")
+## Reach of the use key in meters from the eyes. Doom's was 64 units (2 m).
+@export var use_range: float = 2.0
+
 var _bob_phase: float = 0.0
 var _bob_weight: float = 0.0
 var _is_dead: bool = false
@@ -49,6 +53,7 @@ var _is_dead: bool = false
 @onready var _camera: Camera3D = $Head/Camera3D
 @onready var _weapon_holder: Node3D = $Head/Camera3D/WeaponHolder
 @onready var _health: HealthComponent = $HealthComponent
+@onready var _use_cast: RayCast3D = $Head/Camera3D/UseCast
 
 
 func _enter_tree() -> void:
@@ -63,6 +68,10 @@ func _ready() -> void:
 	_health.health_changed.connect(_on_health_changed)
 	_health.died.connect(_on_died)
 	EventBus.player_health_changed.emit(_health.current_health, _health.max_health)
+	# Updated only when use is pressed, so it costs nothing per frame.
+	_use_cast.enabled = false
+	_use_cast.target_position = Vector3.FORWARD * use_range
+	_use_cast.add_exception(self)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -79,6 +88,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_cancel"):
 		# Stopgap until a pause menu owns mouse capture.
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	elif event.is_action_pressed("use") and not _is_dead:
+		_try_use()
 	elif event is InputEventMouseButton and event.is_pressed():
 		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -143,3 +154,12 @@ func _on_died(_source: Node) -> void:
 	var drop: Tween = create_tween()
 	drop.tween_property(_head, "position:y", death_head_height, death_head_drop_time)
 	EventBus.player_died.emit()
+
+
+## Doom-style use: whatever is in reach under the crosshair and has a
+## use(user) method (doors now, switches later) gets activated.
+func _try_use() -> void:
+	_use_cast.force_raycast_update()
+	var target: Node = _use_cast.get_collider() as Node
+	if target != null and target.has_method(&"use"):
+		target.call(&"use", self)

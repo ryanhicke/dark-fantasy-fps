@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_point"]
+[ext_resource type="PackedScene" path="res://levels/entities/key_pickup.tscn" id="2_key"]
+
+[resource]
+script = ExtResource("1_point")
+classname = "item_key"
+description = "A key for locked doors in this level. Place it on the floor."
+class_properties = Dictionary[String, Variant]({
+"key_type": {
+"Gold": 0,
+"Silver": 1,
+"Bone": 2
+}
+})
+class_property_descriptions = Dictionary[String, Variant]({
+"key_type": ["Key type", 0]
+})
+meta_properties = Dictionary[String, Variant]({
+"color": Color(1, 0.8, 0.2, 1),
+"size": AABB(-8, -8, 0, 8, 8, 24)
+})
+scene_file = ExtResource("2_key")

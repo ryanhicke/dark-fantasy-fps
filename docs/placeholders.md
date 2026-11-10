@@ -15,6 +15,10 @@ before shipping. Note the license of every replacement asset.
 | Fireball projectile | `spells/fireball/fireball.tscn` | Flat orange billboarded `QuadMesh` | Animated fireball sprite |
 | Fireball explosion | `spells/fireball/fireball_explosion.tscn` | Growing, fading orange billboarded `QuadMesh` | Explosion sprite animation |
 | Spell sounds | — | None (silent) | Fireball cast, flight loop, explosion SFX |
+| Key pickup | `levels/entities/key_pickup.tscn` | Small tinted billboarded `QuadMesh` | Key sprites (gold, silver, bone) |
+| Map textures | `assets/maps/test_map.map` (`base/wall`, `base/floor`, `base/ceiling`, `base/door`, `base/door_gold`) | None: FuncGodot default checker | 64x64 or 128x128 PNGs in `assets/textures/base/` |
+| Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key", "Level Complete") | Styled HUD and key icons |
+| Door and pickup sounds | — | None (silent) | Door open/close/locked, key pickup SFX |
 | Ghoul sprite | `enemies/ghoul/ghoul.tscn` | Flat-color billboarded `QuadMesh`; color changes for windup/pain, squashed quad for corpse | Sprite sheet (idle/walk/attack/pain/death frames) |
 | Ghoul sounds | — | None (silent) | Sight, attack, pain, death SFX |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
@@ -27,3 +31,4 @@ before shipping. Note the license of every replacement asset.
 |---|---|
 | Training dummy | `enemies/training_dummy/` |
 | Test level geometry and colors | `levels/test_level.tscn` |
+| Starter test map | `levels/test_map/`, `assets/maps/test_map.map` |
