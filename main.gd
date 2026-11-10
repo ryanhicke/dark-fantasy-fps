@@ -1,6 +1,7 @@
 extends Node
 ## Entry scene. Starts the run through GameState and swaps level scenes
-## under LevelRoot whenever GameState asks for one.
+## under LevelRoot whenever GameState asks for one. LevelRoot and the HUD
+## live inside GameView so they render at the low internal resolution.
 
 ## Level to start from, always with a pistol start. Change it in the
 ## inspector to jump straight to a later level.
@@ -8,7 +9,7 @@ extends Node
 
 var _level: Node
 
-@onready var _level_root: Node = $LevelRoot
+@onready var _level_root: Node = $GameView/SubViewport/LevelRoot
 
 
 func _ready() -> void:

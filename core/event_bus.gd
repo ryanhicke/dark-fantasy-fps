@@ -44,6 +44,10 @@ signal level_completed
 @warning_ignore("unused_signal")
 signal player_ammo_changed(ammo_type: StringName, amount: int, maximum: int)
 
+## The 3D/HUD render resolution changed (GameView pixel size or window size).
+@warning_ignore("unused_signal")
+signal render_resolution_changed(render_size: Vector2i)
+
 ## Emitted when the player starts raising a weapon. Null means no weapon.
 @warning_ignore("unused_signal")
 signal player_weapon_changed(weapon_data: WeaponData)

@@ -1,6 +1,6 @@
 extends CanvasLayer
-## Crosshair, health, ammo, keys, pickup/door messages, damage flash, and
-## the respawn prompt.
+## Crosshair, health, ammo, keys, pickup/door messages, damage flash, the
+## respawn prompt, and a debug FPS/resolution readout (F3, debug builds).
 ##
 ## Listens to EventBus only, so it never needs a reference to the player and
 ## survives level changes untouched.
@@ -13,10 +13,14 @@ extends CanvasLayer
 ## Seconds a pickup or door message stays on screen.
 @export var message_duration: float = 2.5
 
+## Dev tool, so a raw key rather than an input action.
+const DEBUG_TOGGLE_KEY: Key = KEY_F3
+
 var _ammo_counts: Dictionary[StringName, int] = {}
 var _current_ammo_type: StringName = &""
 var _awaiting_respawn: bool = false
 var _flash_tween: Tween
+var _render_size: Vector2i = Vector2i.ZERO
 
 @onready var _ammo_label: Label = $AmmoLabel
 @onready var _health_label: Label = $HealthLabel
@@ -25,6 +29,8 @@ var _flash_tween: Tween
 @onready var _keys_label: Label = $KeysLabel
 @onready var _message_label: Label = $MessageLabel
 @onready var _message_timer: Timer = $MessageTimer
+@onready var _debug_label: Label = $DebugLabel
+@onready var _debug_timer: Timer = $DebugTimer
 
 
 func _ready() -> void:
@@ -38,10 +44,16 @@ func _ready() -> void:
 	EventBus.key_picked_up.connect(_on_key_picked_up)
 	EventBus.door_locked.connect(_on_door_locked)
 	_message_timer.timeout.connect(_on_message_timer_timeout)
+	EventBus.render_resolution_changed.connect(_on_render_resolution_changed)
+	_debug_timer.timeout.connect(_refresh_debug)
 	_refresh_ammo()
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _is_debug_toggle(event):
+		get_viewport().set_input_as_handled()
+		_toggle_debug()
+		return
 	if _awaiting_respawn and event.is_action_pressed("respawn"):
 		_awaiting_respawn = false
 		_death_prompt.visible = false
@@ -123,4 +135,33 @@ func _refresh_ammo() -> void:
 	if _ammo_label.visible:
 		_ammo_label.text = "%s: %d" % [
 			String(_current_ammo_type).capitalize(), _ammo_counts.get(_current_ammo_type, 0)
+		]
+
+
+func _on_render_resolution_changed(render_size: Vector2i) -> void:
+	_render_size = render_size
+	_refresh_debug()
+
+
+func _is_debug_toggle(event: InputEvent) -> bool:
+	var key: InputEventKey = event as InputEventKey
+	return (OS.is_debug_build() and key != null and key.pressed and not key.echo
+		and key.keycode == DEBUG_TOGGLE_KEY)
+
+
+func _toggle_debug() -> void:
+	_debug_label.visible = not _debug_label.visible
+	# Only ticks while shown, so the readout costs nothing when hidden.
+	if _debug_label.visible:
+		_refresh_debug()
+		_debug_timer.start()
+	else:
+		_debug_timer.stop()
+
+
+## Refreshed on a timer, not every frame, to avoid a string per frame.
+func _refresh_debug() -> void:
+	if _debug_label.visible:
+		_debug_label.text = "%d FPS  %dx%d" % [
+			Engine.get_frames_per_second(), _render_size.x, _render_size.y
 		]

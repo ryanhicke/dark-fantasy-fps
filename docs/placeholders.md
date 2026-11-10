@@ -27,11 +27,14 @@ before shipping. Note the license of every replacement asset.
 | Intermission screen | `ui/intermission.tscn` | Flat dark `ColorRect` with default-font stat `Label`s | Styled stats screen (background art, font, tally-up animation) |
 | Intermission / level-end sounds | — | None (silent) | Exit, stat tally, and continue SFX |
 | Level names | `levels/*.tscn` (`Level.display_name`) | Empty; falls back to the root node name ("Test Map") | Real level titles |
+| HUD font | `ui/hud.tscn` (all labels) | Godot's default anti-aliased font, rendered at the low internal resolution; soft at 640x360, hard to read at 320x180 | Pixel font designed for ~360p (commercial-use license), with font AA off |
 
 ## Dev-only (not shipped, remove or exclude from release builds)
 
 | Item | Where |
 |---|---|
 | Training dummy | `enemies/training_dummy/` |
+| F2 render scale cycle | `ui/game_view.gd` (debug builds only) |
+| F3 FPS / resolution readout | `ui/hud.gd`, `DebugLabel` in `ui/hud.tscn` (debug builds only) |
 | Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (level 2 in `levels/level_list.tres`) |
 | Starter test map | `levels/test_map/`, `assets/maps/test_map.map` |
