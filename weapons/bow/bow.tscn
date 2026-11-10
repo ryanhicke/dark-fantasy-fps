@@ -1,0 +1,48 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/ranged_weapon.gd" id="1_ranged"]
+[ext_resource type="Resource" path="res://weapons/bow/bow.tres" id="2_data"]
+
+[sub_resource type="StandardMaterial3D" id="Material_wood"]
+albedo_color = Color(0.4, 0.25, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_string"]
+albedo_color = Color(0.85, 0.82, 0.7, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_arrow"]
+albedo_color = Color(0.55, 0.4, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_limb"]
+material = SubResource("Material_wood")
+size = Vector3(0.035, 0.75, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_string"]
+material = SubResource("Material_string")
+size = Vector3(0.006, 0.72, 0.006)
+
+[sub_resource type="BoxMesh" id="BoxMesh_arrow"]
+material = SubResource("Material_arrow")
+size = Vector3(0.012, 0.012, 0.55)
+
+[node name="Bow" type="Node3D"]
+script = ExtResource("1_ranged")
+data = ExtResource("2_data")
+
+[node name="ViewModel" type="Node3D" parent="."]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.18, -0.28, -0.5)
+
+[node name="Limb" type="MeshInstance3D" parent="ViewModel"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_limb")
+
+[node name="Draw" type="Node3D" parent="ViewModel"]
+
+[node name="String" type="MeshInstance3D" parent="ViewModel/Draw"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.07)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_string")
+
+[node name="Loaded" type="MeshInstance3D" parent="ViewModel/Draw"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.205)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_arrow")

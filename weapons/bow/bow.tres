@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="Script" path="res://weapons/weapon_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://weapons/arrow/arrow.tscn" id="2_arrow"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Bow"
+damage = 15.0
+damage_type = 0
+cooldown = 0.6
+windup = 0.0
+ammo_type = &"arrows"
+ammo_cost = 1
+projectile_scene = ExtResource("2_arrow")
+projectile_speed = 40.0
+projectile_gravity = 0.95
+charge_time = 1.5
+max_charge_damage = 30.0
+max_charge_speed = 55.0

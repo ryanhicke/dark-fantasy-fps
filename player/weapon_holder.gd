@@ -7,6 +7,8 @@ extends Node3D
 
 ## Weapon scenes in slot order: index 0 is key 1, index 1 is key 2, and so on.
 @export var weapon_scenes: Array[PackedScene] = []
+## Ammo source for weapons. Leave empty for unlimited ammo.
+@export var inventory: Inventory
 
 var _weapons: Array[Weapon] = []
 var _current_index: int = -1
@@ -14,6 +16,7 @@ var _current_index: int = -1
 var _pending_index: int = -1
 var _switching: bool = false
 var _trigger_held: bool = false
+var _was_mouse_captured: bool = false
 
 @onready var _aim: Node3D = get_parent() as Node3D
 
@@ -23,9 +26,12 @@ func _ready() -> void:
 	for scene: PackedScene in weapon_scenes:
 		var weapon: Weapon = scene.instantiate() as Weapon
 		add_child(weapon)
-		weapon.setup(body, _aim)
+		weapon.setup(body, _aim, inventory)
 		weapon.holster_immediately()
 		_weapons.append(weapon)
+		if inventory == null and weapon.data != null and weapon.data.ammo_type != &"":
+			push_warning("WeaponHolder: %s uses ammo but no inventory is assigned; ammo is unlimited."
+				% weapon.data.display_name)
 	if not _weapons.is_empty():
 		_pending_index = 0
 
@@ -46,8 +52,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if not _is_mouse_captured():
+	var captured: bool = _is_mouse_captured()
+	if not captured:
 		_trigger_held = false
+		# Releasing the mouse mid-draw cancels the shot instead of firing it.
+		if _was_mouse_captured and _current_index >= 0:
+			_weapons[_current_index].interrupt()
+	_was_mouse_captured = captured
 	if _switching:
 		return
 	if _pending_index >= 0 and not _is_current_busy():
@@ -77,6 +88,7 @@ func _switch_to(index: int) -> void:
 	if _current_index >= 0:
 		await _weapons[_current_index].holster()
 	_current_index = index
+	EventBus.player_weapon_changed.emit(_weapons[index].data)
 	await _weapons[index].draw()
 	_switching = false
 

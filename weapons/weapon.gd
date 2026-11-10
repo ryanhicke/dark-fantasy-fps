@@ -5,7 +5,7 @@ extends Node3D
 ## Owns trigger state, cooldown, and the raise/lower animation used when
 ## switching. Subclasses decide what an attack does by overriding the
 ## virtual hooks (_tick, _on_trigger_pressed, _on_trigger_released,
-## _on_holstered).
+## _on_interrupted).
 ##
 ## Expects a child Node3D named "ViewModel" holding the visible mesh, so
 ## animations move the model without moving the weapon's own origin.
@@ -27,6 +27,7 @@ const COOLDOWN_EPSILON: float = 0.0001
 
 var _owner_body: CollisionObject3D
 var _aim: Node3D
+var _inventory: Inventory
 var _trigger_held: bool = false
 var _cooldown_remaining: float = 0.0
 var _is_drawn: bool = false
@@ -42,10 +43,12 @@ func _ready() -> void:
 
 
 ## Called once by the WeaponHolder. [param owner_body] is the damage source
-## and is excluded from hit checks; [param aim] is where attacks originate.
-func setup(owner_body: CollisionObject3D, aim: Node3D) -> void:
+## and is excluded from hit checks; [param aim] is where attacks originate;
+## [param inventory] supplies ammo (null means unlimited).
+func setup(owner_body: CollisionObject3D, aim: Node3D, inventory: Inventory) -> void:
 	_owner_body = owner_body
 	_aim = aim
+	_inventory = inventory
 
 
 func set_trigger(held: bool) -> void:
@@ -68,10 +71,30 @@ func is_busy() -> bool:
 	return _cooldown_remaining > 0.0
 
 
+func has_ammo() -> bool:
+	if data == null or data.ammo_type == &"" or _inventory == null:
+		return true
+	return _inventory.has_ammo(data.ammo_type, data.ammo_cost)
+
+
+## Spends ammo for one attack. Returns false (spending nothing) if short.
+func _consume_ammo() -> bool:
+	if data.ammo_type == &"" or _inventory == null:
+		return true
+	return _inventory.consume_ammo(data.ammo_type, data.ammo_cost)
+
+
+## Cancels anything in progress without attacking, e.g. when the mouse is
+## released mid-draw. Cleared directly, not via set_trigger(), so weapons
+## that act on release (like a drawn bow) don't fire.
+func interrupt() -> void:
+	_trigger_held = false
+	_on_interrupted()
+
+
 func holster_immediately() -> void:
 	_is_drawn = false
-	_trigger_held = false
-	_on_holstered()
+	interrupt()
 	visible = false
 	set_physics_process(false)
 	if _view_model != null:
@@ -91,10 +114,7 @@ func draw() -> void:
 ## Lower animation. Cancels anything in progress without attacking.
 func holster() -> void:
 	_is_drawn = false
-	# Cleared directly, not via set_trigger(), so weapons that act on release
-	# (like a drawn bow) don't fire while being put away.
-	_trigger_held = false
-	_on_holstered()
+	interrupt()
 	if _view_model != null:
 		await _tween_view_model(_holstered_position()).finished
 	visible = false
@@ -142,5 +162,5 @@ func _on_trigger_released() -> void:
 	pass
 
 
-func _on_holstered() -> void:
+func _on_interrupted() -> void:
 	pass

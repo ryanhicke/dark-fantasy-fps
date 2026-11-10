@@ -35,8 +35,8 @@ func _ready() -> void:
 	_hit_cast.shape = sphere
 
 
-func setup(owner_body: CollisionObject3D, aim: Node3D) -> void:
-	super(owner_body, aim)
+func setup(owner_body: CollisionObject3D, aim: Node3D, inventory: Inventory) -> void:
+	super(owner_body, aim, inventory)
 	if owner_body != null:
 		_hit_cast.add_exception(owner_body)
 
@@ -50,7 +50,7 @@ func _tick(delta: float) -> void:
 		_begin_swing()
 
 
-func _on_holstered() -> void:
+func _on_interrupted() -> void:
 	_windup_remaining = -1.0
 	if _swing_tween != null:
 		_swing_tween.kill()

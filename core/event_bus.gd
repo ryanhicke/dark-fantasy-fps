@@ -19,3 +19,10 @@ signal secret_found
 
 @warning_ignore("unused_signal")
 signal level_completed
+
+@warning_ignore("unused_signal")
+signal player_ammo_changed(ammo_type: StringName, amount: int, maximum: int)
+
+## Emitted when the player starts raising a weapon. Null means no weapon.
+@warning_ignore("unused_signal")
+signal player_weapon_changed(weapon_data: WeaponData)
