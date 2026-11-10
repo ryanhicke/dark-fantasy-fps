@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/melee_weapon.gd" id="1_melee"]
+[ext_resource type="Resource" path="res://weapons/sword/sword.tres" id="2_data"]
+
+[sub_resource type="StandardMaterial3D" id="Material_blade"]
+albedo_color = Color(0.72, 0.74, 0.78, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_hilt"]
+albedo_color = Color(0.35, 0.2, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_guard"]
+albedo_color = Color(0.55, 0.45, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_grip"]
+material = SubResource("Material_hilt")
+size = Vector3(0.035, 0.16, 0.035)
+
+[sub_resource type="BoxMesh" id="BoxMesh_guard"]
+material = SubResource("Material_guard")
+size = Vector3(0.22, 0.03, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = SubResource("Material_blade")
+size = Vector3(0.05, 0.55, 0.012)
+
+[node name="Sword" type="Node3D"]
+script = ExtResource("1_melee")
+data = ExtResource("2_data")
+
+[node name="ViewModel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.32, -0.38, -0.55)
+
+[node name="Grip" type="MeshInstance3D" parent="ViewModel"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_grip")
+
+[node name="Guard" type="MeshInstance3D" parent="ViewModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.095, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_guard")
+
+[node name="Blade" type="MeshInstance3D" parent="ViewModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.385, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_blade")
+
+[node name="HitCast" type="ShapeCast3D" parent="."]
+enabled = false
