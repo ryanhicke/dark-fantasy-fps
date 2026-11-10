@@ -48,3 +48,10 @@ func take_damage(amount: float, type: Damage.Type, source: Node) -> void:
 func reset() -> void:
 	current_health = max_health
 	health_changed.emit(current_health, max_health)
+
+
+## Sets health directly (e.g. restoring the player between levels). Not
+## damage: it never emits damaged or died.
+func set_health(amount: float) -> void:
+	current_health = clampf(amount, 0.0, max_health)
+	health_changed.emit(current_health, max_health)

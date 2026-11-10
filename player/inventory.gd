@@ -49,6 +49,19 @@ func reset_to_starting() -> void:
 		_set_ammo(ammo_type, starting_ammo.get(ammo_type, 0))
 
 
+## Copy of every ammo count, for storing in the player state bundle.
+func get_all_ammo() -> Dictionary[StringName, int]:
+	return _ammo.duplicate()
+
+
+## Restores counts saved by get_all_ammo(). Types missing from [param counts]
+## drop to 0; unknown types are ignored.
+func set_all_ammo(counts: Dictionary[StringName, int]) -> void:
+	_regen_progress.clear()
+	for ammo_type: StringName in max_ammo:
+		_set_ammo(ammo_type, counts.get(ammo_type, 0))
+
+
 func get_ammo(ammo_type: StringName) -> int:
 	return _ammo.get(ammo_type, 0)
 

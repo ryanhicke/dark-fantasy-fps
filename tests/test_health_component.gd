@@ -74,3 +74,13 @@ func test_find_on_returns_component_or_null() -> void:
 	component.name = HealthComponent.NODE_NAME
 	target.add_child(component)
 	assert_eq(HealthComponent.find_on(target), component)
+
+
+func test_set_health_clamps_and_never_counts_as_damage() -> void:
+	_health.set_health(40.0)
+	assert_eq(_health.current_health, 40.0)
+	assert_signal_emitted_with_parameters(_health, "health_changed", [40.0, MAX_HEALTH])
+	_health.set_health(MAX_HEALTH + 10.0)
+	assert_eq(_health.current_health, MAX_HEALTH)
+	assert_signal_not_emitted(_health, "damaged")
+	assert_signal_not_emitted(_health, "died")

@@ -54,6 +54,7 @@ var _is_dead: bool = false
 @onready var _weapon_holder: Node3D = $Head/Camera3D/WeaponHolder
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _use_cast: RayCast3D = $Head/Camera3D/UseCast
+@onready var _inventory: Inventory = $Inventory
 
 
 func _enter_tree() -> void:
@@ -163,3 +164,16 @@ func _try_use() -> void:
 	var target: Node = _use_cast.get_collider() as Node
 	if target != null and target.has_method(&"use"):
 		target.call(&"use", self)
+
+
+## Snapshot of what carries to the next level.
+func capture_state() -> PlayerState:
+	var state: PlayerState = PlayerState.new()
+	state.health = _health.current_health
+	state.ammo = _inventory.get_all_ammo()
+	return state
+
+
+func apply_state(state: PlayerState) -> void:
+	_health.set_health(state.health)
+	_inventory.set_all_ammo(state.ammo)

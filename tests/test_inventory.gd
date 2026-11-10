@@ -104,3 +104,20 @@ func test_zero_regen_rate_disables_regen() -> void:
 	_inventory.regen_per_second = {MANA: 0.0}
 	_inventory.regenerate(5.0)
 	assert_eq(_inventory.get_ammo(MANA), 100)
+
+
+func test_all_ammo_round_trips_into_a_fresh_inventory() -> void:
+	_inventory.consume_ammo(ARROWS, 8)
+	var saved: Dictionary[StringName, int] = _inventory.get_all_ammo()
+	var other: Inventory = Inventory.new()
+	other.max_ammo = {ARROWS: MAX_ARROWS}
+	add_child_autofree(other)
+	other.set_all_ammo(saved)
+	assert_eq(other.get_ammo(ARROWS), START_ARROWS - 8)
+
+
+func test_set_all_ammo_zeroes_missing_types_and_clamps() -> void:
+	_inventory.set_all_ammo({} as Dictionary[StringName, int])
+	assert_eq(_inventory.get_ammo(ARROWS), 0)
+	_inventory.set_all_ammo({ARROWS: MAX_ARROWS + 50} as Dictionary[StringName, int])
+	assert_eq(_inventory.get_ammo(ARROWS), MAX_ARROWS)

@@ -37,7 +37,6 @@ func _ready() -> void:
 	EventBus.player_keys_changed.connect(_on_player_keys_changed)
 	EventBus.key_picked_up.connect(_on_key_picked_up)
 	EventBus.door_locked.connect(_on_door_locked)
-	EventBus.level_completed.connect(_on_level_completed)
 	_message_timer.timeout.connect(_on_message_timer_timeout)
 	_refresh_ammo()
 
@@ -99,11 +98,6 @@ func _on_key_picked_up(key_type: int) -> void:
 
 func _on_door_locked(required_key: int) -> void:
 	_show_message("You need the %s Key" % KeyRing.key_name(required_key))
-
-
-func _on_level_completed() -> void:
-	# Stays up until the intermission screen replaces it (step 6).
-	_show_message("Level Complete", false)
 
 
 func _on_message_timer_timeout() -> void:

@@ -17,18 +17,21 @@ before shipping. Note the license of every replacement asset.
 | Spell sounds | — | None (silent) | Fireball cast, flight loop, explosion SFX |
 | Key pickup | `levels/entities/key_pickup.tscn` | Small tinted billboarded `QuadMesh` | Key sprites (gold, silver, bone) |
 | Map textures | `assets/maps/test_map.map` (`base/wall`, `base/floor`, `base/ceiling`, `base/door`, `base/door_gold`) | None: FuncGodot default checker | 64x64 or 128x128 PNGs in `assets/textures/base/` |
-| Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key", "Level Complete") | Styled HUD and key icons |
+| Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key") | Styled HUD and key icons |
 | Door and pickup sounds | — | None (silent) | Door open/close/locked, key pickup SFX |
 | Ghoul sprite | `enemies/ghoul/ghoul.tscn` | Flat-color billboarded `QuadMesh`; color changes for windup/pain, squashed quad for corpse | Sprite sheet (idle/walk/attack/pain/death frames) |
 | Ghoul sounds | — | None (silent) | Sight, attack, pain, death SFX |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
 | Death prompt | `ui/hud.tscn` | Default-font `Label` ("Hit Enter to respawn") | Proper death screen |
+| Intermission screen | `ui/intermission.tscn` | Flat dark `ColorRect` with default-font stat `Label`s | Styled stats screen (background art, font, tally-up animation) |
+| Intermission / level-end sounds | — | None (silent) | Exit, stat tally, and continue SFX |
+| Level names | `levels/*.tscn` (`Level.display_name`) | Empty; falls back to the root node name ("Test Map") | Real level titles |
 
 ## Dev-only (not shipped, remove or exclude from release builds)
 
 | Item | Where |
 |---|---|
 | Training dummy | `enemies/training_dummy/` |
-| Test level geometry and colors | `levels/test_level.tscn` |
+| Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (level 2 in `levels/level_list.tres`) |
 | Starter test map | `levels/test_map/`, `assets/maps/test_map.map` |

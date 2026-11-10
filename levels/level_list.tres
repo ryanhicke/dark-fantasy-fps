@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="LevelList" format=3]
+
+[ext_resource type="Script" path="res://levels/level_list.gd" id="1_list"]
+
+[resource]
+script = ExtResource("1_list")
+level_paths = Array[String](["res://levels/test_map/test_map.tscn", "res://levels/test_level.tscn"])
