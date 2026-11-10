@@ -10,6 +10,8 @@ const PLAYER_START_GROUP: StringName = &"player_start"
 @export var player_scene: PackedScene
 ## Name shown on the intermission screen. Empty uses the root node's name.
 @export var display_name: String = ""
+## Effects drawn once at load so their first real use doesn't hitch.
+@export var prewarm_list: EffectPrewarmList = preload("res://levels/effect_prewarm_list.tres")
 
 var _player: Player
 var _stats: LevelStats = LevelStats.new()
@@ -24,6 +26,7 @@ func _ready() -> void:
 	EventBus.secret_found.connect(_on_secret_found)
 	EventBus.level_completed.connect(_on_level_completed)
 	_spawn_player()
+	_prewarm_effects()
 
 
 func _physics_process(delta: float) -> void:
@@ -53,6 +56,17 @@ func _spawn_player() -> void:
 	_player.global_position = start.global_position
 	# Yaw only: the player body must stay upright.
 	_player.rotation.y = start.global_rotation.y
+
+
+func _prewarm_effects() -> void:
+	if prewarm_list == null or prewarm_list.scenes.is_empty():
+		return
+	# The player's camera, now that the player is in the tree.
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	if camera == null:
+		push_warning("%s: no active camera; effects not prewarmed." % name)
+		return
+	EffectPrewarmer.start(camera, prewarm_list.scenes)
 
 
 func _find_player_start() -> Node3D:
