@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="Resource" path="res://enemies/ghoul/ghoul.tres" id="2_data"]
+[ext_resource type="Script" path="res://core/components/health_component.gd" id="3_health"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ghoul"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="QuadMesh" id="QuadMesh_ghoul"]
+size = Vector2(1, 1.8)
+center_offset = Vector3(0, 0.9, 0)
+
+[sub_resource type="StandardMaterial3D" id="Material_ghoul"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(0.45, 0.55, 0.35, 1)
+billboard_mode = 2
+billboard_keep_scale = true
+
+[node name="Ghoul" type="CharacterBody3D"]
+script = ExtResource("1_enemy")
+data = ExtResource("2_data")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_ghoul")
+
+[node name="Sprite" type="MeshInstance3D" parent="."]
+material_override = SubResource("Material_ghoul")
+mesh = SubResource("QuadMesh_ghoul")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_health")
+
+[node name="SightCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+enabled = false
+target_position = Vector3(0, 0, -1)

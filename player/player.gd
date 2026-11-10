@@ -5,6 +5,8 @@ extends CharacterBody3D
 ## Body yaw handles left/right look; Head pitch handles up/down. Keeping them
 ## separate means movement direction never depends on vertical look.
 
+## Enemies find the player through this group once, when they spawn.
+const GROUP: StringName = &"player"
 const PITCH_LIMIT: float = 89.0 * PI / 180.0
 ## How fast head bob fades in/out when starting, stopping, or leaving the floor.
 const HEAD_BOB_BLEND_SPEED: float = 6.0
@@ -34,20 +36,38 @@ const HEAD_BOB_BLEND_SPEED: float = 6.0
 ## keeps it in step with movement at any speed.
 @export var head_bob_stride: float = 2.5
 
+@export_group("Death")
+## Head height above the feet once dead, Doom-style view from the floor.
+@export var death_head_height: float = 0.3
+@export var death_head_drop_time: float = 0.5
+
 var _bob_phase: float = 0.0
 var _bob_weight: float = 0.0
+var _is_dead: bool = false
 
 @onready var _head: Node3D = $Head
 @onready var _camera: Camera3D = $Head/Camera3D
+@onready var _weapon_holder: Node3D = $Head/Camera3D/WeaponHolder
+@onready var _health: HealthComponent = $HealthComponent
+
+
+func _enter_tree() -> void:
+	# In _enter_tree, not _ready: enemies look the player up in their own
+	# _ready, which can run before the player's.
+	add_to_group(GROUP)
 
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	_health.damaged.connect(_on_damaged)
+	_health.health_changed.connect(_on_health_changed)
+	_health.died.connect(_on_died)
+	EventBus.player_health_changed.emit(_health.current_health, _health.max_health)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not _is_dead:
 			# screen_relative ignores window stretch scaling, so sensitivity
 			# stays the same regardless of window size or render resolution.
 			var motion: InputEventMouseMotion = event as InputEventMouseMotion
@@ -71,10 +91,13 @@ func _physics_process(delta: float) -> void:
 
 	if not on_floor:
 		velocity.y -= gravity * delta
-	elif Input.is_action_just_pressed("jump"):
+	elif Input.is_action_just_pressed("jump") and not _is_dead:
 		velocity.y = jump_velocity
 
-	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	# Dead bodies keep gravity and friction so they settle instead of freezing.
+	var input_dir: Vector2 = Vector2.ZERO
+	if not _is_dead:
+		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	# Basis is yaw-only, so this stays horizontal and keeps input magnitude.
 	var wish_dir: Vector3 = transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)
 	var horizontal: Vector3 = Vector3(velocity.x, 0.0, velocity.z)
@@ -102,3 +125,21 @@ func _process(delta: float) -> void:
 	_bob_weight = move_toward(_bob_weight, target_weight, HEAD_BOB_BLEND_SPEED * delta)
 	_bob_phase = fmod(_bob_phase + speed * delta * TAU / head_bob_stride, TAU)
 	_camera.position.y = sin(_bob_phase) * head_bob_amplitude * _bob_weight
+
+
+func _on_damaged(amount: float, _type: Damage.Type, _source: Node) -> void:
+	EventBus.player_damaged.emit(amount)
+
+
+func _on_health_changed(current: float, maximum: float) -> void:
+	EventBus.player_health_changed.emit(current, maximum)
+
+
+func _on_died(_source: Node) -> void:
+	_is_dead = true
+	# Disabling the holder stops weapon input and any attack in progress.
+	_weapon_holder.process_mode = Node.PROCESS_MODE_DISABLED
+	_weapon_holder.visible = false
+	var drop: Tween = create_tween()
+	drop.tween_property(_head, "position:y", death_head_height, death_head_drop_time)
+	EventBus.player_died.emit()

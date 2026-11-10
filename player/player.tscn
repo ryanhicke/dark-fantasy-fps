@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://weapons/sword/sword.tscn" id="3_sword"]
 [ext_resource type="Script" path="res://player/inventory.gd" id="4_inventory"]
 [ext_resource type="PackedScene" path="res://weapons/bow/bow.tscn" id="5_bow"]
+[ext_resource type="Script" path="res://core/components/health_component.gd" id="6_health"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -20,6 +21,9 @@ shape = SubResource("CapsuleShape3D_body")
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("4_inventory")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("6_health")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)

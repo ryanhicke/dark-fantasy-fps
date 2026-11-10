@@ -12,6 +12,16 @@ extends Node
 signal player_damaged(amount: float)
 
 @warning_ignore("unused_signal")
+signal player_health_changed(current: float, maximum: float)
+
+@warning_ignore("unused_signal")
+signal player_died
+
+## Emitted when the player asks to respawn after dying.
+@warning_ignore("unused_signal")
+signal player_respawn_requested
+
+@warning_ignore("unused_signal")
 signal enemy_killed(enemy: Node)
 
 @warning_ignore("unused_signal")
