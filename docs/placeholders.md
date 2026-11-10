@@ -11,6 +11,11 @@ before shipping. Note the license of every replacement asset.
 | Ammo counter | `ui/hud.tscn` | Default-font `Label` ("Arrows: 50") | Styled HUD |
 | Crosshair | `ui/hud.tscn` | Two `ColorRect`s | Final crosshair art (or keep if it fits the style) |
 | Weapon sounds | — | None (silent) | Sword swing/hit, bow draw/release, arrow impact SFX |
+| Ghoul sprite | `enemies/ghoul/ghoul.tscn` | Flat-color billboarded `QuadMesh`; color changes for windup/pain, squashed quad for corpse | Sprite sheet (idle/walk/attack/pain/death frames) |
+| Ghoul sounds | — | None (silent) | Sight, attack, pain, death SFX |
+| Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
+| Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
+| Death prompt | `ui/hud.tscn` | Default-font `Label` ("Hit Enter to respawn") | Proper death screen |
 
 ## Dev-only (not shipped, remove or exclude from release builds)
 
