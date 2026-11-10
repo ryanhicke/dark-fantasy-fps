@@ -11,6 +11,10 @@ extends SubViewportContainer
 ## The SubViewport's 2D content (the HUD) keeps the full layout size via
 ## size_2d_override, so HUD elements stay the same size at every pixel size
 ## and only get chunkier.
+##
+## Lives directly in main.tscn rather than as its own scene: exported builds
+## (text scenes converted to binary) lost nodes that main.tscn added inside
+## an instanced GameView's SubViewport.
 
 const MIN_PIXEL_SIZE: int = 1
 const MAX_PIXEL_SIZE: int = 4

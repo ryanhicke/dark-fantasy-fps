@@ -3,12 +3,28 @@
 [ext_resource type="Script" path="res://main.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://ui/intermission.tscn" id="4_intermission"]
-[ext_resource type="PackedScene" path="res://ui/game_view.tscn" id="5_game_view"]
+[ext_resource type="Script" path="res://ui/game_view.gd" id="5_game_view"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_main")
 
-[node name="GameView" parent="." instance=ExtResource("5_game_view")]
+[node name="GameView" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+script = ExtResource("5_game_view")
+
+[node name="SubViewport" type="SubViewport" parent="GameView"]
+handle_input_locally = false
+audio_listener_enable_3d = true
+canvas_item_default_texture_filter = 0
+size_2d_override_stretch = true
+size = Vector2i(640, 360)
 
 [node name="LevelRoot" type="Node" parent="GameView/SubViewport"]
 
