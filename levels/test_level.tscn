@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://enemies/training_dummy/training_dummy.tscn" id="2_dummy"]
 
 [sub_resource type="Environment" id="Environment_test"]
 background_mode = 1
@@ -113,5 +114,11 @@ mesh = SubResource("BoxMesh_ledge")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ledge"]
 shape = SubResource("BoxShape3D_ledge")
+
+[node name="DummyNear" parent="." instance=ExtResource("2_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -4)
+
+[node name="DummyFar" parent="." instance=ExtResource("2_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -11)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]

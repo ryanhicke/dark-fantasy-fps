@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://enemies/training_dummy/training_dummy.gd" id="1_dummy"]
+[ext_resource type="Script" path="res://core/components/health_component.gd" id="2_health"]
+
+[sub_resource type="StandardMaterial3D" id="Material_dummy"]
+resource_local_to_scene = true
+albedo_color = Color(0.8, 0.7, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dummy"]
+resource_local_to_scene = true
+material = SubResource("Material_dummy")
+size = Vector3(0.8, 1.8, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dummy"]
+size = Vector3(0.8, 1.8, 0.8)
+
+[node name="TrainingDummy" type="StaticBody3D"]
+script = ExtResource("1_dummy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_dummy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("BoxShape3D_dummy")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_health")
+
+[node name="RespawnTimer" type="Timer" parent="."]
+one_shot = true
