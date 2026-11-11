@@ -1,19 +1,17 @@
 class_name Enemy
 extends CharacterBody3D
-## Base enemy body: senses the player, moves, and turns EnemyBrain decisions
-## into actions and placeholder visuals.
+## Base enemy body: senses the player and turns EnemyBrain decisions into
+## actions. Movement math lives in EnemyMovement, ranged shots in
+## EnemyRangedAttack, and visuals in EnemySprite.
 ##
-## Expects children: CollisionShape3D, Sprite (MeshInstance3D with a
-## billboard material_override), HealthComponent, and SightCast (RayCast3D).
-## The material must be local to scene so color changes stay per-enemy.
+## Expects children: CollisionShape3D, Sprite (EnemySprite),
+## HealthComponent, and SightCast (RayCast3D).
 ## Optional children: Voice (AudioStreamPlayer3D) for EnemyData sounds,
 ## RiseTrigger to start hidden in the ground (e.g. skeletons).
 
 ## Seconds between line-of-sight checks while idle. Each enemy starts at a
 ## random offset, so a room full of enemies doesn't raycast on the same frame.
 const SIGHT_CHECK_INTERVAL: float = 0.2
-## A flyer this close to its hover point stops instead of jittering around it.
-const HOVER_ARRIVE_DISTANCE: float = 0.3
 ## How far below a dead flyer to look for the floor its corpse lands on.
 const CORPSE_DROP_MAX: float = 50.0
 ## Seconds a dead flyer takes to fall to the floor.
@@ -22,34 +20,17 @@ const CORPSE_FALL_TIME: float = 0.4
 @export var data: EnemyData
 ## Separate from project gravity, matching the player.
 @export var gravity: float = 15.0
-## Meters above the target's origin that sight rays aim at (chest height).
+## Meters above the target's origin that sight rays and shots aim at (chest height).
 @export var target_aim_height: float = 1.2
-
-@export_group("Placeholder Visuals")
-@export var pain_color: Color = Color(1.0, 0.15, 0.1)
-@export var windup_color: Color = Color(1.0, 0.9, 0.5)
-@export var corpse_color: Color = Color(0.2, 0.15, 0.12)
-@export var hit_flash_duration: float = 0.15
-## Sprite height multiplier once dead, so the corpse reads as lying down.
-@export var corpse_height_scale: float = 0.25
-@export var corpse_collapse_time: float = 0.2
-## Seconds a dormant enemy takes to climb out of the ground.
-@export var rise_time: float = 0.8
-## Sprite height multiplier while dormant. Not 0: a zero scale makes the
-## billboard's basis degenerate.
-@export var dormant_height_scale: float = 0.01
 
 var _brain: EnemyBrain
 var _target: Node3D
 var _target_health: HealthComponent
 var _sight_timer: float = 0.0
 var _can_see_target: bool = false
-var _base_color: Color
-var _color_tween: Tween
 
 @onready var _health: HealthComponent = $HealthComponent
-@onready var _sprite: MeshInstance3D = $Sprite
-@onready var _material: StandardMaterial3D = _sprite.get_active_material(0) as StandardMaterial3D
+@onready var _sprite: EnemySprite = $Sprite
 @onready var _collision: CollisionShape3D = $CollisionShape3D
 @onready var _sight_cast: RayCast3D = $SightCast
 @onready var _voice: AudioStreamPlayer3D = get_node_or_null("Voice") as AudioStreamPlayer3D
@@ -64,7 +45,6 @@ func _ready() -> void:
 	_health.died.connect(_on_died)
 	_sight_cast.enabled = false
 	_sight_cast.add_exception(self)
-	_base_color = _material.albedo_color
 	_apply_data()
 	_sight_timer = randf() * SIGHT_CHECK_INTERVAL
 	# Deferred: in map levels the player is spawned by the Level root, whose
@@ -81,9 +61,8 @@ func _apply_data() -> void:
 	_health.max_health = data.max_health
 	_health.resistances = data.resistances
 	_health.reset()
-	if data.placeholder_color.a > 0.0:
-		_base_color = data.placeholder_color
-	_set_color(_base_color)
+	_sprite.set_base_color(data.placeholder_color)
+	_show_state()
 
 
 ## One group lookup at spawn, never per frame. Levels are reloaded on
@@ -94,9 +73,6 @@ func _acquire_target() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not data.flying and not is_on_floor():
-		velocity.y -= gravity * delta
-
 	var distance: float = INF
 	var target_alive: bool = false
 	if _target != null:
@@ -110,27 +86,17 @@ func _physics_process(delta: float) -> void:
 	_brain.update(delta, distance, _can_see_target, target_alive)
 
 	var chasing: bool = _brain.state == EnemyBrain.State.CHASE and _target != null
+	var target_position: Vector3 = _target.global_position if _target != null else global_position
 	if data.flying:
-		velocity = _flying_velocity() if chasing else Vector3.ZERO
+		velocity = EnemyMovement.flying_velocity(
+			global_position, target_position, data.hover_height, data.move_speed, chasing
+		)
 	else:
-		var horizontal: Vector3 = Vector3.ZERO
-		if chasing:
-			var to_target: Vector3 = _target.global_position - global_position
-			to_target.y = 0.0
-			if to_target != Vector3.ZERO:
-				horizontal = to_target.normalized() * data.move_speed
-		velocity.x = horizontal.x
-		velocity.z = horizontal.z
+		velocity = EnemyMovement.ground_velocity(
+			velocity, global_position, target_position, data.move_speed,
+			chasing, is_on_floor(), gravity, delta
+		)
 	move_and_slide()
-
-
-## Straight at a point above the target, Doom-style: no pathfinding.
-func _flying_velocity() -> Vector3:
-	var goal: Vector3 = _target.global_position + Vector3.UP * data.hover_height
-	var to_goal: Vector3 = goal - global_position
-	if to_goal.length() <= HOVER_ARRIVE_DISTANCE:
-		return Vector3.ZERO
-	return to_goal.normalized() * data.move_speed
 
 
 func _update_sight(delta: float, distance: float) -> void:
@@ -153,10 +119,7 @@ func _on_damaged(_amount: float, _type: Damage.Type, _source: Node) -> void:
 	if _health.is_dead():
 		return
 	_brain.take_hit(randf())
-	_kill_color_tween()
-	_material.albedo_color = pain_color
-	_color_tween = create_tween()
-	_color_tween.tween_property(_material, "albedo_color", _state_color(), hit_flash_duration)
+	_sprite.flash_pain(_brain.state, _brain.is_winding_up())
 
 
 func _on_died(_source: Node) -> void:
@@ -164,8 +127,7 @@ func _on_died(_source: Node) -> void:
 	set_physics_process(false)
 	# Deferred: changing collision state inside a physics callback is not allowed.
 	_collision.set_deferred("disabled", true)
-	var collapse: Tween = create_tween()
-	collapse.tween_property(_sprite, "scale:y", corpse_height_scale, corpse_collapse_time)
+	var collapse: Tween = _sprite.collapse()
 	if data.flying:
 		_drop_corpse_to_floor()
 	if data.revive_as != null:
@@ -182,18 +144,14 @@ func _on_died(_source: Node) -> void:
 func make_dormant() -> void:
 	set_physics_process(false)
 	_collision.disabled = true
-	_sprite.visible = false
-	_sprite.scale.y = dormant_height_scale
+	_sprite.hide_in_ground()
 
 
 ## Climbs out of the ground, then hunts the player without needing sight.
 func rise_from_ground() -> void:
 	if _brain == null or _brain.state != EnemyBrain.State.IDLE:
 		return
-	_sprite.visible = true
-	var rise: Tween = create_tween()
-	rise.tween_property(_sprite, "scale:y", 1.0, rise_time)
-	rise.tween_callback(_finish_rising)
+	_sprite.climb_out().tween_callback(_finish_rising)
 
 
 func _finish_rising() -> void:
@@ -224,54 +182,31 @@ func _rise_as(next_data: EnemyData) -> void:
 	velocity = Vector3.ZERO
 	_collision.disabled = false
 	set_physics_process(true)
-	var rise: Tween = create_tween()
-	rise.tween_property(_sprite, "scale:y", 1.0, corpse_collapse_time)
+	_sprite.stand_up()
 	# It rises already hunting: no sight check needed. Waking plays its
 	# alert sound (the werewolf's howl).
 	_brain.wake()
 
 
 func _on_brain_state_changed(new_state: EnemyBrain.State, old_state: EnemyBrain.State) -> void:
-	_set_color(_state_color())
+	_show_state()
 	if old_state == EnemyBrain.State.IDLE and new_state == EnemyBrain.State.CHASE:
 		_play_sound(data.alert_sound)
 
 
 func _on_brain_attack_struck(hit: bool) -> void:
-	_set_color(_state_color())
+	_show_state()
 	if not hit:
 		return
 	if data.is_ranged():
-		_fire_projectile()
+		if _target != null:
+			EnemyRangedAttack.fire(data, self, _target, target_aim_height)
 	elif _target_health != null:
 		_target_health.take_damage(data.attack_damage, data.attack_damage_type, self)
 
 
-func _fire_projectile() -> void:
-	if _target == null:
-		return
-	var projectile: Projectile = data.projectile_scene.instantiate() as Projectile
-	if projectile == null:
-		push_error("%s: projectile_scene is not a Projectile." % name)
-		return
-	# Parent to the level, not the enemy, so the shot outlives the shooter
-	# and is freed with the level.
-	get_parent().add_child(projectile)
-	var muzzle: Vector3 = global_position + Vector3.UP * data.muzzle_height
-	var aim_point: Vector3 = _target.global_position + Vector3.UP * target_aim_height
-	projectile.launch(
-		muzzle,
-		Projectile.aim_velocity(muzzle, aim_point, data.projectile_speed, data.projectile_gravity),
-		data.projectile_gravity,
-		data.attack_damage,
-		data.attack_damage_type,
-		self
-	)
-	if data.projectile_data != null:
-		projectile.apply_weapon_data(data.projectile_data)
-	var homing: HomingProjectile = projectile as HomingProjectile
-	if homing != null:
-		homing.homing_target = _target
+func _show_state() -> void:
+	_sprite.show_state(_brain.state, _brain.is_winding_up())
 
 
 func _play_sound(stream: AudioStream) -> void:
@@ -279,25 +214,3 @@ func _play_sound(stream: AudioStream) -> void:
 		return
 	_voice.stream = stream
 	_voice.play()
-
-
-func _state_color() -> Color:
-	match _brain.state:
-		EnemyBrain.State.PAIN:
-			return pain_color
-		EnemyBrain.State.DIE:
-			return corpse_color
-		EnemyBrain.State.ATTACK:
-			return windup_color if _brain.is_winding_up() else _base_color
-	return _base_color
-
-
-func _set_color(color: Color) -> void:
-	_kill_color_tween()
-	_material.albedo_color = color
-
-
-func _kill_color_tween() -> void:
-	if _color_tween != null:
-		_color_tween.kill()
-		_color_tween = null

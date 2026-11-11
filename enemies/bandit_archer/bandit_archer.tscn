@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_enemy"]
 [ext_resource type="Resource" path="res://enemies/bandit_archer/bandit_archer.tres" id="2_data"]
 [ext_resource type="Script" path="res://core/components/health_component.gd" id="3_health"]
+[ext_resource type="Script" path="res://enemies/enemy_sprite.gd" id="5_sprite"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bandit_archer"]
 radius = 0.4
@@ -28,6 +29,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_bandit_archer")
 
 [node name="Sprite" type="MeshInstance3D" parent="."]
+script = ExtResource("5_sprite")
 material_override = SubResource("Material_bandit_archer")
 mesh = SubResource("QuadMesh_bandit_archer")
 
