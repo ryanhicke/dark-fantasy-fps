@@ -142,7 +142,7 @@ C:\GoDot\Godot_v4.7.2-stable_win64.exe --path .
 - Placeholder art and audio are fine during development, but keep a list of placeholders to replace before release in `docs/placeholders.md`.
 - If any AI-generated assets are ever used, they must be tracked, since Steam requires disclosure.
 
-## Current scope: vertical slice
+## Completed: vertical slice
 
 Build in this order. Do not move to the next item until the current one works and I confirm.
 
