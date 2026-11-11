@@ -90,3 +90,29 @@ func test_advancing_past_the_final_level_ends_the_run() -> void:
 	assert_signal_emit_count(_state, "level_load_requested", 1)
 	assert_eq(_state.current_level_index, 0)
 	assert_null(_state.get_entry_state())
+
+
+const DEV_LEVEL: String = "res://levels/dev.tscn"
+
+
+func test_single_level_loads_that_scene_with_a_pistol_start() -> void:
+	_state.start_single_level(DEV_LEVEL)
+	assert_signal_emitted_with_parameters(_state, "level_load_requested", [DEV_LEVEL])
+	assert_null(_state.get_entry_state())
+	assert_true(_state.is_final_level(), "its exit ends the run")
+
+
+func test_single_level_restart_reloads_the_same_scene() -> void:
+	_state.start_single_level(DEV_LEVEL)
+	_state.restart_level()
+	assert_signal_emit_count(_state, "level_load_requested", 2)
+	assert_signal_emitted_with_parameters(_state, "level_load_requested", [DEV_LEVEL])
+
+
+func test_single_level_finishing_ends_the_run_and_clears_it() -> void:
+	_state.start_single_level(DEV_LEVEL)
+	_state.advance_to_next_level()
+	assert_signal_emitted(_state, "game_completed")
+	_state.start_game(0)
+	assert_signal_emitted_with_parameters(_state, "level_load_requested", [LEVEL_A])
+	assert_false(_state.is_final_level())

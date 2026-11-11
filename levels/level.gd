@@ -6,6 +6,8 @@ extends Node3D
 
 ## FuncGodot puts info_player_start entities in this group at map build.
 const PLAYER_START_GROUP: StringName = &"player_start"
+## The game's entry scene. A level run on its own reloads inside it.
+const MAIN_SCENE_PATH: String = "res://main.tscn"
 
 @export var player_scene: PackedScene
 ## Name shown on the intermission screen. Empty uses the root node's name.
@@ -19,6 +21,9 @@ var _finished: bool = false
 
 
 func _ready() -> void:
+	if _is_running_on_its_own():
+		_run_inside_main.call_deferred()
+		return
 	_stats.level_name = get_display_name()
 	_stats.total_kills = _count_enemies(self)
 	# No secret entities exist yet, so total_secrets stays 0.
@@ -33,6 +38,23 @@ func _physics_process(delta: float) -> void:
 	# Pausing (intermission, menus) stops this, so paused time isn't counted.
 	if not _finished:
 		_stats.time_seconds += delta
+
+
+## True when this level was launched directly (Run Current Scene, F6)
+## instead of being loaded by Main.
+func _is_running_on_its_own() -> bool:
+	return get_tree().current_scene == self and not scene_file_path.is_empty()
+
+
+## Without Main there is no HUD, low-resolution view, or intermission, so
+## a level run on its own swaps itself for Main playing just this scene.
+func _run_inside_main() -> void:
+	var main: Node = (load(MAIN_SCENE_PATH) as PackedScene).instantiate()
+	main.set(&"standalone_level_path", scene_file_path)
+	var tree: SceneTree = get_tree()
+	tree.root.add_child(main)
+	tree.current_scene = main
+	queue_free()
 
 
 func get_display_name() -> String:

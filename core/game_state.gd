@@ -24,6 +24,9 @@ var current_level_index: int = 0
 var _entry_state: PlayerState
 ## Bundle captured at the exit, waiting for the intermission to finish.
 var _exit_state: PlayerState
+## Set while playing a single scene outside the level list (running a level
+## on its own from the editor). Finishing it ends the run.
+var _single_level_path: String = ""
 
 
 func _ready() -> void:
@@ -39,6 +42,17 @@ func start_game(index: int = 0) -> void:
 		push_error("GameState: no level at index %d; starting at 0." % index)
 		index = 0
 	current_level_index = index
+	_single_level_path = ""
+	_entry_state = null
+	_exit_state = null
+	_request_load()
+
+
+## Plays just [param scene_path] with a pistol start, e.g. a dev level run
+## on its own from the editor. Its exit ends the run like a final level.
+func start_single_level(scene_path: String) -> void:
+	_single_level_path = scene_path
+	current_level_index = 0
 	_entry_state = null
 	_exit_state = null
 	_request_load()
@@ -51,7 +65,7 @@ func get_entry_state() -> PlayerState:
 
 
 func is_final_level() -> bool:
-	return level_list.is_last(current_level_index)
+	return not _single_level_path.is_empty() or level_list.is_last(current_level_index)
 
 
 ## Called by the level when the player reaches the exit.
@@ -65,6 +79,7 @@ func finish_level(exit_state: PlayerState, stats: LevelStats) -> void:
 func advance_to_next_level() -> void:
 	if is_final_level():
 		current_level_index = 0
+		_single_level_path = ""
 		_entry_state = null
 		_exit_state = null
 		game_completed.emit()
@@ -83,4 +98,7 @@ func restart_level() -> void:
 
 
 func _request_load() -> void:
+	if not _single_level_path.is_empty():
+		level_load_requested.emit(_single_level_path)
+		return
 	level_load_requested.emit(level_list.get_level_path(current_level_index))

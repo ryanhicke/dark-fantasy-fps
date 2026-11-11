@@ -2,6 +2,8 @@
 
 Status: **draft**. Same rules as [story.md](story.md): "Canon" is decided by the designer, "Ideas" are proposals.
 
+**Damage feel (Canon):** Doom/Hexen style. You fight lots of enemies at once and tank a lot of hits, so enemies hit lightly. **Werewolves are the exception:** they hit hard (but go down easily).
+
 Enemy stats live in `EnemyData` resources (health, speed, damage, sight range, pain chance; see CLAUDE.md). All enemies are billboarded sprites and use the base `Enemy` state machine (`IDLE`, `CHASE`, `ATTACK`, `PAIN`, `DIE`). Numbers are not set yet; the descriptions below say how enemies compare to each other.
 
 ## Overview

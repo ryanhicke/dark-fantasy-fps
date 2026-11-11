@@ -9,6 +9,9 @@ extends Node
 ## Level New Game starts from, always with a pistol start. Change it in the
 ## inspector to jump straight to a later level while testing.
 @export var start_level_index: int = 0
+## Set by a Level that was run on its own (F6): skip the menu and play just
+## that scene, so it gets the HUD and the low-resolution view.
+var standalone_level_path: String = ""
 
 var _level: Node
 
@@ -22,6 +25,12 @@ func _ready() -> void:
 	GameState.game_completed.connect(_show_main_menu)
 	_main_menu.new_game_selected.connect(_on_new_game_selected)
 	_main_menu.exit_selected.connect(_on_exit_selected)
+	if not standalone_level_path.is_empty():
+		# The menu scene starts visible; hide it or it covers the level and
+		# its New Game would start the normal run instead.
+		_main_menu.close()
+		_play_single_level(standalone_level_path)
+		return
 	_show_main_menu()
 
 
@@ -35,6 +44,13 @@ func _show_main_menu() -> void:
 func _on_new_game_selected() -> void:
 	_game_view.visible = true
 	GameState.start_game(start_level_index)
+
+
+## Plays one scene outside the level list (dev levels). Its exit returns
+## to the menu.
+func _play_single_level(scene_path: String) -> void:
+	_game_view.visible = true
+	GameState.start_single_level(scene_path)
 
 
 func _on_exit_selected() -> void:

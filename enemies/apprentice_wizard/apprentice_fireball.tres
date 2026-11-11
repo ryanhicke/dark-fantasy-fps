@@ -7,5 +7,5 @@ script = ExtResource("1_data")
 display_name = "Apprentice Fireball"
 damage_type = 1
 splash_radius = 2.0
-splash_damage = 10.0
+splash_damage = 5.0
 caster_splash_scale = 0.0
