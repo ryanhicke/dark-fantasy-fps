@@ -6,7 +6,8 @@ extends CharacterBody3D
 ## Expects children: CollisionShape3D, Sprite (MeshInstance3D with a
 ## billboard material_override), HealthComponent, and SightCast (RayCast3D).
 ## The material must be local to scene so color changes stay per-enemy.
-## Optional child: Voice (AudioStreamPlayer3D) for EnemyData sounds.
+## Optional children: Voice (AudioStreamPlayer3D) for EnemyData sounds,
+## RiseTrigger to start hidden in the ground (e.g. skeletons).
 
 ## Seconds between line-of-sight checks while idle. Each enemy starts at a
 ## random offset, so a room full of enemies doesn't raycast on the same frame.
@@ -26,6 +27,11 @@ const SIGHT_CHECK_INTERVAL: float = 0.2
 ## Sprite height multiplier once dead, so the corpse reads as lying down.
 @export var corpse_height_scale: float = 0.25
 @export var corpse_collapse_time: float = 0.2
+## Seconds a dormant enemy takes to climb out of the ground.
+@export var rise_time: float = 0.8
+## Sprite height multiplier while dormant. Not 0: a zero scale makes the
+## billboard's basis degenerate.
+@export var dormant_height_scale: float = 0.01
 
 var _brain: EnemyBrain
 var _target: Node3D
@@ -148,6 +154,31 @@ func _on_died(_source: Node) -> void:
 		collapse.tween_callback(_rise_as.bind(data.revive_as))
 		return
 	EventBus.enemy_killed.emit(self)
+
+
+## Hides the enemy in the ground with no AI or collision until
+## rise_from_ground(). Used by RiseTrigger.
+func make_dormant() -> void:
+	set_physics_process(false)
+	_collision.disabled = true
+	_sprite.visible = false
+	_sprite.scale.y = dormant_height_scale
+
+
+## Climbs out of the ground, then hunts the player without needing sight.
+func rise_from_ground() -> void:
+	if _brain == null or _brain.state != EnemyBrain.State.IDLE:
+		return
+	_sprite.visible = true
+	var rise: Tween = create_tween()
+	rise.tween_property(_sprite, "scale:y", 1.0, rise_time)
+	rise.tween_callback(_finish_rising)
+
+
+func _finish_rising() -> void:
+	_collision.disabled = false
+	set_physics_process(true)
+	_brain.wake()
 
 
 func _rise_as(next_data: EnemyData) -> void:

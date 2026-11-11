@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://enemies/armored_mercenary/armored_mercenary.tscn" id="7_armored_mercenary"]
 [ext_resource type="PackedScene" path="res://enemies/werewolf/werewolf.tscn" id="8_werewolf"]
 [ext_resource type="PackedScene" path="res://enemies/werewolf/disguised_bandit.tscn" id="9_disguised_bandit"]
+[ext_resource type="PackedScene" path="res://enemies/skeleton/skeleton.tscn" id="10_skeleton"]
 [ext_resource type="Script" path="res://levels/level.gd" id="4_level"]
 [ext_resource type="Script" path="res://levels/entities/exit_trigger.gd" id="5_exit"]
 
@@ -155,6 +156,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -12)
 
 [node name="DisguisedBandit" parent="." instance=ExtResource("9_disguised_bandit")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 8)
+
+[node name="SkeletonByExitA" parent="." instance=ExtResource("10_skeleton")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 9)
+
+[node name="SkeletonByExitB" parent="." instance=ExtResource("10_skeleton")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 9)
 
 [node name="PlayerStart" type="Marker3D" parent="." groups=["player_start"]]
 

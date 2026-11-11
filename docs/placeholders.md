@@ -24,6 +24,7 @@ before shipping. Note the license of every replacement asset.
 | Armored mercenary sprite | `enemies/armored_mercenary/armored_mercenary.tscn` | Steel-gray, slightly wider flat-color billboarded `QuadMesh` (same color cues) | Sprite sheet (idle/walk/attack/pain/death frames) |
 | Werewolf sprite | `enemies/werewolf/werewolf.tscn`, `EnemyData.placeholder_color` | Purple-gray, larger flat-color billboarded `QuadMesh`; disguised werewolves reuse the human placeholders and retint on rising | Sprite sheet (idle/run/attack/pain/death), plus a human-to-wolf transformation animation |
 | Werewolf growl / howl | `EnemyData.alert_sound` on `enemies/werewolf/*.tres` | None (silent), so disguised werewolves are currently indistinguishable from humans | Growl for disguised wake-up (must be clearly different from the human alert), howl when rising |
+| Skeleton sprite | `enemies/skeleton/skeleton.tscn` | Bone-colored flat billboarded `QuadMesh`; "rising" is the quad scaling up from the floor | Sprite sheet including a climb-out-of-the-ground animation (and dirt burst) |
 | Enemy sounds | `EnemyData.alert_sound` (bandit, archer, mercenary) | None (silent); `Voice` player exists but no streams assigned | Alert/sight, attack, pain, death SFX per enemy; armor clank on resisted hits |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
