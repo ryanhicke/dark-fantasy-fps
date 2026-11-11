@@ -38,7 +38,7 @@ func _on_level_finished(stats: LevelStats, is_final: bool) -> void:
 	_secrets_label.text = "Secrets: %d / %d" % [stats.secrets, stats.total_secrets]
 	_time_label.text = "Time: %s" % LevelStats.format_time(stats.time_seconds)
 	_prompt_label.text = (
-		"The End. Press Enter to play again" if is_final else "Press Enter to continue"
+		"The End. Press Enter to return to the menu" if is_final else "Press Enter to continue"
 	)
 	_prompt_label.visible = false
 	_accepting_input = false

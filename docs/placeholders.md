@@ -28,6 +28,9 @@ before shipping. Note the license of every replacement asset.
 | Intermission / level-end sounds | — | None (silent) | Exit, stat tally, and continue SFX |
 | Level names | `levels/*.tscn` (`Level.display_name`) | Empty; falls back to the root node name ("Test Map") | Real level titles |
 | HUD font | `ui/hud.tscn` (all labels) | Godot's default anti-aliased font, rendered at the low internal resolution; soft at 640x360, hard to read at 320x180 | Pixel font designed for ~360p (commercial-use license), with font AA off |
+| Game title | `ui/main_menu.tscn` (`TitleLabel`) | Placeholder text "Dark Fantasy FPS" in the default font | Final game name and logo |
+| Main and options menus | `ui/main_menu.tscn`, `ui/options_menu.tscn` | Flat dark `ColorRect` background, default Godot `Button` theme and font; highlight is the default focus outline | Menu background art, themed buttons/font, highlight style |
+| Menu sounds | — | None (silent) | Move, select, and back SFX |
 
 ## Dev-only (not shipped, remove or exclude from release builds)
 

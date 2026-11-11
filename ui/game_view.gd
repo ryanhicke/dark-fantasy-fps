@@ -22,16 +22,16 @@ const MAX_PIXEL_SIZE: int = 4
 ## than an input action because it is a dev tool, not a player control.
 const DEBUG_CYCLE_KEY: Key = KEY_F2
 
-## 2 renders 640x360 at the 1280x720 base size. Player-facing option later.
-@export_range(MIN_PIXEL_SIZE, MAX_PIXEL_SIZE) var pixel_size: int = 2:
-	set = set_pixel_size
+## Mirrors Settings.pixel_size, which is the source of truth (and is saved).
+var pixel_size: int = Settings.DEFAULT_PIXEL_SIZE
 
 @onready var _viewport: SubViewport = $SubViewport
 
 
 func _ready() -> void:
 	resized.connect(_apply_scale)
-	_apply_scale()
+	Settings.pixel_size_changed.connect(set_pixel_size)
+	set_pixel_size(Settings.pixel_size)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -40,13 +40,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == DEBUG_CYCLE_KEY:
 		get_viewport().set_input_as_handled()
-		set_pixel_size(next_pixel_size(pixel_size))
+		# Through Settings, so the options screen and saved file stay in sync.
+		Settings.set_pixel_size(next_pixel_size(pixel_size))
 
 
 func set_pixel_size(value: int) -> void:
 	pixel_size = clampi(value, MIN_PIXEL_SIZE, MAX_PIXEL_SIZE)
-	if is_node_ready():
-		_apply_scale()
+	_apply_scale()
 
 
 ## The SubViewport resolution for a container of [param container_size].

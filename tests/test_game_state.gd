@@ -81,10 +81,12 @@ func test_restart_uses_the_bundle_the_level_was_entered_with() -> void:
 	assert_eq(_state.get_entry_state().health, 42.0)
 
 
-func test_advancing_past_the_final_level_starts_a_new_run() -> void:
+func test_advancing_past_the_final_level_ends_the_run() -> void:
 	_state.start_game(2)
 	_state.finish_level(_bundle(42.0, 7), LevelStats.new())
 	_state.advance_to_next_level()
+	assert_signal_emitted(_state, "game_completed")
+	# Only the start_game load; nothing new is loaded after the final level.
+	assert_signal_emit_count(_state, "level_load_requested", 1)
 	assert_eq(_state.current_level_index, 0)
-	assert_signal_emitted_with_parameters(_state, "level_load_requested", [LEVEL_A])
 	assert_null(_state.get_entry_state())

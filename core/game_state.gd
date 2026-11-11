@@ -4,11 +4,14 @@ extends Node
 ## Decides which level comes next; Main does the scene-tree work of loading
 ## it when level_load_requested fires. Levels report back through
 ## finish_level(), and the intermission screen calls advance_to_next_level().
+## Main opens the main menu again on game_completed.
 
 ## Main loads [param scene_path] in place of the current level.
 signal level_load_requested(scene_path: String)
 ## The exit was reached. The intermission screen shows [param stats].
 signal level_finished(stats: LevelStats, is_final: bool)
+## The final level's intermission was dismissed. The run is over.
+signal game_completed
 
 const DEFAULT_LEVEL_LIST_PATH: String = "res://levels/level_list.tres"
 
@@ -58,10 +61,13 @@ func finish_level(exit_state: PlayerState, stats: LevelStats) -> void:
 
 
 ## Called when the intermission is dismissed. After the final level this
-## starts a new run from the first level.
+## ends the run instead of loading anything.
 func advance_to_next_level() -> void:
 	if is_final_level():
-		start_game(0)
+		current_level_index = 0
+		_entry_state = null
+		_exit_state = null
+		game_completed.emit()
 		return
 	current_level_index += 1
 	_entry_state = _exit_state

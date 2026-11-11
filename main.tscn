@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://ui/intermission.tscn" id="4_intermission"]
 [ext_resource type="Script" path="res://ui/game_view.gd" id="5_game_view"]
+[ext_resource type="PackedScene" path="res://ui/main_menu.tscn" id="6_main_menu"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_main")
@@ -31,3 +32,5 @@ size = Vector2i(640, 360)
 [node name="HUD" parent="GameView/SubViewport" instance=ExtResource("3_hud")]
 
 [node name="Intermission" parent="." instance=ExtResource("4_intermission")]
+
+[node name="MainMenu" parent="." instance=ExtResource("6_main_menu")]
