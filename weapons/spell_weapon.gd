@@ -6,7 +6,8 @@ extends RangedWeapon
 ## Future non-projectile spells such as healing will hook in here.
 ##
 ## Homing spells need a child RayCast3D named "LockCast" (disabled) for
-## the lock-on's line-of-sight check.
+## the lock-on's line-of-sight check. Hitscan spells need one named
+## "BoltCast" (disabled) for the hit.
 
 @export_group("Cast Animation")
 ## Meters the view model thrusts forward when casting.
@@ -17,21 +18,24 @@ extends RangedWeapon
 var _cast_tween: Tween
 
 @onready var _lock_cast: RayCast3D = get_node_or_null("LockCast") as RayCast3D
+@onready var _bolt_cast: RayCast3D = get_node_or_null("BoltCast") as RayCast3D
 
 
 func _ready() -> void:
 	super()
 	attacked.connect(_on_attacked)
-	if _lock_cast != null:
-		# Top-level so it isn't moved by the cast animation.
-		_lock_cast.top_level = true
-		_lock_cast.enabled = false
+	# Top-level so they aren't moved by the cast animation.
+	for cast: RayCast3D in [_lock_cast, _bolt_cast]:
+		if cast != null:
+			cast.top_level = true
+			cast.enabled = false
 
 
 func setup(owner_body: CollisionObject3D, aim: Node3D, inventory: Inventory) -> void:
 	super(owner_body, aim, inventory)
-	if _lock_cast != null and owner_body != null:
-		_lock_cast.add_exception(owner_body)
+	for cast: RayCast3D in [_lock_cast, _bolt_cast]:
+		if cast != null and owner_body != null:
+			cast.add_exception(owner_body)
 
 
 func _can_fire() -> bool:
@@ -54,11 +58,40 @@ func _fire_without_projectile() -> void:
 	var caster: Player = _owner_body as Player
 	if spell == null or caster == null:
 		return
+	if spell.hitscan_range > 0.0:
+		_fire_hitscan(spell)
+		return
 	match spell.self_effect:
 		SpellData.SelfEffect.HEAL:
 			caster.heal(spell.effect_amount)
 		SpellData.SelfEffect.INVULNERABLE:
 			caster.make_invulnerable(spell.effect_duration)
+
+
+## Instant hit along the aim (lightning): damages the first thing that can
+## be hurt, draws the bolt, and flashes the screen.
+func _fire_hitscan(spell: SpellData) -> void:
+	if _bolt_cast == null:
+		push_error("%s: hitscan spell needs a BoltCast child." % name)
+		return
+	var origin: Vector3 = _aim.global_position
+	var forward: Vector3 = -_aim.global_transform.basis.z
+	var end: Vector3 = origin + forward * spell.hitscan_range
+	_bolt_cast.global_position = origin
+	_bolt_cast.target_position = _bolt_cast.to_local(end)
+	_bolt_cast.force_raycast_update()
+	if _bolt_cast.is_colliding():
+		end = _bolt_cast.get_collision_point()
+		var target: HealthComponent = HealthComponent.find_on(_bolt_cast.get_collider() as Node)
+		if target != null:
+			target.take_damage(spell.damage, spell.damage_type, _owner_body)
+	if spell.effect_scene != null:
+		var bolt: Node3D = spell.effect_scene.instantiate() as Node3D
+		# The level owns it, so it doesn't swing with the camera.
+		_owner_body.get_parent().add_child(bolt)
+		bolt.call(&"strike", origin + forward * muzzle_offset + Vector3.DOWN * 0.15, end)
+	if spell.screen_flash_color.a > 0.0:
+		EventBus.screen_flash_requested.emit(spell.screen_flash_color)
 
 
 func _on_projectile_launched(projectile: Projectile) -> void:

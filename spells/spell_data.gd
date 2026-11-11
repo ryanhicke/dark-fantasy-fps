@@ -19,6 +19,15 @@ enum SelfEffect {
 ## INVULNERABLE: seconds of protection per cast.
 @export var effect_duration: float = 0.0
 
+@export_group("Hitscan")
+## Meters. Above 0 (and with no projectile_scene), a cast hits the first
+## thing along the aim instantly, like lightning.
+@export var hitscan_range: float = 0.0
+## Visual spawned along the hitscan path (needs strike(from, to)).
+@export var effect_scene: PackedScene
+## Full-screen flash on each hitscan cast. Alpha 0 disables it.
+@export var screen_flash_color: Color = Color(0.0, 0.0, 0.0, 0.0)
+
 @export_group("Splash")
 ## Meters. 0 disables splash damage.
 @export var splash_radius: float = 0.0

@@ -7,6 +7,12 @@
 script = ExtResource("1_point")
 classname = "ammo_mana"
 description = "25 mana. Place it on the floor."
+class_properties = Dictionary[String, Variant]({
+"appear_on_unseal": 0
+})
+class_property_descriptions = Dictionary[String, Variant]({
+"appear_on_unseal": ["Hidden until the great demon is unsealed (1 = yes)", 0]
+})
 meta_properties = Dictionary[String, Variant]({
 "color": Color(0.3, 0.8, 1, 1),
 "size": AABB(-8, -8, 0, 8, 8, 24)

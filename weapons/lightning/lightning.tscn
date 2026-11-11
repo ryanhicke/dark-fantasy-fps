@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/spell_weapon.gd" id="1_spell"]
+[ext_resource type="Resource" path="res://spells/lightning/lightning.tres" id="2_data"]
+
+[sub_resource type="StandardMaterial3D" id="Material_crystal"]
+shading_mode = 0
+albedo_color = Color(0.75, 0.88, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crystal"]
+material = SubResource("Material_crystal")
+size = Vector3(0.05, 0.05, 0.22)
+
+[node name="Lightning" type="Node3D"]
+script = ExtResource("1_spell")
+data = ExtResource("2_data")
+muzzle_offset = 0.4
+
+[node name="ViewModel" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.2, -0.24, -0.45)
+
+[node name="Crystal" type="MeshInstance3D" parent="ViewModel"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_crystal")
+
+[node name="BoltCast" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, -1)

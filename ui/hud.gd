@@ -45,6 +45,7 @@ func _ready() -> void:
 	EventBus.player_health_changed.connect(_on_player_health_changed)
 	EventBus.player_damaged.connect(_on_player_damaged)
 	EventBus.player_healed.connect(_on_player_healed)
+	EventBus.screen_flash_requested.connect(_on_screen_flash_requested)
 	EventBus.player_invulnerability_changed.connect(_on_player_invulnerability_changed)
 	EventBus.player_invulnerability_ending.connect(_on_player_invulnerability_ending)
 	EventBus.player_died.connect(_on_player_died)
@@ -96,10 +97,14 @@ func _on_player_healed(_amount: float) -> void:
 	_flash_screen(heal_flash_color)
 
 
-func _flash_screen(color: Color) -> void:
+func _on_screen_flash_requested(color: Color) -> void:
+	_flash_screen(Color(color, 1.0), color.a)
+
+
+func _flash_screen(color: Color, alpha: float = -1.0) -> void:
 	if _flash_tween != null:
 		_flash_tween.kill()
-	_damage_flash.color = Color(color, damage_flash_alpha)
+	_damage_flash.color = Color(color, alpha if alpha >= 0.0 else damage_flash_alpha)
 	_flash_tween = create_tween()
 	_flash_tween.tween_property(_damage_flash, "color:a", 0.0, damage_flash_duration)
 

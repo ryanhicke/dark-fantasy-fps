@@ -20,6 +20,15 @@ signal player_died
 @warning_ignore("unused_signal")
 signal player_healed(amount: float)
 
+## Full-screen flash, e.g. a lightning cast. Uses the color's alpha.
+@warning_ignore("unused_signal")
+signal screen_flash_requested(color: Color)
+
+## The great demon's last obelisk fell: it can now be hurt (by lightning),
+## and pickups set to appear_on_unseal show up.
+@warning_ignore("unused_signal")
+signal great_demon_unsealed
+
 ## The armor spell started (true) or wore off (false).
 @warning_ignore("unused_signal")
 signal player_invulnerability_changed(active: bool)

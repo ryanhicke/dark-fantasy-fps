@@ -100,6 +100,8 @@ func _enter_final_phase() -> void:
 	for summoner: EnemySummoner in _summoners:
 		summoner.set_active(false)
 	_demon.change_data(final_data)
+	# Reveals the lightning pickup (and its mana) in the arena.
+	EventBus.great_demon_unsealed.emit()
 
 
 func _roar() -> void:

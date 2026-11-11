@@ -4,6 +4,8 @@
 [ext_resource type="Script" path="res://levels/level.gd" id="2_level"]
 [ext_resource type="PackedScene" path="res://enemies/great_demon/great_demon.tscn" id="3_great_demon"]
 [ext_resource type="PackedScene" path="res://enemies/obelisk_stand_in/obelisk_stand_in.tscn" id="4_obelisk"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_lightning.tscn" id="5_lightning"]
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_mana.tscn" id="6_mana"]
 
 [sub_resource type="Environment" id="Environment_arena"]
 background_mode = 1
@@ -112,6 +114,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 2)
 
 [node name="Obelisk4" parent="Obelisks" instance=ExtResource("4_obelisk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 2)
+
+[node name="LightningReward" parent="." instance=ExtResource("5_lightning")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -3)
+
+[node name="LargeManaReward" parent="." instance=ExtResource("6_mana")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -3)
+amount = 100
+pickup_message = "Picked up a large mana crystal"
+appear_on_unseal = true
 
 [node name="PlayerStart" type="Marker3D" parent="." groups=["player_start"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14)

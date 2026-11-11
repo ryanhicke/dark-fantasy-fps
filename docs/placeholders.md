@@ -16,6 +16,8 @@ before shipping. Note the license of every replacement asset.
 | Magic wand view model | `weapons/magic_wand/magic_wand.tscn` | `BoxMesh` wand with a pale-blue tip; cast is a forward thrust | Wand sprite or low-poly mesh with cast animation |
 | Healing wand view model | `weapons/healing_wand/healing_wand.tscn` | `BoxMesh` wand with a green tip | Wand sprite or low-poly mesh with cast animation |
 | Armor spell view model | `weapons/armor_spell/armor_spell.tscn` | `BoxMesh` amulet plate with a gold gem | Amulet/rune sprite with cast animation |
+| Lightning view model | `weapons/lightning/lightning.tscn` | Pale-blue `BoxMesh` crystal shard | Crackling crystal or hand sprite with cast animation |
+| Lightning bolt | `spells/lightning/lightning_bolt.tscn` | Five thin unshaded `BoxMesh` segments with random joints, thinning out over 0.15 s; pale screen flash | Bolt sprite strip or stretched quad texture |
 | Fire staff view model | `weapons/fire_staff/fire_staff.tscn` | `BoxMesh` shaft and orange orb; cast is a forward thrust | Staff sprite or low-poly mesh with cast animation |
 | Fireball projectile | `spells/fireball/fireball.tscn` | Flat orange billboarded `QuadMesh` | Animated fireball sprite |
 | Fireball explosion | `spells/fireball/fireball_explosion.tscn` | Growing, fading orange billboarded `QuadMesh` | Explosion sprite animation |
