@@ -13,6 +13,7 @@ blunt = 0.0
 fire = 0.0
 lightning = 1.0
 magic = 0.0
+thrown = 0.0
 
 [resource]
 script = ExtResource("1_data")

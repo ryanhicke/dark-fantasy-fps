@@ -103,6 +103,12 @@ func test_weakness_increases_damage() -> void:
 	assert_eq(_health.current_health, MAX_HEALTH - 30.0)
 
 
+func test_every_type_has_a_resistance_field() -> void:
+	var resistances: DamageResistances = DamageResistances.new()
+	for type: int in Damage.Type.values():
+		assert_eq(resistances.multiplier_for(type as Damage.Type), 1.0, Damage.Type.find_key(type))
+
+
 func test_immune_type_is_ignored() -> void:
 	var ward: DamageResistances = DamageResistances.new()
 	ward.pierce = 0.0

@@ -9,7 +9,7 @@ const MAX_SUMMONS: int = 12
 const SETTLE_FRAMES: int = 3
 const ALL_TYPES: Array[Damage.Type] = [
 	Damage.Type.SLASH, Damage.Type.PIERCE, Damage.Type.BLUNT,
-	Damage.Type.FIRE, Damage.Type.MAGIC, Damage.Type.LIGHTNING,
+	Damage.Type.FIRE, Damage.Type.MAGIC, Damage.Type.THROWN, Damage.Type.LIGHTNING,
 ]
 
 var _arena: Node3D

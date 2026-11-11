@@ -13,4 +13,7 @@ enum Type {
 	BLUNT = 4,
 	## Raw arcane force, e.g. magic missile.
 	MAGIC = 5,
+	## Thrown weapons (the francisca). Separate from SLASH so the francisca's
+	## obelisk can't be broken with the sword.
+	THROWN = 6,
 }

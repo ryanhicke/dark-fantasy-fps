@@ -42,6 +42,7 @@ Weapons and spells are data-driven (`WeaponData` / `SpellData` resources, see CL
 - Against armored enemies: **more damage** than the sword.
 - Result: the sword is still the better choice against unarmored enemies (same damage, faster), and the warhammer is the answer to armor.
 - Level 8: the only weapon that damages one of the 4 obelisks.
+- Code: deals its own damage type, `THROWN` (not `SLASH` like the sword), so obelisks and resistances can tell the two axes-and-blades apart.
 
 **Ideas**
 - Where it's found: **after** the first armored mercenary, so the player feels the problem before getting the answer.

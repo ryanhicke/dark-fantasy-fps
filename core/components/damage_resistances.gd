@@ -10,6 +10,7 @@ extends Resource
 @export var fire: float = 1.0
 @export var lightning: float = 1.0
 @export var magic: float = 1.0
+@export var thrown: float = 1.0
 
 
 func multiplier_for(type: Damage.Type) -> float:
@@ -26,5 +27,7 @@ func multiplier_for(type: Damage.Type) -> float:
 			return lightning
 		Damage.Type.MAGIC:
 			return magic
+		Damage.Type.THROWN:
+			return thrown
 	push_error("DamageResistances: unhandled damage type %d" % type)
 	return 1.0
