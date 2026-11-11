@@ -3,14 +3,6 @@
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://enemies/training_dummy/training_dummy.tscn" id="2_dummy"]
 [ext_resource type="PackedScene" path="res://enemies/bandit/bandit.tscn" id="3_bandit"]
-[ext_resource type="PackedScene" path="res://enemies/bandit_archer/bandit_archer.tscn" id="6_bandit_archer"]
-[ext_resource type="PackedScene" path="res://enemies/armored_mercenary/armored_mercenary.tscn" id="7_armored_mercenary"]
-[ext_resource type="PackedScene" path="res://enemies/werewolf/werewolf.tscn" id="8_werewolf"]
-[ext_resource type="PackedScene" path="res://enemies/werewolf/disguised_bandit.tscn" id="9_disguised_bandit"]
-[ext_resource type="PackedScene" path="res://enemies/skeleton/skeleton.tscn" id="10_skeleton"]
-[ext_resource type="PackedScene" path="res://enemies/apprentice_wizard/apprentice_wizard.tscn" id="11_apprentice_wizard"]
-[ext_resource type="PackedScene" path="res://enemies/melee_demon/melee_demon.tscn" id="12_melee_demon"]
-[ext_resource type="PackedScene" path="res://enemies/imp/imp.tscn" id="13_imp"]
 [ext_resource type="Script" path="res://levels/level.gd" id="4_level"]
 [ext_resource type="Script" path="res://levels/entities/exit_trigger.gd" id="5_exit"]
 
@@ -147,33 +139,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -11)
 
 [node name="BanditAhead" parent="." instance=ExtResource("3_bandit")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -12)
-
-[node name="MercenarySide" parent="." instance=ExtResource("7_armored_mercenary")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 3)
-
-[node name="ArcherOnPlatform" parent="." instance=ExtResource("6_bandit_archer")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, -10)
-
-[node name="WerewolfFar" parent="." instance=ExtResource("8_werewolf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -12)
-
-[node name="DisguisedBandit" parent="." instance=ExtResource("9_disguised_bandit")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 8)
-
-[node name="SkeletonByExitA" parent="." instance=ExtResource("10_skeleton")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 9)
-
-[node name="SkeletonByExitB" parent="." instance=ExtResource("10_skeleton")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 9)
-
-[node name="WizardCorner" parent="." instance=ExtResource("11_apprentice_wizard")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12)
-
-[node name="DemonCorner" parent="." instance=ExtResource("12_melee_demon")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -12)
-
-[node name="ImpHovering" parent="." instance=ExtResource("13_imp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3, -2)
 
 [node name="PlayerStart" type="Marker3D" parent="." groups=["player_start"]]
 

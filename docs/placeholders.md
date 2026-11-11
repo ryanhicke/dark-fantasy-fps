@@ -49,4 +49,5 @@ before shipping. Note the license of every replacement asset.
 | F2 render scale cycle | `ui/game_view.gd` (debug builds only) |
 | F3 FPS / resolution readout | `ui/hud.gd`, `DebugLabel` in `ui/hud.tscn` (debug builds only) |
 | Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (level 2 in `levels/level_list.tres`) |
+| Enemy gallery (one walled bay per enemy type; not in the level list, run with F6) | `levels/enemy_gallery.tscn` |
 | Starter test map | `levels/test_map/`, `assets/maps/test_map.map` |
