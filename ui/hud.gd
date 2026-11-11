@@ -42,6 +42,7 @@ func _ready() -> void:
 	EventBus.player_respawn_requested.connect(_on_player_respawn_requested)
 	EventBus.player_keys_changed.connect(_on_player_keys_changed)
 	EventBus.key_picked_up.connect(_on_key_picked_up)
+	EventBus.pickup_collected.connect(_show_message)
 	EventBus.door_locked.connect(_on_door_locked)
 	_message_timer.timeout.connect(_on_message_timer_timeout)
 	EventBus.render_resolution_changed.connect(_on_render_resolution_changed)

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_pickup.tscn" id="1_base"]
+[ext_resource type="Resource" path="res://weapons/bow/bow.tres" id="2_weapon"]
+
+[node name="WeaponBow" instance=ExtResource("1_base")]
+weapon = ExtResource("2_weapon")
+tint = Color(0.55, 0.35, 0.15, 1)

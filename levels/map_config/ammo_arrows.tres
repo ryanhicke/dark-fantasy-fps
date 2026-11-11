@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_point"]
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_arrows.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_point")
+classname = "ammo_arrows"
+description = "10 arrows. Place it on the floor."
+meta_properties = Dictionary[String, Variant]({
+"color": Color(0.3, 0.8, 1, 1),
+"size": AABB(-8, -8, 0, 8, 8, 24)
+})
+scene_file = ExtResource("2_scene")

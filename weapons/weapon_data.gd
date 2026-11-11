@@ -4,6 +4,14 @@ extends Resource
 ## file; new code is only for genuinely new behavior.
 
 @export var display_name: String = ""
+## Stable name used for ownership and save data (e.g. &"bow"). Never
+## rename once levels or saves use it.
+@export var id: StringName = &""
+## Number key that selects this weapon, 1-9. Fixed per weapon, Doom-style,
+## so a key always means the same weapon whatever else is owned.
+@export_range(1, 9) var slot: int = 1
+## Ammo given along with the weapon when its pickup is collected.
+@export var pickup_ammo: int = 0
 
 @export_group("Damage")
 @export var damage: float = 10.0

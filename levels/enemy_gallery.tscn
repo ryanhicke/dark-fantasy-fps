@@ -13,6 +13,10 @@
 [ext_resource type="PackedScene" path="res://enemies/melee_demon/melee_demon.tscn" id="17_melee_demon"]
 [ext_resource type="PackedScene" path="res://enemies/imp/imp.tscn" id="18_imp"]
 [ext_resource type="PackedScene" path="res://enemies/necromancer/necromancer.tscn" id="19_necromancer"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_bow.tscn" id="40_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_fire_staff.tscn" id="41_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_arrows.tscn" id="42_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_mana.tscn" id="43_pickup"]
 
 [sub_resource type="Environment" id="Environment_gallery"]
 background_mode = 1
@@ -400,6 +404,20 @@ billboard = 1
 texture_filter = 0
 font_size = 48
 text = "10. Necromancer (boss)"
+
+[node name="Pickups" type="Node3D" parent="."]
+
+[node name="BowPickup" parent="Pickups" instance=ExtResource("40_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -4)
+
+[node name="FireStaffPickup" parent="Pickups" instance=ExtResource("41_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4)
+
+[node name="ArrowsPickup" parent="Pickups" instance=ExtResource("42_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="ManaPickup" parent="Pickups" instance=ExtResource("43_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
 
 [node name="Enemies" type="Node3D" parent="."]
 

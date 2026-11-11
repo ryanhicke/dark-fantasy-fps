@@ -28,6 +28,10 @@ signal player_keys_changed(keys: Array[int])
 @warning_ignore("unused_signal")
 signal key_picked_up(key_type: int)
 
+## A weapon or ammo pickup was collected. [param message] is shown on the HUD.
+@warning_ignore("unused_signal")
+signal pickup_collected(message: String)
+
 ## The player tried a door that needs [param required_key] and lacks it.
 @warning_ignore("unused_signal")
 signal door_locked(required_key: int)

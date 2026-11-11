@@ -5,7 +5,9 @@
 
 [resource]
 script = ExtResource("1_data")
-display_name = "Fireball"
+display_name = "Staff of Fireball"
+id = &"fire_staff"
+slot = 6
 damage = 30.0
 damage_type = 1
 cooldown = 0.8

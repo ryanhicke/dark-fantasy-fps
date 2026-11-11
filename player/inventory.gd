@@ -7,9 +7,10 @@ extends Node
 
 signal ammo_changed(ammo_type: StringName, amount: int, maximum: int)
 
-@export var max_ammo: Dictionary[StringName, int] = {&"arrows": 100, &"mana": 200}
+## Mana caps at 100 by design (docs/weapons.md); the armor spell costs 75.
+@export var max_ammo: Dictionary[StringName, int] = {&"arrows": 100, &"axes": 30, &"mana": 100}
 ## Ammo given on a fresh (pistol) start.
-@export var starting_ammo: Dictionary[StringName, int] = {&"arrows": 10, &"mana": 100}
+@export var starting_ammo: Dictionary[StringName, int] = {&"arrows": 10, &"axes": 0, &"mana": 100}
 ## Points regained per second, up to the max. Set a type to 0 to disable
 ## regen (e.g. once mana pickups exist).
 @export var regen_per_second: Dictionary[StringName, float] = {&"mana": 2.0}

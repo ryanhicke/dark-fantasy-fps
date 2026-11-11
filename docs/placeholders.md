@@ -15,6 +15,9 @@ before shipping. Note the license of every replacement asset.
 | Fireball projectile | `spells/fireball/fireball.tscn` | Flat orange billboarded `QuadMesh` | Animated fireball sprite |
 | Fireball explosion | `spells/fireball/fireball_explosion.tscn` | Growing, fading orange billboarded `QuadMesh` | Explosion sprite animation |
 | Spell sounds | — | None (silent) | Fireball cast, flight loop, explosion SFX |
+| Weapon pickups | `levels/entities/weapon_pickup.tscn`, `weapon_*.tscn` | Flat tinted billboarded `QuadMesh` per weapon | Weapon pickup sprites |
+| Ammo and mana pickups | `levels/entities/ammo_pickup.tscn`, `ammo_*.tscn` | Small flat tinted billboarded `QuadMesh` (arrows, franciscas, mana) | Arrow bundle, axe stack, mana crystal sprites |
+| Pickup sounds | — | None (silent) | Weapon and ammo pickup SFX |
 | Key pickup | `levels/entities/key_pickup.tscn` | Small tinted billboarded `QuadMesh` | Key sprites (gold, silver, bone) |
 | Map textures | `assets/maps/test_map.map` (`base/wall`, `base/floor`, `base/ceiling`, `base/door`, `base/door_gold`) | None: FuncGodot default checker | 64x64 or 128x128 PNGs in `assets/textures/base/` |
 | Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key") | Styled HUD and key icons |
@@ -49,6 +52,7 @@ before shipping. Note the license of every replacement asset.
 | Item | Where |
 |---|---|
 | Training dummy | `enemies/training_dummy/` |
+| F4 give all weapons and full ammo | `player/dev_cheats.gd` (debug builds only) |
 | F2 render scale cycle | `ui/game_view.gd` (debug builds only) |
 | F3 FPS / resolution readout | `ui/hud.gd`, `DebugLabel` in `ui/hud.tscn` (debug builds only) |
 | Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (level 2 in `levels/level_list.tres`) |

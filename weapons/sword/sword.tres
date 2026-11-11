@@ -5,6 +5,8 @@
 [resource]
 script = ExtResource("1_data")
 display_name = "Sword"
+id = &"sword"
+slot = 1
 damage = 25.0
 damage_type = 0
 cooldown = 0.5

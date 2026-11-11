@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_pickup.tscn" id="1_base"]
+
+[node name="AmmoArrows" instance=ExtResource("1_base")]
+ammo_type = &"arrows"
+amount = 10
+pickup_message = "Picked up a bundle of arrows"
+tint = Color(0.8, 0.7, 0.5, 1)

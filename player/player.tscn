@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://core/components/health_component.gd" id="6_health"]
 [ext_resource type="PackedScene" path="res://weapons/fire_staff/fire_staff.tscn" id="7_staff"]
 [ext_resource type="Script" path="res://player/key_ring.gd" id="8_keys"]
+[ext_resource type="Script" path="res://player/dev_cheats.gd" id="9_cheats"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -29,6 +30,9 @@ script = ExtResource("6_health")
 
 [node name="KeyRing" type="Node" parent="."]
 script = ExtResource("8_keys")
+
+[node name="DevCheats" type="Node" parent="."]
+script = ExtResource("9_cheats")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)

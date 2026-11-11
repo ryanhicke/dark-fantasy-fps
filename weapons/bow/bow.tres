@@ -6,6 +6,9 @@
 [resource]
 script = ExtResource("1_data")
 display_name = "Bow"
+id = &"bow"
+slot = 3
+pickup_ammo = 10
 damage = 15.0
 damage_type = 3
 cooldown = 0.6

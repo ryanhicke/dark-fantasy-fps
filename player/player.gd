@@ -51,7 +51,7 @@ var _is_dead: bool = false
 
 @onready var _head: Node3D = $Head
 @onready var _camera: Camera3D = $Head/Camera3D
-@onready var _weapon_holder: Node3D = $Head/Camera3D/WeaponHolder
+@onready var _weapon_holder: WeaponHolder = $Head/Camera3D/WeaponHolder
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _use_cast: RayCast3D = $Head/Camera3D/UseCast
 @onready var _inventory: Inventory = $Inventory
@@ -166,14 +166,42 @@ func _try_use() -> void:
 		target.call(&"use", self)
 
 
+## Adds [param weapon] and its pickup ammo. Returns true if anything was
+## gained (a new weapon or any ammo), so the pickup knows to disappear.
+func give_weapon(weapon: WeaponData) -> bool:
+	var is_new: bool = _weapon_holder.give_weapon(weapon.id)
+	var ammo_added: int = 0
+	if weapon.ammo_type != &"" and weapon.pickup_ammo > 0:
+		ammo_added = _inventory.add_ammo(weapon.ammo_type, weapon.pickup_ammo)
+	return is_new or ammo_added > 0
+
+
+## Returns how much was actually added (0 when full).
+func give_ammo(ammo_type: StringName, amount: int) -> int:
+	return _inventory.add_ammo(ammo_type, amount)
+
+
+## DEV ONLY (see DevCheats): every weapon and full ammo.
+func give_everything() -> void:
+	for weapon: WeaponData in _weapon_holder.get_all_weapon_data():
+		_weapon_holder.give_weapon(weapon.id)
+	for ammo_type: StringName in _inventory.max_ammo:
+		_inventory.add_ammo(ammo_type, _inventory.get_max_ammo(ammo_type))
+
+
 ## Snapshot of what carries to the next level.
 func capture_state() -> PlayerState:
 	var state: PlayerState = PlayerState.new()
 	state.health = _health.current_health
 	state.ammo = _inventory.get_all_ammo()
+	state.owned_weapons = _weapon_holder.get_owned()
 	return state
 
 
 func apply_state(state: PlayerState) -> void:
 	_health.set_health(state.health)
 	_inventory.set_all_ammo(state.ammo)
+	# An empty list can only come from a bundle saved before weapon
+	# ownership existed; keep the starting weapons rather than none.
+	if not state.owned_weapons.is_empty():
+		_weapon_holder.set_owned(state.owned_weapons)
