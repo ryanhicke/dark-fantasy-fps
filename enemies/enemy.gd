@@ -12,6 +12,12 @@ extends CharacterBody3D
 ## Seconds between line-of-sight checks while idle. Each enemy starts at a
 ## random offset, so a room full of enemies doesn't raycast on the same frame.
 const SIGHT_CHECK_INTERVAL: float = 0.2
+## A flyer this close to its hover point stops instead of jittering around it.
+const HOVER_ARRIVE_DISTANCE: float = 0.3
+## How far below a dead flyer to look for the floor its corpse lands on.
+const CORPSE_DROP_MAX: float = 50.0
+## Seconds a dead flyer takes to fall to the floor.
+const CORPSE_FALL_TIME: float = 0.4
 
 @export var data: EnemyData
 ## Separate from project gravity, matching the player.
@@ -88,7 +94,7 @@ func _acquire_target() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
+	if not data.flying and not is_on_floor():
 		velocity.y -= gravity * delta
 
 	var distance: float = INF
@@ -103,15 +109,28 @@ func _physics_process(delta: float) -> void:
 		_update_sight(delta, distance)
 	_brain.update(delta, distance, _can_see_target, target_alive)
 
-	var horizontal: Vector3 = Vector3.ZERO
-	if _brain.state == EnemyBrain.State.CHASE and _target != null:
-		var to_target: Vector3 = _target.global_position - global_position
-		to_target.y = 0.0
-		if to_target != Vector3.ZERO:
-			horizontal = to_target.normalized() * data.move_speed
-	velocity.x = horizontal.x
-	velocity.z = horizontal.z
+	var chasing: bool = _brain.state == EnemyBrain.State.CHASE and _target != null
+	if data.flying:
+		velocity = _flying_velocity() if chasing else Vector3.ZERO
+	else:
+		var horizontal: Vector3 = Vector3.ZERO
+		if chasing:
+			var to_target: Vector3 = _target.global_position - global_position
+			to_target.y = 0.0
+			if to_target != Vector3.ZERO:
+				horizontal = to_target.normalized() * data.move_speed
+		velocity.x = horizontal.x
+		velocity.z = horizontal.z
 	move_and_slide()
+
+
+## Straight at a point above the target, Doom-style: no pathfinding.
+func _flying_velocity() -> Vector3:
+	var goal: Vector3 = _target.global_position + Vector3.UP * data.hover_height
+	var to_goal: Vector3 = goal - global_position
+	if to_goal.length() <= HOVER_ARRIVE_DISTANCE:
+		return Vector3.ZERO
+	return to_goal.normalized() * data.move_speed
 
 
 func _update_sight(delta: float, distance: float) -> void:
@@ -147,6 +166,8 @@ func _on_died(_source: Node) -> void:
 	_collision.set_deferred("disabled", true)
 	var collapse: Tween = create_tween()
 	collapse.tween_property(_sprite, "scale:y", corpse_height_scale, corpse_collapse_time)
+	if data.flying:
+		_drop_corpse_to_floor()
 	if data.revive_as != null:
 		# Same node rises again, so there is no spawn (and no stutter), and
 		# the level's enemy count stays one per node.
@@ -179,6 +200,22 @@ func _finish_rising() -> void:
 	_collision.disabled = false
 	set_physics_process(true)
 	_brain.wake()
+
+
+## Physics is off once dead, so a flyer's corpse is moved down by one
+## raycast at death instead of falling under gravity every frame.
+func _drop_corpse_to_floor() -> void:
+	if _target != null:
+		_sight_cast.add_exception(_target)
+	_sight_cast.target_position = Vector3.DOWN * CORPSE_DROP_MAX
+	_sight_cast.force_raycast_update()
+	if _target != null:
+		_sight_cast.remove_exception(_target)
+	if not _sight_cast.is_colliding():
+		return
+	var floor_point: Vector3 = _sight_cast.get_collision_point()
+	var fall: Tween = create_tween()
+	fall.tween_property(self, "global_position:y", floor_point.y, CORPSE_FALL_TIME)
 
 
 func _rise_as(next_data: EnemyData) -> void:
@@ -232,6 +269,9 @@ func _fire_projectile() -> void:
 	)
 	if data.projectile_data != null:
 		projectile.apply_weapon_data(data.projectile_data)
+	var homing: HomingProjectile = projectile as HomingProjectile
+	if homing != null:
+		homing.homing_target = _target
 
 
 func _play_sound(stream: AudioStream) -> void:

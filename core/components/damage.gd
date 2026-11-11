@@ -11,4 +11,6 @@ enum Type {
 	LIGHTNING = 2,
 	PIERCE = 3,
 	BLUNT = 4,
+	## Raw arcane force, e.g. magic missile.
+	MAGIC = 5,
 }

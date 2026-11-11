@@ -16,6 +16,12 @@ extends Resource
 ## Chase speed in m/s. Keep well below the player's so they can kite.
 @export var move_speed: float = 4.0
 
+## Flyers ignore gravity and chase toward a point above the target. Give
+## the scene motion_mode = Floating so there is no floor snapping.
+@export var flying: bool = false
+## Meters above the target's origin that a flyer tries to hold.
+@export var hover_height: float = 2.5
+
 @export_group("Senses")
 ## Meters. The player must also be in line of sight to wake the enemy.
 @export var sight_range: float = 20.0

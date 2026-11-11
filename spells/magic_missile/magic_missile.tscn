@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://spells/magic_missile/homing_projectile.gd" id="1_homing"]
+
+[sub_resource type="StandardMaterial3D" id="Material_missile"]
+shading_mode = 0
+albedo_color = Color(0.55, 0.75, 1, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_missile"]
+material = SubResource("Material_missile")
+size = Vector2(0.25, 0.25)
+
+[node name="MagicMissile" type="Node3D"]
+script = ExtResource("1_homing")
+lifetime = 4.0
+
+[node name="Sprite" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("QuadMesh_missile")
+
+[node name="PathCast" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, 0)

@@ -26,6 +26,9 @@ before shipping. Note the license of every replacement asset.
 | Werewolf growl / howl | `EnemyData.alert_sound` on `enemies/werewolf/*.tres` | None (silent), so disguised werewolves are currently indistinguishable from humans | Growl for disguised wake-up (must be clearly different from the human alert), howl when rising |
 | Skeleton sprite | `enemies/skeleton/skeleton.tscn` | Bone-colored flat billboarded `QuadMesh`; "rising" is the quad scaling up from the floor | Sprite sheet including a climb-out-of-the-ground animation (and dirt burst) |
 | Apprentice wizard sprite | `enemies/apprentice_wizard/apprentice_wizard.tscn` | Purple flat-color billboarded `QuadMesh`; shoots the player's placeholder fireball | Sprite sheet (idle/walk/cast/pain/death frames) |
+| Melee demon sprite | `enemies/melee_demon/melee_demon.tscn` | Large dark-red flat billboarded `QuadMesh` | Sprite sheet (idle/walk/attack/pain/death frames) |
+| Imp sprite | `enemies/imp/imp.tscn` | Small orange flat billboarded `QuadMesh`; corpse snaps down to the floor | Sprite sheet (fly/cast/pain/fall/death frames) |
+| Magic missile projectile | `spells/magic_missile/magic_missile.tscn` | Small flat pale-blue billboarded `QuadMesh` | Animated missile sprite with a short trail |
 | Enemy sounds | `EnemyData.alert_sound` (bandit, archer, mercenary) | None (silent); `Voice` player exists but no streams assigned | Alert/sight, attack, pain, death SFX per enemy; armor clank on resisted hits |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |

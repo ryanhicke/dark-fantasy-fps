@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" path="res://enemies/werewolf/disguised_bandit.tscn" id="9_disguised_bandit"]
 [ext_resource type="PackedScene" path="res://enemies/skeleton/skeleton.tscn" id="10_skeleton"]
 [ext_resource type="PackedScene" path="res://enemies/apprentice_wizard/apprentice_wizard.tscn" id="11_apprentice_wizard"]
+[ext_resource type="PackedScene" path="res://enemies/melee_demon/melee_demon.tscn" id="12_melee_demon"]
+[ext_resource type="PackedScene" path="res://enemies/imp/imp.tscn" id="13_imp"]
 [ext_resource type="Script" path="res://levels/level.gd" id="4_level"]
 [ext_resource type="Script" path="res://levels/entities/exit_trigger.gd" id="5_exit"]
 
@@ -166,6 +168,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 9)
 
 [node name="WizardCorner" parent="." instance=ExtResource("11_apprentice_wizard")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12)
+
+[node name="DemonCorner" parent="." instance=ExtResource("12_melee_demon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -12)
+
+[node name="ImpHovering" parent="." instance=ExtResource("13_imp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3, -2)
 
 [node name="PlayerStart" type="Marker3D" parent="." groups=["player_start"]]
 

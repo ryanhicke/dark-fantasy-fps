@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="2_fireball"]
 [ext_resource type="PackedScene" path="res://spells/fireball/fireball_explosion.tscn" id="3_explosion"]
 [ext_resource type="PackedScene" path="res://weapons/arrow/arrow.tscn" id="4_arrow"]
+[ext_resource type="PackedScene" path="res://spells/magic_missile/magic_missile.tscn" id="5_missile"]
 
 [resource]
 script = ExtResource("1_list")
-scenes = Array[PackedScene]([ExtResource("2_fireball"), ExtResource("3_explosion"), ExtResource("4_arrow")])
+scenes = Array[PackedScene]([ExtResource("2_fireball"), ExtResource("3_explosion"), ExtResource("4_arrow"), ExtResource("5_missile")])

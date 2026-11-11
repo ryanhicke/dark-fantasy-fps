@@ -12,3 +12,8 @@ extends WeaponData
 @export var splash_damage: float = 0.0
 ## Multiplier on splash damage dealt to the caster. 0 = immune, 1 = full.
 @export_range(0.0, 1.0) var caster_splash_scale: float = 0.5
+
+@export_group("Homing")
+## Radians per second a HomingProjectile can turn toward its target. 0
+## flies straight. Keep it low enough that strafing can still dodge.
+@export var homing_turn_rate: float = 0.0
