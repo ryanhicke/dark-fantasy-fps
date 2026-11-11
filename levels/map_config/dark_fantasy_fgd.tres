@@ -14,9 +14,10 @@
 [ext_resource type="Resource" path="res://levels/map_config/monster_werewolf_archer.tres" id="12_werewolf_archer"]
 [ext_resource type="Resource" path="res://levels/map_config/monster_werewolf_mercenary.tres" id="13_werewolf_mercenary"]
 [ext_resource type="Resource" path="res://levels/map_config/monster_skeleton.tres" id="14_skeleton"]
+[ext_resource type="Resource" path="res://levels/map_config/monster_apprentice_wizard.tres" id="15_apprentice_wizard"]
 
 [resource]
 script = ExtResource("1_fgd")
 fgd_name = "DarkFantasyFPS"
 base_fgd_files = Array[Resource]([ExtResource("2_base")])
-entity_definitions = Array[Resource]([ExtResource("3_start"), ExtResource("4_bandit"), ExtResource("8_bandit_archer"), ExtResource("9_armored_mercenary"), ExtResource("10_werewolf"), ExtResource("11_werewolf_bandit"), ExtResource("12_werewolf_archer"), ExtResource("13_werewolf_mercenary"), ExtResource("14_skeleton"), ExtResource("5_key"), ExtResource("6_door"), ExtResource("7_exit")])
+entity_definitions = Array[Resource]([ExtResource("3_start"), ExtResource("4_bandit"), ExtResource("8_bandit_archer"), ExtResource("9_armored_mercenary"), ExtResource("10_werewolf"), ExtResource("11_werewolf_bandit"), ExtResource("12_werewolf_archer"), ExtResource("13_werewolf_mercenary"), ExtResource("14_skeleton"), ExtResource("15_apprentice_wizard"), ExtResource("5_key"), ExtResource("6_door"), ExtResource("7_exit")])

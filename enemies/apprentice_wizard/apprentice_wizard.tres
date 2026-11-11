@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="2_fireball"]
+[ext_resource type="Resource" path="res://enemies/apprentice_wizard/apprentice_fireball.tres" id="3_spell"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Apprentice Wizard"
+max_health = 45.0
+placeholder_color = Color(0.45, 0.15, 0.4, 1)
+move_speed = 3.5
+sight_range = 25.0
+attack_range = 20.0
+attack_damage = 15.0
+attack_damage_type = 1
+attack_windup = 0.9
+attack_recovery = 1.6
+projectile_scene = ExtResource("2_fireball")
+projectile_speed = 14.0
+projectile_gravity = 0.0
+muzzle_height = 1.4
+projectile_data = ExtResource("3_spell")
+pain_chance = 0.5
+pain_duration = 0.4

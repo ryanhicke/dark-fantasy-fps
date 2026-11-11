@@ -43,6 +43,10 @@ extends Resource
 @export var projectile_gravity: float = 0.0
 ## Meters above the enemy's origin where projectiles spawn.
 @export var muzzle_height: float = 1.4
+## Optional. Passed to the projectile's apply_weapon_data() for extra
+## fields such as fireball splash (a SpellData). Damage, type, and speed
+## still come from this resource.
+@export var projectile_data: WeaponData
 
 @export_group("Sounds")
 ## Played once when the enemy wakes up. Null is silent.

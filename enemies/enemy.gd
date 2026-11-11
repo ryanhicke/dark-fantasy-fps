@@ -230,6 +230,8 @@ func _fire_projectile() -> void:
 		data.attack_damage_type,
 		self
 	)
+	if data.projectile_data != null:
+		projectile.apply_weapon_data(data.projectile_data)
 
 
 func _play_sound(stream: AudioStream) -> void:
