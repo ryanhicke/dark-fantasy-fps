@@ -22,6 +22,9 @@ const CORPSE_FALL_TIME: float = 0.4
 @export var gravity: float = 15.0
 ## Meters above the target's origin that sight rays and shots aim at (chest height).
 @export var target_aim_height: float = 1.2
+## False for summoned enemies: they don't add to the level's kill total,
+## and killing them isn't tallied, so 100% kills stays reachable.
+@export var counts_for_stats: bool = true
 
 var _brain: EnemyBrain
 var _target: Node3D
@@ -137,6 +140,21 @@ func _on_died(_source: Node) -> void:
 		collapse.tween_callback(_rise_as.bind(data.revive_as))
 		return
 	EventBus.enemy_killed.emit(self)
+
+
+func is_dead() -> bool:
+	return _health.is_dead()
+
+
+## Brings this node back as a fresh enemy rising out of the ground at
+## [param at]. Used by EnemySummoner to reuse pooled (or dead) enemies
+## instead of spawning new nodes mid-fight.
+func respawn_rising(at: Vector3) -> void:
+	global_position = at
+	velocity = Vector3.ZERO
+	_apply_data()
+	make_dormant()
+	rise_from_ground()
 
 
 ## Hides the enemy in the ground with no AI or collision until

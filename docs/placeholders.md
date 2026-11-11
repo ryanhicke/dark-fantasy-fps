@@ -29,6 +29,7 @@ before shipping. Note the license of every replacement asset.
 | Melee demon sprite | `enemies/melee_demon/melee_demon.tscn` | Large dark-red flat billboarded `QuadMesh` | Sprite sheet (idle/walk/attack/pain/death frames) |
 | Imp sprite | `enemies/imp/imp.tscn` | Small orange flat billboarded `QuadMesh`; corpse snaps down to the floor | Sprite sheet (fly/cast/pain/fall/death frames) |
 | Magic missile projectile | `spells/magic_missile/magic_missile.tscn` | Small flat pale-blue billboarded `QuadMesh` | Animated missile sprite with a short trail |
+| Necromancer sprite | `enemies/necromancer/necromancer.tscn` | Dark-green, larger flat billboarded `QuadMesh`; summoned demons "rise" by the quad scaling up from the floor | Boss sprite sheet (idle/walk/cast/summon/pain/death), summoning circle or dirt-burst effect |
 | Enemy sounds | `EnemyData.alert_sound` (bandit, archer, mercenary) | None (silent); `Voice` player exists but no streams assigned | Alert/sight, attack, pain, death SFX per enemy; armor clank on resisted hits |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |

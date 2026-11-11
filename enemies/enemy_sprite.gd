@@ -23,6 +23,9 @@ extends MeshInstance3D
 
 var _base_color: Color
 var _color_tween: Tween
+## Only one height animation at a time; a pooled enemy may be reused while
+## its corpse is still collapsing.
+var _shape_tween: Tween
 
 @onready var _material: StandardMaterial3D = get_active_material(0) as StandardMaterial3D
 
@@ -52,27 +55,35 @@ func flash_pain(state: EnemyBrain.State, winding_up: bool) -> void:
 
 ## Returns the tween so callers can chain on it (e.g. a second phase).
 func collapse() -> Tween:
-	var tween: Tween = create_tween()
-	tween.tween_property(self, "scale:y", corpse_height_scale, corpse_collapse_time)
-	return tween
+	return _animate_height(corpse_height_scale, corpse_collapse_time)
 
 
 func stand_up() -> Tween:
-	var tween: Tween = create_tween()
-	tween.tween_property(self, "scale:y", 1.0, corpse_collapse_time)
-	return tween
+	return _animate_height(1.0, corpse_collapse_time)
 
 
 func hide_in_ground() -> void:
+	_kill_shape_tween()
 	visible = false
 	scale.y = dormant_height_scale
 
 
 func climb_out() -> Tween:
 	visible = true
-	var tween: Tween = create_tween()
-	tween.tween_property(self, "scale:y", 1.0, rise_time)
-	return tween
+	return _animate_height(1.0, rise_time)
+
+
+func _animate_height(height_scale: float, duration: float) -> Tween:
+	_kill_shape_tween()
+	_shape_tween = create_tween()
+	_shape_tween.tween_property(self, "scale:y", height_scale, duration)
+	return _shape_tween
+
+
+func _kill_shape_tween() -> void:
+	if _shape_tween != null:
+		_shape_tween.kill()
+		_shape_tween = null
 
 
 func _color_for(state: EnemyBrain.State, winding_up: bool) -> Color:

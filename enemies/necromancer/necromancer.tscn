@@ -1,0 +1,61 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="Resource" path="res://enemies/necromancer/necromancer.tres" id="2_data"]
+[ext_resource type="Script" path="res://core/components/health_component.gd" id="3_health"]
+[ext_resource type="Script" path="res://enemies/enemy_sprite.gd" id="5_sprite"]
+[ext_resource type="Script" path="res://enemies/enemy_summoner.gd" id="6_summoner"]
+[ext_resource type="PackedScene" path="res://enemies/melee_demon/melee_demon.tscn" id="7_demon"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_necromancer"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="QuadMesh" id="QuadMesh_necromancer"]
+size = Vector2(1.2, 2.1)
+center_offset = Vector3(0, 1.05, 0)
+
+[sub_resource type="StandardMaterial3D" id="Material_necromancer"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(0.12, 0.3, 0.2, 1)
+billboard_mode = 2
+billboard_keep_scale = true
+
+[node name="Necromancer" type="CharacterBody3D"]
+script = ExtResource("1_enemy")
+data = ExtResource("2_data")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_necromancer")
+
+[node name="Sprite" type="MeshInstance3D" parent="."]
+script = ExtResource("5_sprite")
+material_override = SubResource("Material_necromancer")
+mesh = SubResource("QuadMesh_necromancer")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_health")
+
+[node name="SightCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+enabled = false
+target_position = Vector3(0, 0, -1)
+
+[node name="Voice" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Summoner" type="Node3D" parent="."]
+script = ExtResource("6_summoner")
+summon_scene = ExtResource("7_demon")
+max_alive = 5
+start_below_health = 0.5
+summon_interval = 6.0
+per_wave = 2
+spawn_radius = 3.0
+
+[node name="SpawnCast" type="RayCast3D" parent="Summoner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+enabled = false
+target_position = Vector3(0, 0, -1)

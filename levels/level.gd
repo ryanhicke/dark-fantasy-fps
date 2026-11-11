@@ -80,14 +80,15 @@ func _find_player_start() -> Node3D:
 static func _count_enemies(node: Node) -> int:
 	var count: int = 0
 	for child: Node in node.get_children():
-		if child is Enemy:
+		if child is Enemy and (child as Enemy).counts_for_stats:
 			count += 1
 		count += _count_enemies(child)
 	return count
 
 
 func _on_enemy_killed(enemy: Node) -> void:
-	if is_ancestor_of(enemy):
+	var counted: bool = not (enemy is Enemy) or (enemy as Enemy).counts_for_stats
+	if counted and is_ancestor_of(enemy):
 		_stats.kills += 1
 
 
