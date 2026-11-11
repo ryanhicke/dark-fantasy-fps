@@ -43,6 +43,11 @@ var _can_see_target: bool = false
 @onready var _voice: AudioStreamPlayer3D = get_node_or_null("Voice") as AudioStreamPlayer3D
 
 
+func _enter_tree() -> void:
+	# The player's homing spells pick targets from this group.
+	add_to_group(HomingProjectile.TARGET_GROUP)
+
+
 func _ready() -> void:
 	if data == null:
 		push_error("%s: no EnemyData assigned." % name)
@@ -148,6 +153,18 @@ func _on_died(_source: Node) -> void:
 
 func is_dead() -> bool:
 	return _health.is_dead()
+
+
+## HomingProjectile.TARGET_GROUP contract: alive and tangible (not buried
+## or a corpse).
+func can_be_targeted() -> bool:
+	return not _health.is_dead() and not _collision.disabled
+
+
+## HomingProjectile.TARGET_GROUP contract: the body's center, so missiles
+## hit small flyers and huge bosses alike.
+func get_aim_point() -> Vector3:
+	return _collision.global_position
 
 
 ## Alerts the enemy as if it had seen the player.

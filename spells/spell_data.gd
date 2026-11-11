@@ -17,3 +17,8 @@ extends WeaponData
 ## Radians per second a HomingProjectile can turn toward its target. 0
 ## flies straight. Keep it low enough that strafing can still dodge.
 @export var homing_turn_rate: float = 0.0
+## Player casts lock onto the target nearest the crosshair within this
+## many degrees of it. 0 never locks (the missile flies straight).
+@export var homing_lock_angle_deg: float = 0.0
+## Meters. Targets farther away are never locked.
+@export var homing_lock_range: float = 40.0

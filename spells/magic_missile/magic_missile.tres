@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://spells/spell_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://spells/magic_missile/magic_missile.tscn" id="2_projectile"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Wand of Magic Missile"
+id = &"magic_missile"
+slot = 7
+damage = 10.0
+damage_type = 5
+cooldown = 0.45
+windup = 0.0
+ammo_type = &"mana"
+ammo_cost = 5
+projectile_scene = ExtResource("2_projectile")
+projectile_speed = 20.0
+projectile_gravity = 0.0
+caster_splash_scale = 0.0
+homing_turn_rate = 3.5
+homing_lock_angle_deg = 20.0
+homing_lock_range = 40.0

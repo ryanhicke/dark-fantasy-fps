@@ -84,6 +84,12 @@ func _fire(charge: float) -> void:
 		_owner_body
 	)
 	projectile.apply_weapon_data(data)
+	_on_projectile_launched(projectile)
+
+
+## Override for per-shot extras, e.g. a homing spell picking its target.
+func _on_projectile_launched(_projectile: Projectile) -> void:
+	pass
 
 
 func _charge_ratio() -> float:

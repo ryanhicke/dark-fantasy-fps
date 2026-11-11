@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/spell_weapon.gd" id="1_spell"]
+[ext_resource type="Resource" path="res://spells/magic_missile/magic_missile.tres" id="2_data"]
+
+[sub_resource type="StandardMaterial3D" id="Material_wood"]
+albedo_color = Color(0.22, 0.16, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_tip"]
+shading_mode = 0
+albedo_color = Color(0.55, 0.75, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wand"]
+material = SubResource("Material_wood")
+size = Vector3(0.02, 0.02, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tip"]
+material = SubResource("Material_tip")
+size = Vector3(0.04, 0.04, 0.04)
+
+[node name="MagicWand" type="Node3D"]
+script = ExtResource("1_spell")
+data = ExtResource("2_data")
+muzzle_offset = 0.4
+
+[node name="ViewModel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.927184, -0.374607, 0, 0.374607, 0.927184, 0.18, -0.24, -0.45)
+
+[node name="Wand" type="MeshInstance3D" parent="ViewModel"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_wand")
+
+[node name="Tip" type="MeshInstance3D" parent="ViewModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.21)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_tip")
+
+[node name="LockCast" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, -1)
