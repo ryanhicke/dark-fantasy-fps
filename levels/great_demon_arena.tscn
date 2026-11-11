@@ -1,0 +1,117 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://levels/level.gd" id="2_level"]
+[ext_resource type="PackedScene" path="res://enemies/great_demon/great_demon.tscn" id="3_great_demon"]
+[ext_resource type="PackedScene" path="res://enemies/obelisk_stand_in/obelisk_stand_in.tscn" id="4_obelisk"]
+
+[sub_resource type="Environment" id="Environment_arena"]
+background_mode = 1
+background_color = Color(0.12, 0.04, 0.04, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.42, 0.42, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.3, 0.22, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_wall"]
+albedo_color = Color(0.35, 0.2, 0.18, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+material = SubResource("Material_floor")
+size = Vector2(36, 36)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(36, 1, 36)
+
+[sub_resource type="BoxMesh" id="BoxMesh_NS"]
+material = SubResource("Material_wall")
+size = Vector3(37, 8, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_NS"]
+size = Vector3(37, 8, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_EW"]
+material = SubResource("Material_wall")
+size = Vector3(0.5, 8, 36)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_EW"]
+size = Vector3(0.5, 8, 36)
+
+[node name="GreatDemonArena" type="Node3D"]
+script = ExtResource("2_level")
+player_scene = ExtResource("1_player")
+display_name = "Great Demon Arena"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_arena")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 10, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="North" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, -18.25)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/North"]
+mesh = SubResource("BoxMesh_NS")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/North"]
+shape = SubResource("BoxShape3D_NS")
+
+[node name="South" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 18.25)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/South"]
+mesh = SubResource("BoxMesh_NS")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/South"]
+shape = SubResource("BoxShape3D_NS")
+
+[node name="West" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.25, 4.0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/West"]
+mesh = SubResource("BoxMesh_EW")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/West"]
+shape = SubResource("BoxShape3D_EW")
+
+[node name="East" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 4.0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/East"]
+mesh = SubResource("BoxMesh_EW")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/East"]
+shape = SubResource("BoxShape3D_EW")
+
+[node name="GreatDemon" parent="." instance=ExtResource("3_great_demon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
+
+[node name="Obelisks" type="Node3D" parent="."]
+
+[node name="Obelisk1" parent="Obelisks" instance=ExtResource("4_obelisk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -12)
+
+[node name="Obelisk2" parent="Obelisks" instance=ExtResource("4_obelisk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -12)
+
+[node name="Obelisk3" parent="Obelisks" instance=ExtResource("4_obelisk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 2)
+
+[node name="Obelisk4" parent="Obelisks" instance=ExtResource("4_obelisk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 2)
+
+[node name="PlayerStart" type="Marker3D" parent="." groups=["player_start"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14)

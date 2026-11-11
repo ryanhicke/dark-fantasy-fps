@@ -38,6 +38,10 @@ signal enemy_killed(enemy: Node)
 @warning_ignore("unused_signal")
 signal secret_found
 
+## A Level 8 crystal obelisk was destroyed. The great demon listens.
+@warning_ignore("unused_signal")
+signal obelisk_destroyed
+
 @warning_ignore("unused_signal")
 signal level_completed
 

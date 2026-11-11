@@ -9,6 +9,10 @@ extends CharacterBody3D
 ## Optional children: Voice (AudioStreamPlayer3D) for EnemyData sounds,
 ## RiseTrigger to start hidden in the ground (e.g. skeletons).
 
+## Emitted when the enemy first notices the player (IDLE -> CHASE), however
+## it was woken: sight, pain, rising, or wake().
+signal alerted
+
 ## Seconds between line-of-sight checks while idle. Each enemy starts at a
 ## random offset, so a room full of enemies doesn't raycast on the same frame.
 const SIGHT_CHECK_INTERVAL: float = 0.2
@@ -146,6 +150,24 @@ func is_dead() -> bool:
 	return _health.is_dead()
 
 
+## Alerts the enemy as if it had seen the player.
+func wake() -> void:
+	_brain.wake()
+
+
+## Switches this node to [param next_data] in place: new stats, fresh
+## health, and a new brain that is already hunting. Used for second phases
+## (disguised werewolves) and boss phase changes.
+func change_data(next_data: EnemyData) -> void:
+	data = next_data
+	_apply_data()
+	velocity = Vector3.ZERO
+	_collision.disabled = false
+	set_physics_process(true)
+	# No sight check needed: waking plays its alert sound (e.g. a howl).
+	_brain.wake()
+
+
 ## Brings this node back as a fresh enemy rising out of the ground at
 ## [param at]. Used by EnemySummoner to reuse pooled (or dead) enemies
 ## instead of spawning new nodes mid-fight.
@@ -195,21 +217,15 @@ func _drop_corpse_to_floor() -> void:
 
 
 func _rise_as(next_data: EnemyData) -> void:
-	data = next_data
-	_apply_data()
-	velocity = Vector3.ZERO
-	_collision.disabled = false
-	set_physics_process(true)
 	_sprite.stand_up()
-	# It rises already hunting: no sight check needed. Waking plays its
-	# alert sound (the werewolf's howl).
-	_brain.wake()
+	change_data(next_data)
 
 
 func _on_brain_state_changed(new_state: EnemyBrain.State, old_state: EnemyBrain.State) -> void:
 	_show_state()
 	if old_state == EnemyBrain.State.IDLE and new_state == EnemyBrain.State.CHASE:
-		_play_sound(data.alert_sound)
+		play_sound(data.alert_sound)
+		alerted.emit()
 
 
 func _on_brain_attack_struck(hit: bool) -> void:
@@ -227,7 +243,8 @@ func _show_state() -> void:
 	_sprite.show_state(_brain.state, _brain.is_winding_up())
 
 
-func _play_sound(stream: AudioStream) -> void:
+## Plays through the optional Voice child; silent if either is missing.
+func play_sound(stream: AudioStream) -> void:
 	if stream == null or _voice == null:
 		return
 	_voice.stream = stream

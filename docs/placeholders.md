@@ -30,6 +30,8 @@ before shipping. Note the license of every replacement asset.
 | Imp sprite | `enemies/imp/imp.tscn` | Small orange flat billboarded `QuadMesh`; corpse snaps down to the floor | Sprite sheet (fly/cast/pain/fall/death frames) |
 | Magic missile projectile | `spells/magic_missile/magic_missile.tscn` | Small flat pale-blue billboarded `QuadMesh` | Animated missile sprite with a short trail |
 | Necromancer sprite | `enemies/necromancer/necromancer.tscn` | Dark-green, larger flat billboarded `QuadMesh`; summoned demons "rise" by the quad scaling up from the floor | Boss sprite sheet (idle/walk/cast/summon/pain/death), summoning circle or dirt-burst effect |
+| Great demon sprite | `enemies/great_demon/great_demon.tscn` | Huge dark flat billboarded `QuadMesh` with four hidden pale-yellow quads (`Sprite/Crack1..4`) as the cracks of light | Layered boss sprites: body plus crack-of-light overlays drawn on top (CLAUDE.md rule 2) |
+| Great demon roar | `GreatDemonPhases.roar_sound` | None (silent); only a flash | Roar SFX (and optional screen shake) on each destroyed obelisk |
 | Enemy sounds | `EnemyData.alert_sound` (bandit, archer, mercenary) | None (silent); `Voice` player exists but no streams assigned | Alert/sight, attack, pain, death SFX per enemy; armor clank on resisted hits |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
@@ -51,4 +53,5 @@ before shipping. Note the license of every replacement asset.
 | F3 FPS / resolution readout | `ui/hud.gd`, `DebugLabel` in `ui/hud.tscn` (debug builds only) |
 | Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (level 2 in `levels/level_list.tres`) |
 | Enemy gallery (one walled bay per enemy type; not in the level list, run with F6) | `levels/enemy_gallery.tscn` |
+| Great demon arena and obelisk stand-ins (any weapon breaks a stand-in) | `levels/great_demon_arena.tscn`, `enemies/obelisk_stand_in/` |
 | Starter test map | `levels/test_map/`, `assets/maps/test_map.map` |

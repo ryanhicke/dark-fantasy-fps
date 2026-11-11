@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://core/components/damage_resistances.gd" id="2_resist"]
+
+[sub_resource type="Resource" id="Resource_sealed"]
+script = ExtResource("2_resist")
+slash = 0.0
+pierce = 0.0
+blunt = 0.0
+fire = 0.0
+lightning = 0.0
+magic = 0.0
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Great Demon (sealed)"
+max_health = 1000.0
+resistances = SubResource("Resource_sealed")
+placeholder_color = Color(0.25, 0.05, 0.08, 1)
+move_speed = 0.0
+sight_range = 40.0
+attack_range = 0.0
+attack_damage = 0.0
+pain_chance = 0.0

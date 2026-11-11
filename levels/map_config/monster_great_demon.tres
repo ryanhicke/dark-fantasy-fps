@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_point"]
+[ext_resource type="PackedScene" path="res://enemies/great_demon/great_demon.tscn" id="2_bandit"]
+
+[resource]
+script = ExtResource("1_point")
+classname = "monster_great_demon"
+description = "Level 8 final boss. Immune until 4 obelisks fall, then hurt only by lightning; summons demons, imps, and (after 2 obelisks) werewolves. Place it on the floor."
+meta_properties = Dictionary[String, Variant]({
+"color": Color(0.9, 0.2, 0.2, 1),
+"size": AABB(-48, -48, 0, 48, 48, 192)
+})
+scene_file = ExtResource("2_bandit")

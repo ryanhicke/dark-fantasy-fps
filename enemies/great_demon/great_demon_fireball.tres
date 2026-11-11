@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://spells/spell_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Great Demon Fireball"
+damage_type = 1
+splash_radius = 3.5
+splash_damage = 20.0
+caster_splash_scale = 0.0

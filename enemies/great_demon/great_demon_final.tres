@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://core/components/damage_resistances.gd" id="2_resist"]
+[ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="3_fireball"]
+[ext_resource type="Resource" path="res://enemies/great_demon/great_demon_fireball.tres" id="4_spell"]
+
+[sub_resource type="Resource" id="Resource_lightning_only"]
+script = ExtResource("2_resist")
+slash = 0.0
+pierce = 0.0
+blunt = 0.0
+fire = 0.0
+lightning = 1.0
+magic = 0.0
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Great Demon"
+max_health = 300.0
+resistances = SubResource("Resource_lightning_only")
+placeholder_color = Color(0.4, 0.08, 0.1, 1)
+move_speed = 0.0
+sight_range = 40.0
+attack_range = 35.0
+attack_damage = 25.0
+attack_damage_type = 1
+attack_windup = 0.8
+attack_recovery = 1.0
+projectile_scene = ExtResource("3_fireball")
+projectile_speed = 18.0
+projectile_gravity = 0.0
+muzzle_height = 4.5
+projectile_data = ExtResource("4_spell")
+pain_chance = 0.15
+pain_duration = 0.3

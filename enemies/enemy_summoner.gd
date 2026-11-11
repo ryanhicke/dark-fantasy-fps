@@ -16,9 +16,16 @@ extends Node3D
 @export var summon_scene: PackedScene
 ## Most summoned enemies alive at once. Also the pool size.
 @export var max_alive: int = 5
-## Starts summoning once the summoner's health falls to this fraction or
-## below. 1 summons from level start, so keep it below 1 for bosses.
+## Off: only set_active() starts and stops summoning (a boss script in
+## charge, e.g. GreatDemonPhases). On: starts by itself at the health
+## threshold below.
+@export var auto_start: bool = true
+## With auto_start: starts summoning once the summoner's health falls to
+## this fraction or below. 1 summons from level start, so keep it below 1.
 @export_range(0.0, 1.0) var start_below_health: float = 0.5
+## For bosses with stages (GreatDemonPhases): this summoner joins in once
+## this many stages are done (e.g. werewolves after the 2nd obelisk).
+@export var unlock_at_stage: int = 0
 ## Seconds between summon waves once active.
 @export var summon_interval: float = 6.0
 ## Enemies raised per wave (limited by free room under the cap).
@@ -68,6 +75,20 @@ func _fill_pool() -> void:
 		summon.make_dormant()
 		_pool.append(summon)
 		_used.append(false)
+
+
+func is_active() -> bool:
+	return _active
+
+
+## Starts or stops summoning waves. Starting summons a wave right away.
+func set_active(active: bool) -> void:
+	if active == _active:
+		return
+	_active = active
+	if active:
+		_time_to_next = 0.0
+	set_process(active)
 
 
 func alive_count() -> int:
@@ -124,15 +145,12 @@ func _spawn_point(index: int, count: int) -> Vector3:
 
 
 func _on_owner_health_changed(current: float, maximum: float) -> void:
-	if _active or maximum <= 0.0 or current <= 0.0:
+	if not auto_start or _active or maximum <= 0.0 or current <= 0.0:
 		return
 	if current / maximum <= start_below_health:
-		_active = true
-		_time_to_next = 0.0
-		set_process(true)
+		set_active(true)
 
 
 ## Summons already raised keep fighting; no new ones come.
 func _on_owner_died(_source: Node) -> void:
-	_active = false
-	set_process(false)
+	set_active(false)

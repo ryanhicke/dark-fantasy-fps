@@ -1,0 +1,148 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="Resource" path="res://enemies/great_demon/great_demon_sealed.tres" id="2_data"]
+[ext_resource type="Script" path="res://core/components/health_component.gd" id="3_health"]
+[ext_resource type="Script" path="res://enemies/enemy_sprite.gd" id="5_sprite"]
+[ext_resource type="Script" path="res://enemies/enemy_summoner.gd" id="6_summoner"]
+[ext_resource type="PackedScene" path="res://enemies/melee_demon/melee_demon.tscn" id="7_demon"]
+[ext_resource type="PackedScene" path="res://enemies/imp/imp.tscn" id="8_imp"]
+[ext_resource type="PackedScene" path="res://enemies/werewolf/werewolf.tscn" id="9_werewolf"]
+[ext_resource type="Script" path="res://enemies/great_demon/great_demon_phases.gd" id="10_phases"]
+[ext_resource type="Resource" path="res://enemies/great_demon/great_demon_final.tres" id="11_final"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_great_demon"]
+radius = 1.5
+height = 6.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_great_demon"]
+size = Vector2(4, 6)
+center_offset = Vector3(0, 3, 0)
+
+[sub_resource type="StandardMaterial3D" id="Material_great_demon"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(0.25, 0.05, 0.08, 1)
+billboard_mode = 2
+billboard_keep_scale = true
+
+[sub_resource type="StandardMaterial3D" id="Material_crack"]
+shading_mode = 0
+albedo_color = Color(1, 0.95, 0.6, 1)
+billboard_mode = 2
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_crack1"]
+material = SubResource("Material_crack")
+size = Vector2(0.25, 1.3)
+center_offset = Vector3(-0.6, 4.2, 0.05)
+
+[sub_resource type="QuadMesh" id="QuadMesh_crack2"]
+material = SubResource("Material_crack")
+size = Vector2(0.25, 1.6)
+center_offset = Vector3(0.7, 3.4, 0.05)
+
+[sub_resource type="QuadMesh" id="QuadMesh_crack3"]
+material = SubResource("Material_crack")
+size = Vector2(0.25, 1.2)
+center_offset = Vector3(-0.3, 2.3, 0.05)
+
+[sub_resource type="QuadMesh" id="QuadMesh_crack4"]
+material = SubResource("Material_crack")
+size = Vector2(0.25, 1.4)
+center_offset = Vector3(0.4, 1.4, 0.05)
+
+[node name="GreatDemon" type="CharacterBody3D"]
+script = ExtResource("1_enemy")
+data = ExtResource("2_data")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("CapsuleShape3D_great_demon")
+
+[node name="Sprite" type="MeshInstance3D" parent="."]
+script = ExtResource("5_sprite")
+material_override = SubResource("Material_great_demon")
+mesh = SubResource("QuadMesh_great_demon")
+
+[node name="Crack1" type="MeshInstance3D" parent="Sprite"]
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_crack1")
+
+[node name="Crack2" type="MeshInstance3D" parent="Sprite"]
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_crack2")
+
+[node name="Crack3" type="MeshInstance3D" parent="Sprite"]
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_crack3")
+
+[node name="Crack4" type="MeshInstance3D" parent="Sprite"]
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_crack4")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_health")
+
+[node name="SightCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+enabled = false
+target_position = Vector3(0, 0, -1)
+
+[node name="Voice" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="DemonSummoner" type="Node3D" parent="."]
+script = ExtResource("6_summoner")
+summon_scene = ExtResource("7_demon")
+max_alive = 5
+auto_start = false
+unlock_at_stage = 0
+summon_interval = 8.0
+per_wave = 2
+spawn_radius = 5.0
+
+[node name="SpawnCast" type="RayCast3D" parent="DemonSummoner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+enabled = false
+target_position = Vector3(0, 0, -1)
+
+[node name="ImpSummoner" type="Node3D" parent="."]
+script = ExtResource("6_summoner")
+summon_scene = ExtResource("8_imp")
+max_alive = 4
+auto_start = false
+unlock_at_stage = 0
+summon_interval = 10.0
+per_wave = 2
+spawn_radius = 5.0
+
+[node name="SpawnCast" type="RayCast3D" parent="ImpSummoner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+enabled = false
+target_position = Vector3(0, 0, -1)
+
+[node name="WerewolfSummoner" type="Node3D" parent="."]
+script = ExtResource("6_summoner")
+summon_scene = ExtResource("9_werewolf")
+max_alive = 3
+auto_start = false
+unlock_at_stage = 2
+summon_interval = 12.0
+per_wave = 1
+spawn_radius = 5.0
+
+[node name="SpawnCast" type="RayCast3D" parent="WerewolfSummoner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+enabled = false
+target_position = Vector3(0, 0, -1)
+
+[node name="Phases" type="Node" parent="."]
+script = ExtResource("10_phases")
+obelisk_count = 4
+final_data = ExtResource("11_final")
+interval_scale_per_obelisk = 0.75
