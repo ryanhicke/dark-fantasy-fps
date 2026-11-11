@@ -63,6 +63,7 @@ before shipping. Note the license of every replacement asset.
 | Item | Where |
 |---|---|
 | Training dummy | `enemies/training_dummy/` |
+| Main menu Enemy Gallery / Great Demon Arena buttons (debug builds only) | `ui/main_menu.tscn`, `ui/main_menu.gd` |
 | F4 give all weapons and full ammo | `player/dev_cheats.gd` (debug builds only) |
 | F2 render scale cycle | `ui/game_view.gd` (debug builds only) |
 | F3 FPS / resolution readout | `ui/hud.gd`, `DebugLabel` in `ui/hud.tscn` (debug builds only) |

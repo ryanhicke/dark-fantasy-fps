@@ -6,15 +6,21 @@ extends VBoxContainer
 ##
 ## The highlight is plain keyboard focus, so Godot's Button handles Enter
 ## and mouse clicks. Arrow keys also work through the focus neighbors set
-## here. Only direct Button children are part of the list.
+## here. Only direct, visible Button children are part of the list; call
+## refresh_buttons() after showing or hiding one.
 
 var _buttons: Array[Button] = []
 
 
 func _ready() -> void:
+	refresh_buttons()
+
+
+func refresh_buttons() -> void:
+	_buttons.clear()
 	for child: Node in get_children():
 		var button: Button = child as Button
-		if button != null:
+		if button != null and button.visible:
 			_buttons.append(button)
 	_link_focus_neighbors()
 

@@ -35,3 +35,26 @@ func test_every_pixel_size_has_a_name() -> void:
 
 func test_base_size_matches_the_project_setting() -> void:
 	assert_eq(OptionsMenu.base_size(), BASE_SIZE)
+
+
+func test_hidden_buttons_are_skipped_until_refreshed() -> void:
+	var page: MenuPage = MenuPage.new()
+	var shown: Button = Button.new()
+	var hidden: Button = Button.new()
+	hidden.visible = false
+	page.add_child(shown)
+	page.add_child(hidden)
+	add_child_autofree(page)
+	assert_eq(page._buttons, [shown] as Array[Button])
+	hidden.visible = true
+	page.refresh_buttons()
+	assert_eq(page._buttons, [shown, hidden] as Array[Button])
+
+
+func test_dev_level_buttons_show_in_debug_builds() -> void:
+	var menu: CanvasLayer = (load("res://ui/main_menu.tscn") as PackedScene).instantiate() as CanvasLayer
+	add_child_autofree(menu)
+	assert_eq((menu.get_node("MainPage/GalleryButton") as Button).visible, OS.is_debug_build())
+	assert_eq((menu.get_node("MainPage/ArenaButton") as Button).visible, OS.is_debug_build())
+	for path: String in [menu.get("enemy_gallery_path"), menu.get("great_demon_arena_path")]:
+		assert_true(ResourceLoader.exists(path), path)

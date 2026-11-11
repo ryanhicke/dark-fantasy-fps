@@ -24,9 +24,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -220.0
-offset_top = -150.0
+offset_top = -210.0
 offset_right = 220.0
-offset_bottom = 150.0
+offset_bottom = 210.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -48,6 +48,18 @@ text = "New Game"
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Options"
+
+[node name="GalleryButton" type="Button" parent="MainPage"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Enemy Gallery (dev)"
+
+[node name="ArenaButton" type="Button" parent="MainPage"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Great Demon Arena (dev)"
 
 [node name="ExitButton" type="Button" parent="MainPage"]
 layout_mode = 2

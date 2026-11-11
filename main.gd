@@ -25,6 +25,7 @@ func _ready() -> void:
 	GameState.game_completed.connect(_show_main_menu)
 	_main_menu.new_game_selected.connect(_on_new_game_selected)
 	_main_menu.exit_selected.connect(_on_exit_selected)
+	_main_menu.dev_level_selected.connect(_play_single_level)
 	if not standalone_level_path.is_empty():
 		# The menu scene starts visible; hide it or it covers the level and
 		# its New Game would start the normal run instead.
