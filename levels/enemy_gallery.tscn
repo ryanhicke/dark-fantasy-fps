@@ -17,6 +17,9 @@
 [ext_resource type="PackedScene" path="res://levels/entities/weapon_fire_staff.tscn" id="41_pickup"]
 [ext_resource type="PackedScene" path="res://levels/entities/ammo_arrows.tscn" id="42_pickup"]
 [ext_resource type="PackedScene" path="res://levels/entities/ammo_mana.tscn" id="43_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_warhammer.tscn" id="44_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_francisca.tscn" id="45_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_axes.tscn" id="46_pickup"]
 
 [sub_resource type="Environment" id="Environment_gallery"]
 background_mode = 1
@@ -418,6 +421,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
 
 [node name="ManaPickup" parent="Pickups" instance=ExtResource("43_pickup")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+
+[node name="WarhammerPickup" parent="Pickups" instance=ExtResource("44_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -10)
+
+[node name="FranciscaPickup" parent="Pickups" instance=ExtResource("45_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -10)
+
+[node name="AxesPickup" parent="Pickups" instance=ExtResource("46_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -10)
 
 [node name="Enemies" type="Node3D" parent="."]
 

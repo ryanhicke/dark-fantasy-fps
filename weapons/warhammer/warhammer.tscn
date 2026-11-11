@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/melee_weapon.gd" id="1_melee"]
+[ext_resource type="Resource" path="res://weapons/warhammer/warhammer.tres" id="2_data"]
+
+[sub_resource type="StandardMaterial3D" id="Material_haft"]
+albedo_color = Color(0.32, 0.2, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_head"]
+albedo_color = Color(0.45, 0.46, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_haft"]
+material = SubResource("Material_haft")
+size = Vector3(0.04, 0.6, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_head"]
+material = SubResource("Material_head")
+size = Vector3(0.24, 0.12, 0.12)
+
+[node name="Warhammer" type="Node3D"]
+script = ExtResource("1_melee")
+data = ExtResource("2_data")
+windup_rotation_deg = Vector3(40, -10, 10)
+strike_rotation_deg = Vector3(-75, 25, -20)
+strike_time = 0.09
+
+[node name="ViewModel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.3, -0.42, -0.55)
+
+[node name="Haft" type="MeshInstance3D" parent="ViewModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_haft")
+
+[node name="Head" type="MeshInstance3D" parent="ViewModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_head")
+
+[node name="HitCast" type="ShapeCast3D" parent="."]
+enabled = false

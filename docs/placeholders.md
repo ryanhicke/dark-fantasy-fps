@@ -11,6 +11,8 @@ before shipping. Note the license of every replacement asset.
 | Ammo counter | `ui/hud.tscn` | Default-font `Label` ("Arrows: 50") | Styled HUD |
 | Crosshair | `ui/hud.tscn` | Two `ColorRect`s | Final crosshair art (or keep if it fits the style) |
 | Weapon sounds | — | None (silent) | Sword swing/hit, bow draw/release, arrow impact SFX |
+| Warhammer view model | `weapons/warhammer/warhammer.tscn` | `BoxMesh` haft and head; heavier, slower swing | Warhammer sprite or low-poly mesh with swing animation |
+| Francisca view model and projectile | `weapons/francisca/francisca.tscn`, `francisca_projectile.tscn` | `BoxMesh` haft and blade; the thrown axe tumbles end over end | Axe sprite (spinning frames) or low-poly mesh |
 | Fire staff view model | `weapons/fire_staff/fire_staff.tscn` | `BoxMesh` shaft and orange orb; cast is a forward thrust | Staff sprite or low-poly mesh with cast animation |
 | Fireball projectile | `spells/fireball/fireball.tscn` | Flat orange billboarded `QuadMesh` | Animated fireball sprite |
 | Fireball explosion | `spells/fireball/fireball_explosion.tscn` | Growing, fading orange billboarded `QuadMesh` | Explosion sprite animation |

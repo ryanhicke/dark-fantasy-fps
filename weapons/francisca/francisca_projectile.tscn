@@ -1,0 +1,36 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/francisca/spinning_projectile.gd" id="1_spin"]
+
+[sub_resource type="StandardMaterial3D" id="Material_haft"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_blade"]
+albedo_color = Color(0.62, 0.63, 0.66, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_haft"]
+material = SubResource("Material_haft")
+size = Vector3(0.03, 0.38, 0.03)
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = SubResource("Material_blade")
+size = Vector3(0.02, 0.12, 0.14)
+
+[node name="FranciscaProjectile" type="Node3D"]
+script = ExtResource("1_spin")
+lifetime = 4.0
+
+[node name="Spin" type="Node3D" parent="."]
+
+[node name="Haft" type="MeshInstance3D" parent="Spin"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_haft")
+
+[node name="Blade" type="MeshInstance3D" parent="Spin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -0.06)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_blade")
+
+[node name="PathCast" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, 0)

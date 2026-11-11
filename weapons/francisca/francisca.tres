@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="Script" path="res://weapons/weapon_data.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://weapons/francisca/francisca_projectile.tscn" id="2_axe"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Francisca"
+id = &"francisca"
+slot = 4
+pickup_ammo = 5
+damage = 35.0
+damage_type = 6
+cooldown = 0.7
+windup = 0.0
+ammo_type = &"axes"
+ammo_cost = 1
+projectile_scene = ExtResource("2_axe")
+projectile_speed = 18.0
+projectile_gravity = 9.8

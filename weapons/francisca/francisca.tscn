@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://weapons/ranged_weapon.gd" id="1_ranged"]
+[ext_resource type="Resource" path="res://weapons/francisca/francisca.tres" id="2_data"]
+
+[sub_resource type="StandardMaterial3D" id="Material_haft"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_blade"]
+albedo_color = Color(0.62, 0.63, 0.66, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_haft"]
+material = SubResource("Material_haft")
+size = Vector3(0.03, 0.38, 0.03)
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = SubResource("Material_blade")
+size = Vector3(0.02, 0.12, 0.14)
+
+[node name="Francisca" type="Node3D"]
+script = ExtResource("1_ranged")
+data = ExtResource("2_data")
+muzzle_offset = 0.4
+
+[node name="ViewModel" type="Node3D" parent="."]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.28, -0.32, -0.5)
+
+[node name="Draw" type="Node3D" parent="ViewModel"]
+
+[node name="Loaded" type="Node3D" parent="ViewModel/Draw"]
+
+[node name="Haft" type="MeshInstance3D" parent="ViewModel/Draw/Loaded"]
+cast_shadow = 0
+mesh = SubResource("BoxMesh_haft")
+
+[node name="Blade" type="MeshInstance3D" parent="ViewModel/Draw/Loaded"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -0.06)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_blade")

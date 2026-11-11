@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3]
+
+[ext_resource type="Script" path="res://weapons/weapon_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Warhammer"
+id = &"warhammer"
+slot = 2
+damage = 25.0
+damage_type = 4
+cooldown = 0.85
+windup = 0.3
+melee_range = 2.1
+melee_radius = 0.4
