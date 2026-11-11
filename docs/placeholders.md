@@ -18,6 +18,7 @@ before shipping. Note the license of every replacement asset.
 | Armor spell view model | `weapons/armor_spell/armor_spell.tscn` | `BoxMesh` amulet plate with a gold gem | Amulet/rune sprite with cast animation |
 | Lightning view model | `weapons/lightning/lightning.tscn` | Pale-blue `BoxMesh` crystal shard | Crackling crystal or hand sprite with cast animation |
 | Lightning bolt | `spells/lightning/lightning_bolt.tscn` | Five thin unshaded `BoxMesh` segments with random joints, thinning out over 0.15 s; pale screen flash | Bolt sprite strip or stretched quad texture |
+| Crystal obelisks | `levels/entities/crystal_obelisk.tscn` | Tinted `BoxMesh` crystal; weapon icon is a `Label3D` word (HAMMER/FIRE/AXE/MISSILE) | Crystal sprite or low-poly mesh, weapon icons, shatter effect and SFX, and a 'wrong weapon' clink |
 | Fire staff view model | `weapons/fire_staff/fire_staff.tscn` | `BoxMesh` shaft and orange orb; cast is a forward thrust | Staff sprite or low-poly mesh with cast animation |
 | Fireball projectile | `spells/fireball/fireball.tscn` | Flat orange billboarded `QuadMesh` | Animated fireball sprite |
 | Fireball explosion | `spells/fireball/fireball_explosion.tscn` | Growing, fading orange billboarded `QuadMesh` | Explosion sprite animation |
@@ -67,5 +68,5 @@ before shipping. Note the license of every replacement asset.
 | F3 FPS / resolution readout | `ui/hud.gd`, `DebugLabel` in `ui/hud.tscn` (debug builds only) |
 | Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (level 2 in `levels/level_list.tres`) |
 | Enemy gallery (one walled bay per enemy type; not in the level list, run with F6) | `levels/enemy_gallery.tscn` |
-| Great demon arena and obelisk stand-ins (any weapon breaks a stand-in) | `levels/great_demon_arena.tscn`, `enemies/obelisk_stand_in/` |
+| Great demon arena | `levels/great_demon_arena.tscn` |
 | Starter test map | `levels/test_map/`, `assets/maps/test_map.map` |

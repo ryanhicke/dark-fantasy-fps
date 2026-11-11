@@ -1,26 +1,33 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://enemies/obelisk_stand_in/obelisk_stand_in.gd" id="1_obelisk"]
+[ext_resource type="Script" path="res://levels/entities/crystal_obelisk.gd" id="1_obelisk"]
 [ext_resource type="Script" path="res://core/components/health_component.gd" id="2_health"]
 
 [sub_resource type="StandardMaterial3D" id="Material_crystal"]
 resource_local_to_scene = true
 shading_mode = 0
-albedo_color = Color(0.45, 0.85, 1, 1)
+albedo_color = Color(0.7, 0.72, 0.78, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_crystal"]
-material = SubResource("Material_crystal")
 size = Vector3(1, 3, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_crystal"]
 size = Vector3(1, 3, 1)
 
-[node name="ObeliskStandIn" type="StaticBody3D"]
+[node name="CrystalObelisk" type="StaticBody3D"]
 script = ExtResource("1_obelisk")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Crystal" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+material_override = SubResource("Material_crystal")
 mesh = SubResource("BoxMesh_crystal")
+
+[node name="Icon" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+billboard = 1
+texture_filter = 0
+font_size = 48
+text = "?"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -28,4 +35,4 @@ shape = SubResource("BoxShape3D_crystal")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_health")
-max_health = 50.0
+max_health = 100.0

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_point"]
+[ext_resource type="PackedScene" path="res://levels/entities/crystal_obelisk.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_point")
+classname = "crystal_obelisk"
+description = "Level 8 crystal obelisk. Only its weapon breaks it; breaking all 4 unseals the great demon."
+class_properties = Dictionary[String, Variant]({
+"weak_to": {
+"Warhammer": 4,
+"Staff of fireball": 1,
+"Francisca": 6,
+"Wand of magic missile": 5
+}
+})
+class_property_descriptions = Dictionary[String, Variant]({
+"weak_to": ["Weapon that breaks it", 4]
+})
+meta_properties = Dictionary[String, Variant]({
+"color": Color(0.5, 0.8, 1, 1),
+"size": AABB(-16, -16, 0, 16, 16, 96)
+})
+scene_file = ExtResource("2_scene")

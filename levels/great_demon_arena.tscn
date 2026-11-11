@@ -3,9 +3,15 @@
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://levels/level.gd" id="2_level"]
 [ext_resource type="PackedScene" path="res://enemies/great_demon/great_demon.tscn" id="3_great_demon"]
-[ext_resource type="PackedScene" path="res://enemies/obelisk_stand_in/obelisk_stand_in.tscn" id="4_obelisk"]
+[ext_resource type="PackedScene" path="res://levels/entities/crystal_obelisk.tscn" id="4_obelisk"]
 [ext_resource type="PackedScene" path="res://levels/entities/weapon_lightning.tscn" id="5_lightning"]
 [ext_resource type="PackedScene" path="res://levels/entities/ammo_mana.tscn" id="6_mana"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_warhammer.tscn" id="7_weapon_warhammer"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_fire_staff.tscn" id="8_weapon_fire_staff"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_francisca.tscn" id="9_weapon_francisca"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_magic_wand.tscn" id="10_weapon_magic_wand"]
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_axes.tscn" id="11_ammo_axes"]
+[ext_resource type="PackedScene" path="res://levels/entities/ammo_mana.tscn" id="12_ammo_mana"]
 
 [sub_resource type="Environment" id="Environment_arena"]
 background_mode = 1
@@ -105,15 +111,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
 
 [node name="Obelisk1" parent="Obelisks" instance=ExtResource("4_obelisk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -12)
+weak_to = 4
 
 [node name="Obelisk2" parent="Obelisks" instance=ExtResource("4_obelisk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -12)
+weak_to = 1
 
 [node name="Obelisk3" parent="Obelisks" instance=ExtResource("4_obelisk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 2)
+weak_to = 6
 
 [node name="Obelisk4" parent="Obelisks" instance=ExtResource("4_obelisk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 2)
+weak_to = 5
 
 [node name="LightningReward" parent="." instance=ExtResource("5_lightning")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -3)
@@ -123,6 +133,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -3)
 amount = 100
 pickup_message = "Picked up a large mana crystal"
 appear_on_unseal = true
+
+[node name="StartPickups" type="Node3D" parent="."]
+
+[node name="WarhammerPickup" parent="StartPickups" instance=ExtResource("7_weapon_warhammer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 11)
+
+[node name="FireStaffPickup" parent="StartPickups" instance=ExtResource("8_weapon_fire_staff")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 11)
+
+[node name="FranciscaPickup" parent="StartPickups" instance=ExtResource("9_weapon_francisca")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 11)
+
+[node name="MagicWandPickup" parent="StartPickups" instance=ExtResource("10_weapon_magic_wand")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 11)
+
+[node name="AxesPickup" parent="StartPickups" instance=ExtResource("11_ammo_axes")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 9)
+
+[node name="ManaPickup" parent="StartPickups" instance=ExtResource("12_ammo_mana")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 9)
 
 [node name="PlayerStart" type="Marker3D" parent="." groups=["player_start"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14)
