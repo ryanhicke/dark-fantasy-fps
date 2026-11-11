@@ -4,6 +4,21 @@ extends WeaponData
 ## (ammo_type = &"mana"), so spending, regen, and the HUD work unchanged.
 ## Only behavior that weapons don't have lives here.
 
+## Spells with no projectile_scene act on the caster instead.
+enum SelfEffect {
+	NONE,
+	HEAL,
+	INVULNERABLE,
+}
+
+@export_group("Self Effect")
+## What a cast does to the caster when the spell has no projectile.
+@export var self_effect: SelfEffect = SelfEffect.NONE
+## HEAL: hit points restored per cast.
+@export var effect_amount: float = 0.0
+## INVULNERABLE: seconds of protection per cast.
+@export var effect_duration: float = 0.0
+
 @export_group("Splash")
 ## Meters. 0 disables splash damage.
 @export var splash_radius: float = 0.0

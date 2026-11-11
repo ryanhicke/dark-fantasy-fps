@@ -10,6 +10,10 @@ extends CanvasLayer
 ## Peak opacity of the red screen flash when the player is hurt.
 @export var damage_flash_alpha: float = 0.35
 @export var damage_flash_duration: float = 0.3
+@export var damage_flash_color: Color = Color(0.8, 0.0, 0.0)
+@export var heal_flash_color: Color = Color(0.2, 0.9, 0.3)
+## Seconds per on/off blink while the armor spell is about to fade.
+@export var armor_blink_period: float = 0.15
 ## Seconds a pickup or door message stays on screen.
 @export var message_duration: float = 2.5
 
@@ -20,11 +24,13 @@ var _ammo_counts: Dictionary[StringName, int] = {}
 var _current_ammo_type: StringName = &""
 var _awaiting_respawn: bool = false
 var _flash_tween: Tween
+var _armor_blink_tween: Tween
 var _render_size: Vector2i = Vector2i.ZERO
 
 @onready var _ammo_label: Label = $AmmoLabel
 @onready var _health_label: Label = $HealthLabel
 @onready var _damage_flash: ColorRect = $DamageFlash
+@onready var _armor_tint: ColorRect = $ArmorTint
 @onready var _death_prompt: Label = $DeathPrompt
 @onready var _keys_label: Label = $KeysLabel
 @onready var _message_label: Label = $MessageLabel
@@ -38,6 +44,9 @@ func _ready() -> void:
 	EventBus.player_weapon_changed.connect(_on_player_weapon_changed)
 	EventBus.player_health_changed.connect(_on_player_health_changed)
 	EventBus.player_damaged.connect(_on_player_damaged)
+	EventBus.player_healed.connect(_on_player_healed)
+	EventBus.player_invulnerability_changed.connect(_on_player_invulnerability_changed)
+	EventBus.player_invulnerability_ending.connect(_on_player_invulnerability_ending)
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.player_respawn_requested.connect(_on_player_respawn_requested)
 	EventBus.player_keys_changed.connect(_on_player_keys_changed)
@@ -80,11 +89,44 @@ func _on_player_health_changed(current: float, _maximum: float) -> void:
 
 
 func _on_player_damaged(_amount: float) -> void:
+	_flash_screen(damage_flash_color)
+
+
+func _on_player_healed(_amount: float) -> void:
+	_flash_screen(heal_flash_color)
+
+
+func _flash_screen(color: Color) -> void:
 	if _flash_tween != null:
 		_flash_tween.kill()
-	_damage_flash.color.a = damage_flash_alpha
+	_damage_flash.color = Color(color, damage_flash_alpha)
 	_flash_tween = create_tween()
 	_flash_tween.tween_property(_damage_flash, "color:a", 0.0, damage_flash_duration)
+
+
+func _on_player_invulnerability_changed(active: bool) -> void:
+	_stop_armor_blink()
+	_armor_tint.visible = active
+	if not active:
+		_show_message("Your armor fades")
+
+
+## Blink the tint in the last moment so the player knows exactly when they
+## can be hurt again.
+func _on_player_invulnerability_ending() -> void:
+	_stop_armor_blink()
+	_armor_blink_tween = create_tween().set_loops()
+	_armor_blink_tween.tween_callback(_toggle_armor_tint).set_delay(armor_blink_period)
+
+
+func _toggle_armor_tint() -> void:
+	_armor_tint.visible = not _armor_tint.visible
+
+
+func _stop_armor_blink() -> void:
+	if _armor_blink_tween != null:
+		_armor_blink_tween.kill()
+		_armor_blink_tween = null
 
 
 func _on_player_died() -> void:

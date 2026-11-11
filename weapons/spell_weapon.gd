@@ -34,6 +34,33 @@ func setup(owner_body: CollisionObject3D, aim: Node3D, inventory: Inventory) -> 
 		_lock_cast.add_exception(owner_body)
 
 
+func _can_fire() -> bool:
+	var spell: SpellData = data as SpellData
+	var caster: Player = _owner_body as Player
+	if spell == null or caster == null:
+		return true
+	match spell.self_effect:
+		SpellData.SelfEffect.HEAL:
+			# Never waste mana at full health.
+			return caster.can_heal()
+		SpellData.SelfEffect.INVULNERABLE:
+			# Recasting early would only waste most of the 75 mana.
+			return not caster.is_invulnerable()
+	return true
+
+
+func _fire_without_projectile() -> void:
+	var spell: SpellData = data as SpellData
+	var caster: Player = _owner_body as Player
+	if spell == null or caster == null:
+		return
+	match spell.self_effect:
+		SpellData.SelfEffect.HEAL:
+			caster.heal(spell.effect_amount)
+		SpellData.SelfEffect.INVULNERABLE:
+			caster.make_invulnerable(spell.effect_duration)
+
+
 func _on_projectile_launched(projectile: Projectile) -> void:
 	var homing: HomingProjectile = projectile as HomingProjectile
 	var spell: SpellData = data as SpellData

@@ -14,6 +14,8 @@ before shipping. Note the license of every replacement asset.
 | Warhammer view model | `weapons/warhammer/warhammer.tscn` | `BoxMesh` haft and head; heavier, slower swing | Warhammer sprite or low-poly mesh with swing animation |
 | Francisca view model and projectile | `weapons/francisca/francisca.tscn`, `francisca_projectile.tscn` | `BoxMesh` haft and blade; the thrown axe tumbles end over end | Axe sprite (spinning frames) or low-poly mesh |
 | Magic wand view model | `weapons/magic_wand/magic_wand.tscn` | `BoxMesh` wand with a pale-blue tip; cast is a forward thrust | Wand sprite or low-poly mesh with cast animation |
+| Healing wand view model | `weapons/healing_wand/healing_wand.tscn` | `BoxMesh` wand with a green tip | Wand sprite or low-poly mesh with cast animation |
+| Armor spell view model | `weapons/armor_spell/armor_spell.tscn` | `BoxMesh` amulet plate with a gold gem | Amulet/rune sprite with cast animation |
 | Fire staff view model | `weapons/fire_staff/fire_staff.tscn` | `BoxMesh` shaft and orange orb; cast is a forward thrust | Staff sprite or low-poly mesh with cast animation |
 | Fireball projectile | `spells/fireball/fireball.tscn` | Flat orange billboarded `QuadMesh` | Animated fireball sprite |
 | Fireball explosion | `spells/fireball/fireball_explosion.tscn` | Growing, fading orange billboarded `QuadMesh` | Explosion sprite animation |
@@ -40,6 +42,9 @@ before shipping. Note the license of every replacement asset.
 | Great demon roar | `GreatDemonPhases.roar_sound` | None (silent); only a flash | Roar SFX (and optional screen shake) on each destroyed obelisk |
 | Enemy sounds | `EnemyData.alert_sound` (bandit, archer, mercenary) | None (silent); `Voice` player exists but no streams assigned | Alert/sight, attack, pain, death SFX per enemy; armor clank on resisted hits |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
+| Armor spell screen tint | `ui/hud.tscn` (`ArmorTint`) | Flat gold `ColorRect`; blinks in the last second | Keep or restyle (gold/silver frame) |
+| Heal flash | `ui/hud.gd` (`heal_flash_color`) | Green version of the damage flash | Keep or restyle |
+| Self-spell sounds | — | None (silent) | Heal cast, armor cast, armor fading SFX |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
 | Death prompt | `ui/hud.tscn` | Default-font `Label` ("Hit Enter to respawn") | Proper death screen |
 | Intermission screen | `ui/intermission.tscn` | Flat dark `ColorRect` with default-font stat `Label`s | Styled stats screen (background art, font, tally-up animation) |

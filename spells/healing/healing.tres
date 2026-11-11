@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpellData" format=3]
+
+[ext_resource type="Script" path="res://spells/spell_data.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Wand of Healing"
+id = &"healing"
+slot = 5
+damage = 0.0
+cooldown = 0.8
+windup = 0.0
+ammo_type = &"mana"
+ammo_cost = 20
+self_effect = 1
+effect_amount = 10.0

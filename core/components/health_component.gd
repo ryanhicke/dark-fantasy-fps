@@ -16,6 +16,9 @@ const NODE_NAME: StringName = &"HealthComponent"
 ## Optional. Scales incoming damage by type. Null takes all damage as-is.
 @export var resistances: DamageResistances
 
+## While true, all damage is ignored (the armor spell; see Invulnerability).
+var invulnerable: bool = false
+
 var current_health: float = 0.0
 
 
@@ -42,7 +45,7 @@ func take_damage(amount: float, type: Damage.Type, source: Node) -> void:
 	# Ignoring hits on the dead prevents double kills (and double died signals)
 	# when several attacks land in the same frame. Immune hits (0) are ignored
 	# entirely, so they don't cause pain or wake anything.
-	if amount <= 0.0 or is_dead():
+	if amount <= 0.0 or is_dead() or invulnerable:
 		return
 	var applied: float = minf(amount, current_health)
 	current_health -= applied
@@ -50,6 +53,18 @@ func take_damage(amount: float, type: Damage.Type, source: Node) -> void:
 	health_changed.emit(current_health, max_health)
 	if is_dead():
 		died.emit(source)
+
+
+## Restores up to [param amount], capped at max. Returns how much was
+## actually restored. The dead can't be healed.
+func heal(amount: float) -> float:
+	if amount <= 0.0 or is_dead():
+		return 0.0
+	var restored: float = minf(amount, max_health - current_health)
+	if restored > 0.0:
+		current_health += restored
+		health_changed.emit(current_health, max_health)
+	return restored
 
 
 func reset() -> void:

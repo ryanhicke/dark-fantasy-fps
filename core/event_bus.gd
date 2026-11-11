@@ -17,6 +17,17 @@ signal player_health_changed(current: float, maximum: float)
 @warning_ignore("unused_signal")
 signal player_died
 
+@warning_ignore("unused_signal")
+signal player_healed(amount: float)
+
+## The armor spell started (true) or wore off (false).
+@warning_ignore("unused_signal")
+signal player_invulnerability_changed(active: bool)
+
+## The armor spell is about to wear off (Invulnerability.warning_time left).
+@warning_ignore("unused_signal")
+signal player_invulnerability_ending
+
 ## Emitted when the player asks to respawn after dying.
 @warning_ignore("unused_signal")
 signal player_respawn_requested

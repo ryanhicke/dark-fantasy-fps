@@ -55,6 +55,7 @@ var _is_dead: bool = false
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _use_cast: RayCast3D = $Head/Camera3D/UseCast
 @onready var _inventory: Inventory = $Inventory
+@onready var _invulnerability: Invulnerability = $Invulnerability
 
 
 func _enter_tree() -> void:
@@ -149,6 +150,7 @@ func _on_health_changed(current: float, maximum: float) -> void:
 
 func _on_died(_source: Node) -> void:
 	_is_dead = true
+	_invulnerability.stop()
 	# Disabling the holder stops weapon input and any attack in progress.
 	_weapon_holder.process_mode = Node.PROCESS_MODE_DISABLED
 	_weapon_holder.visible = false
@@ -164,6 +166,26 @@ func _try_use() -> void:
 	var target: Node = _use_cast.get_collider() as Node
 	if target != null and target.has_method(&"use"):
 		target.call(&"use", self)
+
+
+func can_heal() -> bool:
+	return not _health.is_dead() and _health.current_health < _health.max_health
+
+
+## Returns true if any health was restored.
+func heal(amount: float) -> bool:
+	var restored: float = _health.heal(amount)
+	if restored > 0.0:
+		EventBus.player_healed.emit(restored)
+	return restored > 0.0
+
+
+func is_invulnerable() -> bool:
+	return _invulnerability.is_active()
+
+
+func make_invulnerable(seconds: float) -> void:
+	_invulnerability.start(seconds)
 
 
 ## Adds [param weapon] and its pickup ammo. Returns true if anything was

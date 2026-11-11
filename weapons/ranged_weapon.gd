@@ -37,7 +37,7 @@ func _tick(delta: float) -> void:
 	if _charging:
 		_charge_elapsed = minf(_charge_elapsed + delta, data.charge_time)
 		_update_draw_pose()
-	elif _trigger_held and can_attack() and has_ammo():
+	elif _trigger_held and can_attack() and has_ammo() and _can_fire():
 		if data.charge_time > 0.0:
 			_charging = true
 			_charge_elapsed = 0.0
@@ -70,6 +70,9 @@ func _fire(charge: float) -> void:
 	if data.charge_time > 0.0:
 		damage = lerpf(data.damage, data.max_charge_damage, charge)
 		speed = lerpf(data.projectile_speed, data.max_charge_speed, charge)
+	if data.projectile_scene == null:
+		_fire_without_projectile()
+		return
 	var projectile: Projectile = data.projectile_scene.instantiate() as Projectile
 	# Parent to the level (the player's parent), not the weapon, so the
 	# projectile doesn't move with the camera and is freed with the level.
@@ -85,6 +88,18 @@ func _fire(charge: float) -> void:
 	)
 	projectile.apply_weapon_data(data)
 	_on_projectile_launched(projectile)
+
+
+## Override to refuse firing for reasons other than cooldown and ammo
+## (e.g. a healing spell at full health), so nothing is spent.
+func _can_fire() -> bool:
+	return true
+
+
+## Override for weapons whose data has no projectile_scene (self spells,
+## hitscan). Ammo and cooldown are already spent when this runs.
+func _fire_without_projectile() -> void:
+	pass
 
 
 ## Override for per-shot extras, e.g. a homing spell picking its target.

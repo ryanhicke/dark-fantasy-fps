@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" path="res://levels/entities/weapon_francisca.tscn" id="45_pickup"]
 [ext_resource type="PackedScene" path="res://levels/entities/ammo_axes.tscn" id="46_pickup"]
 [ext_resource type="PackedScene" path="res://levels/entities/weapon_magic_wand.tscn" id="47_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_healing_wand.tscn" id="48_pickup"]
+[ext_resource type="PackedScene" path="res://levels/entities/weapon_armor_spell.tscn" id="49_pickup"]
 
 [sub_resource type="Environment" id="Environment_gallery"]
 background_mode = 1
@@ -434,6 +436,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -10)
 
 [node name="MagicWandPickup" parent="Pickups" instance=ExtResource("47_pickup")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -10)
+
+[node name="HealingWandPickup" parent="Pickups" instance=ExtResource("48_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -7)
+
+[node name="ArmorSpellPickup" parent="Pickups" instance=ExtResource("49_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -7)
 
 [node name="Enemies" type="Node3D" parent="."]
 
