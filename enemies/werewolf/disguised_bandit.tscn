@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://enemies/bandit/bandit.tscn" id="1_disguise"]
+[ext_resource type="Resource" path="res://enemies/werewolf/disguised_bandit.tres" id="2_data"]
+
+[node name="DisguisedBandit" instance=ExtResource("1_disguise")]
+data = ExtResource("2_data")

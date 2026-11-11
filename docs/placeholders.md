@@ -22,6 +22,8 @@ before shipping. Note the license of every replacement asset.
 | Bandit sprite | `enemies/bandit/bandit.tscn` | Brown flat-color billboarded `QuadMesh`; color changes for windup/pain, squashed quad for corpse | Sprite sheet (idle/walk/attack/pain/death frames) |
 | Bandit archer sprite | `enemies/bandit_archer/bandit_archer.tscn` | Green flat-color billboarded `QuadMesh` (same color cues as the bandit); fires the player's placeholder arrow | Sprite sheet (idle/walk/draw/shoot/pain/death frames) |
 | Armored mercenary sprite | `enemies/armored_mercenary/armored_mercenary.tscn` | Steel-gray, slightly wider flat-color billboarded `QuadMesh` (same color cues) | Sprite sheet (idle/walk/attack/pain/death frames) |
+| Werewolf sprite | `enemies/werewolf/werewolf.tscn`, `EnemyData.placeholder_color` | Purple-gray, larger flat-color billboarded `QuadMesh`; disguised werewolves reuse the human placeholders and retint on rising | Sprite sheet (idle/run/attack/pain/death), plus a human-to-wolf transformation animation |
+| Werewolf growl / howl | `EnemyData.alert_sound` on `enemies/werewolf/*.tres` | None (silent), so disguised werewolves are currently indistinguishable from humans | Growl for disguised wake-up (must be clearly different from the human alert), howl when rising |
 | Enemy sounds | `EnemyData.alert_sound` (bandit, archer, mercenary) | None (silent); `Voice` player exists but no streams assigned | Alert/sight, attack, pain, death SFX per enemy; armor clank on resisted hits |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |

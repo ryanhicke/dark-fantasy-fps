@@ -8,6 +8,9 @@ extends Resource
 ## Armor, resistances, and weaknesses by damage type. Null means no
 ## modifiers. Shared by every enemy using this data.
 @export var resistances: DamageResistances
+## Stand-in for sprite frames until real art exists: tints the placeholder
+## quad. Alpha 0 keeps the scene's material color.
+@export var placeholder_color: Color = Color(0.0, 0.0, 0.0, 0.0)
 
 @export_group("Movement")
 ## Chase speed in m/s. Keep well below the player's so they can kite.
@@ -44,6 +47,14 @@ extends Resource
 @export_group("Sounds")
 ## Played once when the enemy wakes up. Null is silent.
 @export var alert_sound: AudioStream
+
+@export_group("Second Phase")
+## If set, a lethal hit doesn't kill: the enemy collapses, then rises in
+## place with this data (e.g. a disguised werewolf). Only the final death
+## counts as a kill.
+@export var revive_as: EnemyData
+## Seconds spent lying down before rising as [member revive_as].
+@export var revive_delay: float = 1.2
 
 @export_group("Pain")
 ## 0..1 chance that a non-lethal hit staggers the enemy, cancelling its attack.

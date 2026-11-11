@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://core/components/damage_resistances.gd" id="2_resist"]
+
+[sub_resource type="Resource" id="Resource_fur"]
+script = ExtResource("2_resist")
+slash = 1.0
+pierce = 1.0
+blunt = 1.0
+fire = 1.75
+lightning = 1.0
+
+[resource]
+script = ExtResource("1_data")
+display_name = "Werewolf"
+max_health = 45.0
+resistances = SubResource("Resource_fur")
+placeholder_color = Color(0.35, 0.28, 0.42, 1)
+move_speed = 6.5
+sight_range = 25.0
+attack_range = 1.9
+attack_damage = 22.0
+attack_damage_type = 0
+attack_windup = 0.35
+attack_recovery = 0.5
+pain_chance = 0.6
+pain_duration = 0.3

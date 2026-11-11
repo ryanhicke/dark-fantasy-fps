@@ -48,21 +48,30 @@ func _ready() -> void:
 		push_error("%s: no EnemyData assigned." % name)
 		set_physics_process(false)
 		return
+	_health.damaged.connect(_on_damaged)
+	_health.died.connect(_on_died)
+	_sight_cast.enabled = false
+	_sight_cast.add_exception(self)
+	_base_color = _material.albedo_color
+	_apply_data()
+	_sight_timer = randf() * SIGHT_CHECK_INTERVAL
+	# Deferred: in map levels the player is spawned by the Level root, whose
+	# _ready runs after its children's.
+	_acquire_target.call_deferred()
+
+
+## (Re)builds everything that depends on [member data]. Runs at spawn and
+## again when a second phase takes over the same node.
+func _apply_data() -> void:
 	_brain = EnemyBrain.new(data)
 	_brain.state_changed.connect(_on_brain_state_changed)
 	_brain.attack_struck.connect(_on_brain_attack_struck)
 	_health.max_health = data.max_health
 	_health.resistances = data.resistances
 	_health.reset()
-	_health.damaged.connect(_on_damaged)
-	_health.died.connect(_on_died)
-	_sight_cast.enabled = false
-	_sight_cast.add_exception(self)
-	_base_color = _material.albedo_color
-	_sight_timer = randf() * SIGHT_CHECK_INTERVAL
-	# Deferred: in map levels the player is spawned by the Level root, whose
-	# _ready runs after its children's.
-	_acquire_target.call_deferred()
+	if data.placeholder_color.a > 0.0:
+		_base_color = data.placeholder_color
+	_set_color(_base_color)
 
 
 ## One group lookup at spawn, never per frame. Levels are reloaded on
@@ -132,7 +141,26 @@ func _on_died(_source: Node) -> void:
 	_collision.set_deferred("disabled", true)
 	var collapse: Tween = create_tween()
 	collapse.tween_property(_sprite, "scale:y", corpse_height_scale, corpse_collapse_time)
+	if data.revive_as != null:
+		# Same node rises again, so there is no spawn (and no stutter), and
+		# the level's enemy count stays one per node.
+		collapse.tween_interval(data.revive_delay)
+		collapse.tween_callback(_rise_as.bind(data.revive_as))
+		return
 	EventBus.enemy_killed.emit(self)
+
+
+func _rise_as(next_data: EnemyData) -> void:
+	data = next_data
+	_apply_data()
+	velocity = Vector3.ZERO
+	_collision.disabled = false
+	set_physics_process(true)
+	var rise: Tween = create_tween()
+	rise.tween_property(_sprite, "scale:y", 1.0, corpse_collapse_time)
+	# It rises already hunting: no sight check needed. Waking plays its
+	# alert sound (the werewolf's howl).
+	_brain.wake()
 
 
 func _on_brain_state_changed(new_state: EnemyBrain.State, old_state: EnemyBrain.State) -> void:

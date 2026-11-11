@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_point"]
+[ext_resource type="PackedScene" path="res://enemies/werewolf/disguised_bandit.tscn" id="2_bandit"]
+
+[resource]
+script = ExtResource("1_point")
+classname = "monster_werewolf_bandit"
+description = "Werewolf disguised as a bandit; growls, rises as a werewolf when killed. Place it on the floor."
+meta_properties = Dictionary[String, Variant]({
+"color": Color(0.9, 0.2, 0.2, 1),
+"size": AABB(-13, -13, 0, 13, 13, 58)
+})
+scene_file = ExtResource("2_bandit")
