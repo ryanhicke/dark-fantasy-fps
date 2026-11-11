@@ -7,7 +7,7 @@ extends Resource
 
 @export_group("Damage")
 @export var damage: float = 10.0
-@export var damage_type: Damage.Type = Damage.Type.PHYSICAL
+@export var damage_type: Damage.Type = Damage.Type.SLASH
 
 @export_group("Timing")
 ## Seconds from the start of one attack to the earliest start of the next.

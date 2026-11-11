@@ -2,7 +2,9 @@
 
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://enemies/training_dummy/training_dummy.tscn" id="2_dummy"]
-[ext_resource type="PackedScene" path="res://enemies/ghoul/ghoul.tscn" id="3_ghoul"]
+[ext_resource type="PackedScene" path="res://enemies/bandit/bandit.tscn" id="3_bandit"]
+[ext_resource type="PackedScene" path="res://enemies/bandit_archer/bandit_archer.tscn" id="6_bandit_archer"]
+[ext_resource type="PackedScene" path="res://enemies/armored_mercenary/armored_mercenary.tscn" id="7_armored_mercenary"]
 [ext_resource type="Script" path="res://levels/level.gd" id="4_level"]
 [ext_resource type="Script" path="res://levels/entities/exit_trigger.gd" id="5_exit"]
 
@@ -137,14 +139,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -4)
 [node name="DummyFar" parent="." instance=ExtResource("2_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -11)
 
-[node name="GhoulAhead" parent="." instance=ExtResource("3_ghoul")]
+[node name="BanditAhead" parent="." instance=ExtResource("3_bandit")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -12)
 
-[node name="GhoulSide" parent="." instance=ExtResource("3_ghoul")]
+[node name="MercenarySide" parent="." instance=ExtResource("7_armored_mercenary")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 3)
 
-[node name="GhoulHidden" parent="." instance=ExtResource("3_ghoul")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -12.5)
+[node name="ArcherOnPlatform" parent="." instance=ExtResource("6_bandit_archer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, -10)
 
 [node name="PlayerStart" type="Marker3D" parent="." groups=["player_start"]]
 

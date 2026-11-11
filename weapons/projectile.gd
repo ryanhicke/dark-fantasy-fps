@@ -14,7 +14,7 @@ extends Node3D
 var velocity: Vector3 = Vector3.ZERO
 var gravity: float = 0.0
 var damage: float = 0.0
-var damage_type: Damage.Type = Damage.Type.PHYSICAL
+var damage_type: Damage.Type = Damage.Type.PIERCE
 var source: Node = null
 
 var _age: float = 0.0
@@ -52,6 +52,21 @@ func apply_weapon_data(_weapon_data: WeaponData) -> void:
 ## math the game uses.
 static func integrate_velocity(current: Vector3, gravity_strength: float, delta: float) -> Vector3:
 	return current + Vector3.DOWN * gravity_strength * delta
+
+
+## Launch velocity that flies from [param from] toward [param to] at
+## [param speed], aimed up just enough to cancel [param gravity_strength]
+## over the flight. Ignores target movement (Doom-style: dodging works).
+static func aim_velocity(from: Vector3, to: Vector3, speed: float, gravity_strength: float) -> Vector3:
+	var offset: Vector3 = to - from
+	var distance: float = offset.length()
+	if distance <= 0.0 or speed <= 0.0:
+		return Vector3.ZERO
+	var velocity: Vector3 = offset / distance * speed
+	# The drop over the flight time t is g*t²/2; an extra upward g*t/2 at
+	# launch cancels it at the target. Exact enough at enemy ranges.
+	velocity.y += gravity_strength * (distance / speed) * 0.5
+	return velocity
 
 
 func _physics_process(delta: float) -> void:

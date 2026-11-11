@@ -46,8 +46,9 @@ func wake() -> void:
 		_change_state(State.CHASE)
 
 
-## Advance one tick. [param can_see] only matters while idle; once awake the
-## enemy chases relentlessly, Doom-style.
+## Advance one tick. Once awake the enemy chases relentlessly, Doom-style.
+## [param can_see] wakes an idle enemy; ranged enemies also need it to
+## start an attack, so they don't shoot into walls.
 func update(delta: float, distance: float, can_see: bool, target_alive: bool) -> void:
 	match state:
 		State.IDLE:
@@ -56,7 +57,7 @@ func update(delta: float, distance: float, can_see: bool, target_alive: bool) ->
 		State.CHASE:
 			if not target_alive:
 				_change_state(State.IDLE)
-			elif distance <= data.attack_range:
+			elif distance <= data.attack_range and (can_see or not data.is_ranged()):
 				_start_attack()
 		State.ATTACK:
 			_time_left -= delta

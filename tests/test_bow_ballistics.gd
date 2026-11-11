@@ -45,3 +45,17 @@ func test_full_draw_reaches_about_110_yards() -> void:
 func test_full_draw_takes_one_and_a_half_seconds_and_hits_harder() -> void:
 	assert_eq(_bow.charge_time, FULL_DRAW_TIME)
 	assert_gt(_bow.max_charge_damage, _bow.damage)
+
+
+## Enemy archers aim with Projectile.aim_velocity; the arrow should arrive
+## near the aim point despite gravity.
+func test_aim_velocity_compensates_for_gravity() -> void:
+	var start: Vector3 = Vector3(0.0, 1.4, 0.0)
+	var target: Vector3 = Vector3(0.0, 1.2, -18.0)
+	var speed: float = 25.0
+	var velocity: Vector3 = Projectile.aim_velocity(start, target, speed, _bow.projectile_gravity)
+	var position: Vector3 = start
+	while position.z > target.z:
+		velocity = Projectile.integrate_velocity(velocity, _bow.projectile_gravity, PHYSICS_DELTA)
+		position += velocity * PHYSICS_DELTA
+	assert_almost_eq(position.y, target.y, 0.15)

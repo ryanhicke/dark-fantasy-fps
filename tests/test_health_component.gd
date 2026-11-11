@@ -18,7 +18,7 @@ func test_starts_at_max_health() -> void:
 
 
 func test_damage_reduces_health() -> void:
-	_health.take_damage(25.0, Damage.Type.PHYSICAL, null)
+	_health.take_damage(25.0, Damage.Type.SLASH, null)
 	assert_eq(_health.current_health, 75.0)
 
 
@@ -29,38 +29,38 @@ func test_damaged_signal_reports_amount_and_type() -> void:
 
 
 func test_overkill_clamps_to_zero_and_reports_applied_amount() -> void:
-	_health.take_damage(250.0, Damage.Type.PHYSICAL, null)
+	_health.take_damage(250.0, Damage.Type.SLASH, null)
 	assert_eq(_health.current_health, 0.0)
 	assert_true(_health.is_dead())
-	assert_signal_emitted_with_parameters(_health, "damaged", [MAX_HEALTH, Damage.Type.PHYSICAL, null])
+	assert_signal_emitted_with_parameters(_health, "damaged", [MAX_HEALTH, Damage.Type.SLASH, null])
 
 
 func test_died_emits_exactly_once() -> void:
-	_health.take_damage(100.0, Damage.Type.PHYSICAL, null)
-	_health.take_damage(50.0, Damage.Type.PHYSICAL, null)
+	_health.take_damage(100.0, Damage.Type.SLASH, null)
+	_health.take_damage(50.0, Damage.Type.SLASH, null)
 	assert_signal_emit_count(_health, "died", 1)
 
 
 func test_damage_after_death_is_ignored() -> void:
-	_health.take_damage(100.0, Damage.Type.PHYSICAL, null)
-	_health.take_damage(50.0, Damage.Type.PHYSICAL, null)
+	_health.take_damage(100.0, Damage.Type.SLASH, null)
+	_health.take_damage(50.0, Damage.Type.SLASH, null)
 	assert_eq(_health.current_health, 0.0)
 	assert_signal_emit_count(_health, "damaged", 1)
 
 
 func test_zero_and_negative_damage_are_ignored() -> void:
-	_health.take_damage(0.0, Damage.Type.PHYSICAL, null)
-	_health.take_damage(-10.0, Damage.Type.PHYSICAL, null)
+	_health.take_damage(0.0, Damage.Type.SLASH, null)
+	_health.take_damage(-10.0, Damage.Type.SLASH, null)
 	assert_eq(_health.current_health, MAX_HEALTH)
 	assert_signal_not_emitted(_health, "damaged")
 
 
 func test_reset_restores_health_and_allows_damage_again() -> void:
-	_health.take_damage(100.0, Damage.Type.PHYSICAL, null)
+	_health.take_damage(100.0, Damage.Type.SLASH, null)
 	_health.reset()
 	assert_eq(_health.current_health, MAX_HEALTH)
 	assert_false(_health.is_dead())
-	_health.take_damage(10.0, Damage.Type.PHYSICAL, null)
+	_health.take_damage(10.0, Damage.Type.SLASH, null)
 	assert_eq(_health.current_health, 90.0)
 
 
@@ -84,3 +84,29 @@ func test_set_health_clamps_and_never_counts_as_damage() -> void:
 	assert_eq(_health.current_health, MAX_HEALTH)
 	assert_signal_not_emitted(_health, "damaged")
 	assert_signal_not_emitted(_health, "died")
+
+
+func test_resistance_scales_damage_and_signal() -> void:
+	var armor: DamageResistances = DamageResistances.new()
+	armor.slash = 0.5
+	_health.resistances = armor
+	_health.take_damage(40.0, Damage.Type.SLASH, null)
+	assert_eq(_health.current_health, MAX_HEALTH - 20.0)
+	assert_signal_emitted_with_parameters(_health, "damaged", [20.0, Damage.Type.SLASH, null])
+
+
+func test_weakness_increases_damage() -> void:
+	var hide: DamageResistances = DamageResistances.new()
+	hide.fire = 1.5
+	_health.resistances = hide
+	_health.take_damage(20.0, Damage.Type.FIRE, null)
+	assert_eq(_health.current_health, MAX_HEALTH - 30.0)
+
+
+func test_immune_type_is_ignored() -> void:
+	var ward: DamageResistances = DamageResistances.new()
+	ward.pierce = 0.0
+	_health.resistances = ward
+	_health.take_damage(50.0, Damage.Type.PIERCE, null)
+	assert_eq(_health.current_health, MAX_HEALTH)
+	assert_signal_not_emitted(_health, "damaged")

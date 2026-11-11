@@ -7,7 +7,7 @@
 script = ExtResource("1_data")
 display_name = "Bow"
 damage = 15.0
-damage_type = 0
+damage_type = 3
 cooldown = 0.6
 windup = 0.0
 ammo_type = &"arrows"

@@ -218,11 +218,11 @@
 "key_type" "0"
 }
 {
-"classname" "monster_ghoul"
+"classname" "monster_bandit"
 "origin" "832 320 0"
 }
 {
-"classname" "monster_ghoul"
+"classname" "monster_bandit"
 "origin" "256 832 0"
 }
 {

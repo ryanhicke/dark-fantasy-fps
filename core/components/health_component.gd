@@ -13,6 +13,8 @@ signal died(source: Node)
 const NODE_NAME: StringName = &"HealthComponent"
 
 @export var max_health: float = 100.0
+## Optional. Scales incoming damage by type. Null takes all damage as-is.
+@export var resistances: DamageResistances
 
 var current_health: float = 0.0
 
@@ -32,9 +34,14 @@ func is_dead() -> bool:
 	return current_health <= 0.0
 
 
+## [param amount] is the raw hit; resistances are applied here, so every
+## damage source respects them. The damaged signal reports the scaled amount.
 func take_damage(amount: float, type: Damage.Type, source: Node) -> void:
+	if resistances != null:
+		amount *= resistances.multiplier_for(type)
 	# Ignoring hits on the dead prevents double kills (and double died signals)
-	# when several attacks land in the same frame.
+	# when several attacks land in the same frame. Immune hits (0) are ignored
+	# entirely, so they don't cause pain or wake anything.
 	if amount <= 0.0 or is_dead():
 		return
 	var applied: float = minf(amount, current_health)

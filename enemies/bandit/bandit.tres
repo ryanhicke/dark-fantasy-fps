@@ -4,9 +4,9 @@
 
 [resource]
 script = ExtResource("1_data")
-display_name = "Ghoul"
-max_health = 60.0
-move_speed = 4.0
+display_name = "Bandit"
+max_health = 50.0
+move_speed = 4.5
 sight_range = 20.0
 attack_range = 1.8
 attack_damage = 10.0

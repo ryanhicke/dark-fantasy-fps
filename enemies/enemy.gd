@@ -6,6 +6,7 @@ extends CharacterBody3D
 ## Expects children: CollisionShape3D, Sprite (MeshInstance3D with a
 ## billboard material_override), HealthComponent, and SightCast (RayCast3D).
 ## The material must be local to scene so color changes stay per-enemy.
+## Optional child: Voice (AudioStreamPlayer3D) for EnemyData sounds.
 
 ## Seconds between line-of-sight checks while idle. Each enemy starts at a
 ## random offset, so a room full of enemies doesn't raycast on the same frame.
@@ -39,6 +40,7 @@ var _color_tween: Tween
 @onready var _material: StandardMaterial3D = _sprite.get_active_material(0) as StandardMaterial3D
 @onready var _collision: CollisionShape3D = $CollisionShape3D
 @onready var _sight_cast: RayCast3D = $SightCast
+@onready var _voice: AudioStreamPlayer3D = get_node_or_null("Voice") as AudioStreamPlayer3D
 
 
 func _ready() -> void:
@@ -50,6 +52,7 @@ func _ready() -> void:
 	_brain.state_changed.connect(_on_brain_state_changed)
 	_brain.attack_struck.connect(_on_brain_attack_struck)
 	_health.max_health = data.max_health
+	_health.resistances = data.resistances
 	_health.reset()
 	_health.damaged.connect(_on_damaged)
 	_health.died.connect(_on_died)
@@ -79,8 +82,9 @@ func _physics_process(delta: float) -> void:
 		distance = global_position.distance_to(_target.global_position)
 		target_alive = _target_health == null or not _target_health.is_dead()
 
-	# Sight only matters for waking up, so awake enemies skip the raycast.
-	if _brain.state == EnemyBrain.State.IDLE and _target != null:
+	# Melee enemies only need sight to wake up, so once awake they skip the
+	# raycast. Ranged enemies keep checking so they never shoot into walls.
+	if _target != null and (_brain.state == EnemyBrain.State.IDLE or data.is_ranged()):
 		_update_sight(delta, distance)
 	_brain.update(delta, distance, _can_see_target, target_alive)
 
@@ -131,14 +135,49 @@ func _on_died(_source: Node) -> void:
 	EventBus.enemy_killed.emit(self)
 
 
-func _on_brain_state_changed(_new_state: EnemyBrain.State, _old_state: EnemyBrain.State) -> void:
+func _on_brain_state_changed(new_state: EnemyBrain.State, old_state: EnemyBrain.State) -> void:
 	_set_color(_state_color())
+	if old_state == EnemyBrain.State.IDLE and new_state == EnemyBrain.State.CHASE:
+		_play_sound(data.alert_sound)
 
 
 func _on_brain_attack_struck(hit: bool) -> void:
 	_set_color(_state_color())
-	if hit and _target_health != null:
+	if not hit:
+		return
+	if data.is_ranged():
+		_fire_projectile()
+	elif _target_health != null:
 		_target_health.take_damage(data.attack_damage, data.attack_damage_type, self)
+
+
+func _fire_projectile() -> void:
+	if _target == null:
+		return
+	var projectile: Projectile = data.projectile_scene.instantiate() as Projectile
+	if projectile == null:
+		push_error("%s: projectile_scene is not a Projectile." % name)
+		return
+	# Parent to the level, not the enemy, so the shot outlives the shooter
+	# and is freed with the level.
+	get_parent().add_child(projectile)
+	var muzzle: Vector3 = global_position + Vector3.UP * data.muzzle_height
+	var aim_point: Vector3 = _target.global_position + Vector3.UP * target_aim_height
+	projectile.launch(
+		muzzle,
+		Projectile.aim_velocity(muzzle, aim_point, data.projectile_speed, data.projectile_gravity),
+		data.projectile_gravity,
+		data.attack_damage,
+		data.attack_damage_type,
+		self
+	)
+
+
+func _play_sound(stream: AudioStream) -> void:
+	if stream == null or _voice == null:
+		return
+	_voice.stream = stream
+	_voice.play()
 
 
 func _state_color() -> Color:

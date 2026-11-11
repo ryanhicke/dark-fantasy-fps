@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cyg2snr1w5xw5" path="res://addons/func_godot/textures/default_texture.png" id="5_65nex"]
 [ext_resource type="Script" uid="uid://4e76f1s886gu" path="res://levels/entities/door.gd" id="6_sny2n"]
 [ext_resource type="PackedScene" path="res://levels/entities/key_pickup.tscn" id="7_t7d2f"]
-[ext_resource type="PackedScene" path="res://enemies/ghoul/ghoul.tscn" id="8_os43c"]
+[ext_resource type="PackedScene" path="res://enemies/bandit/bandit.tscn" id="8_os43c"]
 [ext_resource type="Script" uid="uid://q8ncl7uya8w1" path="res://levels/entities/exit_trigger.gd" id="9_jn1ww"]
 
 [sub_resource type="Environment" id="Environment_map"]
@@ -318,10 +318,10 @@ func_godot_properties = Dictionary[String, Variant]({
 "origin": "960 256 0"
 })
 
-[node name="entity_5_monster_ghoul" parent="FuncGodotMap" unique_id=1775299667 instance=ExtResource("8_os43c")]
+[node name="entity_5_monster_bandit" parent="FuncGodotMap" unique_id=1775299667 instance=ExtResource("8_os43c")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 10, 0, 26)
 
-[node name="entity_6_monster_ghoul" parent="FuncGodotMap" unique_id=1096630059 instance=ExtResource("8_os43c")]
+[node name="entity_6_monster_bandit" parent="FuncGodotMap" unique_id=1096630059 instance=ExtResource("8_os43c")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 26, 0, 8)
 
 [node name="entity_7_trigger_exit" type="Area3D" parent="FuncGodotMap" unique_id=1057994559]

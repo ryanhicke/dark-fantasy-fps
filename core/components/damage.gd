@@ -1,10 +1,14 @@
 class_name Damage
 extends RefCounted
-## Shared damage vocabulary. Every hit carries a type so armor and
-## resistances can be added later without changing the call sites.
+## Shared damage vocabulary. Every hit carries a type so armor, resistances,
+## and weaknesses (DamageResistances) can scale it.
 
+## Values are explicit and must never be renumbered: .tres files store the
+## number, not the name. SLASH keeps 0 because it replaced the old PHYSICAL.
 enum Type {
-	PHYSICAL,
-	FIRE,
-	LIGHTNING,
+	SLASH = 0,
+	FIRE = 1,
+	LIGHTNING = 2,
+	PIERCE = 3,
+	BLUNT = 4,
 }

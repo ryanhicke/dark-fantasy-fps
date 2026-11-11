@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="FuncGodotFGDPointClass" format=3]
 
 [ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_point"]
-[ext_resource type="PackedScene" path="res://enemies/ghoul/ghoul.tscn" id="2_ghoul"]
+[ext_resource type="PackedScene" path="res://enemies/bandit_archer/bandit_archer.tscn" id="2_bandit_archer"]
 
 [resource]
 script = ExtResource("1_point")
-classname = "monster_ghoul"
-description = "Melee ghoul. Place it on the floor."
+classname = "monster_bandit_archer"
+description = "Ranged bandit with a bow. Place it on the floor."
 meta_properties = Dictionary[String, Variant]({
 "color": Color(0.9, 0.2, 0.2, 1),
 "size": AABB(-13, -13, 0, 13, 13, 58)
 })
-scene_file = ExtResource("2_ghoul")
+scene_file = ExtResource("2_bandit_archer")

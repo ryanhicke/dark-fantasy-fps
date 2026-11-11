@@ -19,8 +19,10 @@ before shipping. Note the license of every replacement asset.
 | Map textures | `assets/maps/test_map.map` (`base/wall`, `base/floor`, `base/ceiling`, `base/door`, `base/door_gold`) | None: FuncGodot default checker | 64x64 or 128x128 PNGs in `assets/textures/base/` |
 | Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key") | Styled HUD and key icons |
 | Door and pickup sounds | — | None (silent) | Door open/close/locked, key pickup SFX |
-| Ghoul sprite | `enemies/ghoul/ghoul.tscn` | Flat-color billboarded `QuadMesh`; color changes for windup/pain, squashed quad for corpse | Sprite sheet (idle/walk/attack/pain/death frames) |
-| Ghoul sounds | — | None (silent) | Sight, attack, pain, death SFX |
+| Bandit sprite | `enemies/bandit/bandit.tscn` | Brown flat-color billboarded `QuadMesh`; color changes for windup/pain, squashed quad for corpse | Sprite sheet (idle/walk/attack/pain/death frames) |
+| Bandit archer sprite | `enemies/bandit_archer/bandit_archer.tscn` | Green flat-color billboarded `QuadMesh` (same color cues as the bandit); fires the player's placeholder arrow | Sprite sheet (idle/walk/draw/shoot/pain/death frames) |
+| Armored mercenary sprite | `enemies/armored_mercenary/armored_mercenary.tscn` | Steel-gray, slightly wider flat-color billboarded `QuadMesh` (same color cues) | Sprite sheet (idle/walk/attack/pain/death frames) |
+| Enemy sounds | `EnemyData.alert_sound` (bandit, archer, mercenary) | None (silent); `Voice` player exists but no streams assigned | Alert/sight, attack, pain, death SFX per enemy; armor clank on resisted hits |
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
 | Death prompt | `ui/hud.tscn` | Default-font `Label` ("Hit Enter to respawn") | Proper death screen |

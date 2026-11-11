@@ -155,3 +155,19 @@ func test_state_changed_reports_new_and_old() -> void:
 	)
 	_brain.wake()
 	assert_eq(changes, [[EnemyBrain.State.CHASE, EnemyBrain.State.IDLE]] as Array[Array])
+
+
+func test_ranged_waits_for_sight_before_attacking() -> void:
+	_brain.data.projectile_scene = PackedScene.new()
+	_brain.data.attack_range = MID + 1.0
+	_brain.wake()
+	_run(1.0, MID, false)
+	assert_eq(_brain.state, EnemyBrain.State.CHASE, "no sight: keeps chasing")
+	_run(STEP, MID, true)
+	assert_eq(_brain.state, EnemyBrain.State.ATTACK)
+
+
+func test_melee_attacks_without_fresh_sight() -> void:
+	_brain.wake()
+	_run(STEP, NEAR, false)
+	assert_eq(_brain.state, EnemyBrain.State.ATTACK)
