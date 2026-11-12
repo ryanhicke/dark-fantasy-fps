@@ -12,6 +12,11 @@ const MAIN_SCENE_PATH: String = "res://main.tscn"
 @export var player_scene: PackedScene
 ## Name shown on the intermission screen. Empty uses the root node's name.
 @export var display_name: String = ""
+## Two to four lines of story shown under the stats when this level ends.
+@export_multiline var intermission_text: String = ""
+## Shown on its own page after the final intermission. Only the last level
+## sets this.
+@export_multiline var ending_text: String = ""
 ## Looping track for this level (tick Loop in the Import dock). Empty fades
 ## the previous music out.
 @export var music: AudioStream
@@ -28,6 +33,8 @@ func _ready() -> void:
 		_run_inside_main.call_deferred()
 		return
 	_stats.level_name = get_display_name()
+	_stats.story_text = intermission_text
+	_stats.ending_text = ending_text
 	_stats.total_kills = _count_enemies(self)
 	# No secret entities exist yet, so total_secrets stays 0.
 	EventBus.enemy_killed.connect(_on_enemy_killed)

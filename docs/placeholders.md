@@ -38,7 +38,7 @@ before shipping. Note the license of every replacement asset.
 | Boss portals (Levels 6, 8) | `levels/entities/exit_trigger.gd` (boss = 1) | Flat unshaded red `BoxMesh` filling the exit brush once the boss dies | Portal sprite or animated texture, portal open SFX. Sound: `portal_open` in `core/game_sounds.tres`. |
 | Level 7 view of the great demon | `assets/maps/level_07.map` | A dark red brush block for the demon and a brush box for the cage in the pit; lava is a decorative unshaded floor that does no damage | Great demon sprite (matching Level 8), cage with the daughter, lava damage if wanted |
 | Level 8 arena dressing | `assets/maps/level_08.map` | Brush cage and chain above the demon, decorative lava patches, tall pillar for the magic missile obelisk | Cage with the daughter, arena dressing |
-| Level intermission and story text | `ui/intermission.tscn` | Stats only; no per-level story text or ending screen | Intermission story text (drafts in `docs/story.md`) and the ending screen |
+| Level intermission and story text | `Level.intermission_text` / `ending_text` on `levels/level_0*/*.tscn`, shown by `ui/intermission.tscn` | Draft text from `docs/story.md` (Levels 5 and 7 written to fit); ending is a plain text page in the intermission style | Final wording; optional still image of the rebuilt town behind the ending |
 | Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key") | Styled HUD and key icons |
 | Door and pickup sounds | `core/game_sounds.tres` (`door_open`, `door_close`, `door_locked`, `key_pickup`) | None (silent); slots exist, nothing assigned | Door open/close/locked, key pickup SFX |
 | Bandit sprite (**AI-generated**) | `assets/sprites/enemies/bandit_sheet.png`, made by `assets/source/sprites/bandit.py` | Claude-authored procedural pixel art (front-facing only: idle, 4-frame walk, windup, swing, pain, 4-frame death). **Must be disclosed on Steam as AI-generated if it ships.** Disguised variants share the sheet | Hand-made sprite sheet with 8 rotations, or keep and disclose |
@@ -62,7 +62,7 @@ before shipping. Note the license of every replacement asset.
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
 | Death prompt | `ui/hud.tscn` | Default-font `Label` ("Hit Enter to respawn") | Proper death screen |
 | Intermission screen | `ui/intermission.tscn` | Flat dark `ColorRect` with default-font stat `Label`s | Styled stats screen (background art, font, tally-up animation) |
-| Intermission / level-end sounds | `core/game_sounds.tres` (`level_exit`, `intermission_continue`) | None (silent); slots exist, nothing assigned. No stat tally yet (the stats appear all at once) | Exit, stat tally, and continue SFX |
+| Intermission / level-end sounds | `core/game_sounds.tres` (`level_exit`, `intermission_continue`) | None (silent); slots exist, nothing assigned. Stats now tally up (Enter skips); no tick sound yet | Exit, stat tally, and continue SFX |
 | Level names | `levels/*.tscn` (`Level.display_name`) | Empty; falls back to the root node name ("Test Map") | Real level titles |
 | HUD font | `ui/hud.tscn` (all labels) | Godot's default anti-aliased font, rendered at the low internal resolution; soft at 640x360, hard to read at 320x180 | Pixel font designed for ~360p (commercial-use license), with font AA off |
 | Game title | `ui/main_menu.tscn` (`TitleLabel`) | Placeholder text "Dark Fantasy FPS" in the default font | Final game name and logo |

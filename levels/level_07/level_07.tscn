@@ -18,6 +18,7 @@ fog_density = 0.02
 script = ExtResource("1_level")
 player_scene = ExtResource("2_player")
 display_name = "Hell: The Fortress"
+intermission_text = "Below the fortress, in a pit of fire, the thing waits. Above it, in a cage, the mayor's daughter is still alive."
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_level07")

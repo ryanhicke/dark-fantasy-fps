@@ -10,6 +10,10 @@ var total_kills: int = 0
 var secrets: int = 0
 var total_secrets: int = 0
 var time_seconds: float = 0.0
+## Story lines for the intermission screen; empty shows stats only.
+var story_text: String = ""
+## Final page after the last level's intermission; empty skips it.
+var ending_text: String = ""
 
 
 ## Formats as m:ss, e.g. 75.4 -> "1:15". Minutes are not capped at 59.

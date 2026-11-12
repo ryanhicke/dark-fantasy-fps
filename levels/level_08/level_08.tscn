@@ -229,6 +229,8 @@ points = PackedVector3Array(1, 3, 4, 1, 3, -4, -1, 3, 4, -1, 3, -4, 1, -3, 4, 1,
 script = ExtResource("1_level")
 player_scene = ExtResource("2_player")
 display_name = "The Great Demon"
+intermission_text = "The demon falls. The cage comes down, and the portal home opens."
+ending_text = "The town still smelled of ash when you carried her through the gate. The mayor wept, then stood straight and gave you the captain's sword. The forest is quiet now. For now.\n\nFar up the Feldberg, in an empty tomb, the candles were burning again."
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=389910878]
 environment = SubResource("Environment_level08")

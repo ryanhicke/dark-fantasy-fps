@@ -511,6 +511,7 @@ points = PackedVector3Array(2, 2, 2.5, 2, 2, -2.5, -2, 2, 2.5, -2, 2, -2.5, 2, -
 script = ExtResource("1_level")
 player_scene = ExtResource("2_player")
 display_name = "The Robbers' Cave"
+intermission_text = "The bandits were not working alone. Their leader carried a mercenary's seal and a list of farms marked for burning."
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1419377562]
 environment = SubResource("Environment_level01")

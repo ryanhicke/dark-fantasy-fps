@@ -15,6 +15,7 @@ ambient_light_color = Color(0.55, 0.5, 0.5, 1)
 script = ExtResource("1_level")
 player_scene = ExtResource("2_player")
 display_name = "The Mercenary Outpost"
+intermission_text = "You recovered the stolen goods, and a purse of strange coin sealed in black wax. But the outpost was half-empty. Where had the rest of the mercenaries gone? Smoke rose over the trees, toward home."
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_level02")

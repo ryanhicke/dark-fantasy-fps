@@ -18,6 +18,7 @@ fog_density = 0.03
 script = ExtResource("1_level")
 player_scene = ExtResource("2_player")
 display_name = "The Ritual Chamber"
+intermission_text = "The necromancer falls, but the portal stays open. Through it you see her, carried away by something enormous. You step through."
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_level06")
