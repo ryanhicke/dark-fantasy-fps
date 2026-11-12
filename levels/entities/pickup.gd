@@ -1,7 +1,7 @@
 class_name Pickup
 extends Area3D
 ## Base for things the player collects by touching them (weapons, ammo).
-## Bobs a placeholder sprite; subclasses decide what collecting does.
+## Bobs a billboarded sprite; subclasses decide what collecting does.
 ##
 ## Expects a child MeshInstance3D named "Sprite" whose material_override is
 ## local to scene, so [member tint] stays per-pickup. Set collision_layer to
@@ -10,8 +10,16 @@ extends Area3D
 ## Filled by FuncGodot at map build; appear_on_unseal (0/1) overrides the
 ## export below.
 @export var func_godot_properties: Dictionary = {}
-## Placeholder color until pickups have sprites.
+## Sprite drawn on the quad. Set at runtime rather than in the scene's
+## material so Godot's detect-3D import doesn't switch it to VRAM
+## compression and mipmaps (same reason as EnemySprite).
+@export var texture: Texture2D
+## Placeholder color for pickups without a [member texture]; multiplies the
+## texture when there is one, so leave it white then.
 @export var tint: Color = Color(1.0, 1.0, 1.0)
+## Pixels below this alpha are cut out, keeping hard pixel-art edges
+## without alpha sorting.
+@export var alpha_scissor_threshold: float = 0.5
 ## Hidden and untouchable until the great demon is unsealed (its last
 ## obelisk falls), e.g. the lightning pickup and the mana beside it.
 @export var appear_on_unseal: bool = false
@@ -26,7 +34,13 @@ var _bob_phase: float = 0.0
 
 
 func _ready() -> void:
-	(_sprite.material_override as StandardMaterial3D).albedo_color = tint
+	var material: StandardMaterial3D = _sprite.material_override as StandardMaterial3D
+	material.albedo_color = tint
+	if texture != null:
+		material.albedo_texture = texture
+		material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+		material.alpha_scissor_threshold = alpha_scissor_threshold
 	_rest_y = _sprite.position.y
 	# Random start so several pickups in view don't bob in lockstep.
 	_bob_phase = randf() * TAU

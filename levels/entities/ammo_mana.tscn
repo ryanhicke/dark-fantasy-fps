@@ -1,9 +1,10 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://levels/entities/ammo_pickup.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/ammo_mana.png" id="3_tex"]
 
 [node name="AmmoMana" instance=ExtResource("1_base")]
 ammo_type = &"mana"
 amount = 25
 pickup_message = "Picked up a mana crystal"
-tint = Color(0.3, 0.5, 1, 1)
+texture = ExtResource("3_tex")

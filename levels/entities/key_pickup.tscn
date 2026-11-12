@@ -1,6 +1,9 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://levels/entities/key_pickup.gd" id="1_key"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/key_gold.png" id="2_gold"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/key_silver.png" id="3_silver"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/key_bone.png" id="4_bone"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_key"]
 radius = 0.5
@@ -17,6 +20,7 @@ billboard_mode = 1
 [node name="KeyPickup" type="Area3D"]
 collision_layer = 0
 script = ExtResource("1_key")
+sprites = Array[Texture2D]([ExtResource("2_gold"), ExtResource("3_silver"), ExtResource("4_bone")])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
