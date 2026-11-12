@@ -9,6 +9,10 @@ extends Node
 signal health_changed(current: float, maximum: float)
 signal damaged(amount: float, type: Damage.Type, source: Node)
 signal died(source: Node)
+## A hit that resistances reduced to nothing (an immune damage type), on a
+## living, non-invulnerable target. Lets e.g. an obelisk clink at the
+## wrong weapon without the hit counting as damage.
+signal immune_hit(type: Damage.Type, source: Node)
 
 const NODE_NAME: StringName = &"HealthComponent"
 
@@ -46,6 +50,8 @@ func take_damage(amount: float, type: Damage.Type, source: Node) -> void:
 	# when several attacks land in the same frame. Immune hits (0) are ignored
 	# entirely, so they don't cause pain or wake anything.
 	if amount <= 0.0 or is_dead() or invulnerable:
+		if amount <= 0.0 and not is_dead() and not invulnerable:
+			immune_hit.emit(type, source)
 		return
 	var applied: float = minf(amount, current_health)
 	current_health -= applied

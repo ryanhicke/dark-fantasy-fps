@@ -119,6 +119,7 @@ func _on_player_invulnerability_changed(active: bool) -> void:
 ## Blink the tint in the last moment so the player knows exactly when they
 ## can be hurt again.
 func _on_player_invulnerability_ending() -> void:
+	AudioManager.play_sfx(AudioManager.sounds.armor_fading)
 	_stop_armor_blink()
 	_armor_blink_tween = create_tween().set_loops()
 	_armor_blink_tween.tween_callback(_toggle_armor_tint).set_delay(armor_blink_period)

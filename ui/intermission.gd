@@ -27,6 +27,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	_accepting_input = false
+	AudioManager.play_ui(AudioManager.sounds.intermission_continue)
 	visible = false
 	get_tree().paused = false
 	GameState.advance_to_next_level()

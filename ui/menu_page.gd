@@ -8,6 +8,12 @@ extends VBoxContainer
 ## and mouse clicks. Arrow keys also work through the focus neighbors set
 ## here. Only direct, visible Button children are part of the list; call
 ## refresh_buttons() after showing or hiding one.
+##
+## Moving plays GameSounds.menu_move and pressing plays menu_select, or
+## menu_back for [member back_button].
+
+## The page's Back row, which plays the back sound instead of select.
+var back_button: Button
 
 var _buttons: Array[Button] = []
 
@@ -22,6 +28,8 @@ func refresh_buttons() -> void:
 		var button: Button = child as Button
 		if button != null and button.visible:
 			_buttons.append(button)
+		if button != null and not button.pressed.is_connected(_on_button_pressed):
+			button.pressed.connect(_on_button_pressed.bind(button))
 	_link_focus_neighbors()
 
 
@@ -54,12 +62,18 @@ func move_focus(step: int) -> void:
 		focus_first()
 		return
 	_buttons[wrap_index(current, step, _buttons.size())].grab_focus()
+	AudioManager.play_ui(AudioManager.sounds.menu_move)
 
 
 static func wrap_index(current: int, step: int, count: int) -> int:
 	if count <= 0:
 		return 0
 	return posmod(current + step, count)
+
+
+func _on_button_pressed(button: Button) -> void:
+	var sounds: GameSounds = AudioManager.sounds
+	AudioManager.play_ui(sounds.menu_back if button == back_button else sounds.menu_select)
 
 
 ## Makes the arrow keys wrap the same way W/S do.

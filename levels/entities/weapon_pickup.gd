@@ -15,3 +15,7 @@ func _collect(player: Player) -> bool:
 
 func _message() -> String:
 	return "Picked up the %s" % weapon.display_name
+
+
+func _default_sound() -> AudioStream:
+	return AudioManager.sounds.weapon_pickup

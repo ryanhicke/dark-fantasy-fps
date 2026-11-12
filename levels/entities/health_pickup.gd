@@ -14,3 +14,7 @@ func _collect(player: Player) -> bool:
 
 func _message() -> String:
 	return pickup_message
+
+
+func _default_sound() -> AudioStream:
+	return AudioManager.sounds.health_pickup

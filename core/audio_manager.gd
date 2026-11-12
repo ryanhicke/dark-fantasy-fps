@@ -31,6 +31,10 @@ const MUSIC_FADE_TIME: float = 1.0
 ## Positional sounds are culled beyond this distance (meters).
 const POSITIONAL_MAX_DISTANCE: float = 50.0
 
+## Shared world, pickup, menu, and HUD sounds (see GameSounds). Tests may
+## swap this for their own copy.
+var sounds: GameSounds = preload("res://core/game_sounds.tres")
+
 var _sfx_players: Array[AudioStreamPlayer] = []
 var _sfx_pool: VoicePool = VoicePool.new(SFX_POOL_SIZE)
 var _ui_players: Array[AudioStreamPlayer] = []

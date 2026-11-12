@@ -29,6 +29,8 @@ func _gui_input(event: InputEvent) -> void:
 	# Accepted, so left/right never move the highlight off this row.
 	accept_event()
 	Settings.set_volume(bus, Settings.get_volume(bus) + step)
+	# Heard at the new volume, so the player can judge it.
+	AudioManager.play_ui(AudioManager.sounds.menu_move)
 
 
 ## E.g. "Music: 70%", or "Music: Off" at 0.

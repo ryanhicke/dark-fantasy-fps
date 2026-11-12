@@ -23,6 +23,9 @@ extends Area3D
 ## Hidden and untouchable until the great demon is unsealed (its last
 ## obelisk falls), e.g. the lightning pickup and the mana beside it.
 @export var appear_on_unseal: bool = false
+## Overrides the shared sound for this pickup type (GameSounds), e.g. a
+## different gulp for the large health potion. Empty uses the shared one.
+@export var pickup_sound: AudioStream
 @export var bob_height: float = 0.1
 ## Full bob cycles per second.
 @export var bob_speed: float = 0.8
@@ -71,6 +74,8 @@ func _on_body_entered(body: Node3D) -> void:
 	if not _collect(player):
 		return
 	EventBus.pickup_collected.emit(_message())
+	# Non-positional: the player is standing on it.
+	AudioManager.play_sfx(pickup_sound if pickup_sound != null else _default_sound())
 	queue_free()
 
 
@@ -78,6 +83,11 @@ func _on_body_entered(body: Node3D) -> void:
 ## pickup stays (e.g. ammo while already full), Doom-style.
 func _collect(_player: Player) -> bool:
 	return false
+
+
+## Override. The shared GameSounds slot for this kind of pickup.
+func _default_sound() -> AudioStream:
+	return null
 
 
 ## Override. Shown on the HUD when collected.

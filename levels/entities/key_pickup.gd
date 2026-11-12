@@ -55,4 +55,5 @@ func _on_body_entered(body: Node3D) -> void:
 		return
 	keys.add_key(key_type)
 	EventBus.key_picked_up.emit(key_type)
+	AudioManager.play_sfx(AudioManager.sounds.key_pickup)
 	queue_free()

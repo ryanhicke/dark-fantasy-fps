@@ -37,6 +37,7 @@ func use(_user: Node) -> void:
 	is_pulled = true
 	var swing: Tween = create_tween()
 	swing.tween_property(_handle, "rotation_degrees:x", _handle.rotation_degrees.x + pull_angle, pull_time)
+	AudioManager.play_sfx_at(AudioManager.sounds.lever_pull, _handle.global_position)
 	pulled.emit()
 	if target.is_empty():
 		return

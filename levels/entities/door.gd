@@ -44,6 +44,9 @@ var _triggers_received: int = 0
 var _speed: float = 0.0
 var _wait: float = 0.0
 var _wait_left: float = 0.0
+## Middle of the door brush in this node's space; sounds play from here,
+## not from the origin (which can be anywhere on a map brush).
+var _center: Vector3 = Vector3.ZERO
 var _closed_y: float = 0.0
 var _open_y: float = 0.0
 var _block_check: ShapeCast3D
@@ -59,6 +62,7 @@ func _ready() -> void:
 		add_to_group(TRIGGER_GROUP)
 	var lip: float = float(func_godot_properties.get("lip", DEFAULT_LIP_UNITS)) / MAP_UNITS_PER_METER
 	var bounds: AABB = _local_bounds()
+	_center = bounds.get_center()
 	_closed_y = position.y
 	_open_y = _closed_y + maxf(bounds.size.y - lip, 0.0)
 	_block_check = _create_block_check(bounds)
@@ -78,6 +82,7 @@ func use(user: Node) -> void:
 		State.CLOSED, State.CLOSING:
 			if not is_unlocked_for(required_key, KeyRing.find_on(user)):
 				EventBus.door_locked.emit(required_key)
+				_play_sound(AudioManager.sounds.door_locked)
 				return
 			_set_state(State.OPENING)
 		State.OPEN:
@@ -112,6 +117,10 @@ func _physics_process(delta: float) -> void:
 
 
 func _set_state(new_state: State) -> void:
+	if new_state == State.OPENING and state != State.OPENING:
+		_play_sound(AudioManager.sounds.door_open)
+	elif new_state == State.CLOSING:
+		_play_sound(AudioManager.sounds.door_close)
 	state = new_state
 	match state:
 		State.OPEN:
@@ -122,6 +131,10 @@ func _set_state(new_state: State) -> void:
 			set_physics_process(false)
 		_:
 			set_physics_process(true)
+
+
+func _play_sound(stream: AudioStream) -> void:
+	AudioManager.play_sfx_at(stream, global_transform * _center)
 
 
 ## Something standing in the doorway (player or enemy) stops it closing.

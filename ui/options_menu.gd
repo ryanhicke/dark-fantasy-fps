@@ -20,6 +20,7 @@ const LEVEL_NAMES: Dictionary[int, String] = {
 
 func _ready() -> void:
 	super()
+	back_button = _back_button
 	_graphics_button.pressed.connect(_on_graphics_pressed)
 	_back_button.pressed.connect(back_selected.emit)
 	Settings.pixel_size_changed.connect(_refresh)

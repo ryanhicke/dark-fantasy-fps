@@ -42,6 +42,7 @@ func open() -> void:
 		return
 	is_open = true
 	_add_portal_visual()
+	AudioManager.play_sfx_at(AudioManager.sounds.portal_open, global_transform * _local_bounds().get_center())
 	# Deferred: this can run inside the boss's physics callback.
 	set_deferred("monitoring", true)
 
@@ -50,6 +51,9 @@ func _on_body_entered(body: Node3D) -> void:
 	if _triggered or not is_open or not body is Player:
 		return
 	_triggered = true
+	# On the UI pool: the intermission pauses the game right away, which
+	# would pause a game sound before it was heard.
+	AudioManager.play_ui(AudioManager.sounds.level_exit)
 	EventBus.level_completed.emit()
 
 

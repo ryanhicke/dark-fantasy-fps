@@ -80,6 +80,7 @@ func _ready() -> void:
 	_icon.text = ICON_TEXT.get(weak_to, "?")
 	_health.damaged.connect(_on_damaged)
 	_health.died.connect(_on_died)
+	_health.immune_hit.connect(_on_immune_hit)
 
 
 ## HomingProjectile.TARGET_GROUP contract.
@@ -98,7 +99,12 @@ func _on_damaged(_amount: float, _type: Damage.Type, _source: Node) -> void:
 	tween.tween_property(_material, "albedo_color", _base_color, flash_duration)
 
 
+func _on_immune_hit(_type: Damage.Type, _source: Node) -> void:
+	AudioManager.play_sfx_at(AudioManager.sounds.obelisk_clink, get_aim_point())
+
+
 func _on_died(_source: Node) -> void:
+	AudioManager.play_sfx_at(AudioManager.sounds.obelisk_shatter, get_aim_point())
 	_crystal.visible = false
 	_icon.visible = false
 	# Deferred: changing collision state inside a physics callback is not allowed.
