@@ -36,7 +36,7 @@ func _ready() -> void:
 	_stats.story_text = intermission_text
 	_stats.ending_text = ending_text
 	_stats.total_kills = _count_enemies(self)
-	# No secret entities exist yet, so total_secrets stays 0.
+	_stats.total_secrets = _count_secrets()
 	EventBus.enemy_killed.connect(_on_enemy_killed)
 	EventBus.secret_found.connect(_on_secret_found)
 	EventBus.level_completed.connect(_on_level_completed)
@@ -116,6 +116,15 @@ static func _count_enemies(node: Node) -> int:
 		if child is Enemy and (child as Enemy).counts_for_stats:
 			count += 1
 		count += _count_enemies(child)
+	return count
+
+
+## Only this level's secrets, in case another scene shares the tree.
+func _count_secrets() -> int:
+	var count: int = 0
+	for node: Node in get_tree().get_nodes_in_group(SecretTrigger.SECRET_GROUP):
+		if is_ancestor_of(node):
+			count += 1
 	return count
 
 

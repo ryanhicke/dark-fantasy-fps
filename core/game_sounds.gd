@@ -29,6 +29,8 @@ extends Resource
 @export var portal_open: AudioStream
 ## Walking into the exit. Plays over the intermission screen.
 @export var level_exit: AudioStream
+## Played when the player enters a hidden area (trigger_secret).
+@export var secret_found: AudioStream
 
 @export_group("Crystal Obelisks")
 @export var obelisk_shatter: AudioStream
