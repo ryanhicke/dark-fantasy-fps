@@ -37,6 +37,10 @@ var _cracks: Array[Node3D] = []
 var _fight_started: bool = false
 
 
+func _enter_tree() -> void:
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
+
+
 func _ready() -> void:
 	_demon = get_parent() as Enemy
 	if _demon == null or final_data == null:
@@ -81,6 +85,20 @@ func on_obelisk_destroyed() -> void:
 	stage_changed.emit(obelisks_destroyed)
 
 
+## Saveable contract. The demon's own entry restores its phase data and the
+## summoners restore whether they run, so this is the stage and cracks.
+func save_state() -> Dictionary:
+	return {"obelisks": obelisks_destroyed, "fight_started": _fight_started}
+
+
+func load_state(state: Dictionary) -> void:
+	obelisks_destroyed = clampi(int(state.get("obelisks", 0)), 0, obelisk_count)
+	_fight_started = bool(state.get("fight_started", false))
+	for i: int in _cracks.size():
+		_cracks[i].visible = i < obelisks_destroyed
+	_apply_intervals()
+
+
 func _on_demon_alerted() -> void:
 	if _fight_started or is_final_phase():
 		return
@@ -91,11 +109,16 @@ func _on_demon_alerted() -> void:
 func _update_summoners() -> void:
 	if not _fight_started:
 		return
+	_apply_intervals()
+	for summoner: EnemySummoner in _summoners:
+		summoner.set_active(obelisks_destroyed >= summoner.unlock_at_stage)
+
+
+## Summons come faster with each destroyed obelisk.
+func _apply_intervals() -> void:
 	var scale: float = pow(interval_scale_per_obelisk, obelisks_destroyed)
 	for i: int in _summoners.size():
-		var summoner: EnemySummoner = _summoners[i]
-		summoner.summon_interval = _base_intervals[i] * scale
-		summoner.set_active(obelisks_destroyed >= summoner.unlock_at_stage)
+		_summoners[i].summon_interval = _base_intervals[i] * scale
 
 
 func _enter_final_phase() -> void:

@@ -69,6 +69,7 @@ static func resistances_for(type: Damage.Type) -> DamageResistances:
 
 func _enter_tree() -> void:
 	add_to_group(HomingProjectile.TARGET_GROUP)
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
 
 
 func _ready() -> void:
@@ -91,6 +92,22 @@ func can_be_targeted() -> bool:
 ## HomingProjectile.TARGET_GROUP contract.
 func get_aim_point() -> Vector3:
 	return global_position + Vector3.UP * AIM_HEIGHT
+
+
+## Saveable contract. The great demon saves its own stage, so a restored
+## obelisk only needs to be gone, silently and without re-reporting.
+func save_state() -> Dictionary:
+	return {"destroyed": _health.is_dead(), "health": _health.current_health}
+
+
+func load_state(state: Dictionary) -> void:
+	if bool(state.get("destroyed", false)):
+		_health.current_health = 0.0
+		_crystal.visible = false
+		_icon.visible = false
+		_collision.disabled = true
+	else:
+		_health.current_health = clampf(float(state.get("health", _health.max_health)), 1.0, _health.max_health)
 
 
 func _on_damaged(_amount: float, _type: Damage.Type, _source: Node) -> void:

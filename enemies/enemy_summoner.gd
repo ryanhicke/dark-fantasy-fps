@@ -50,6 +50,10 @@ static func wave_size(alive: int, cap: int, wave: int) -> int:
 	return clampi(cap - alive, 0, wave)
 
 
+func _enter_tree() -> void:
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
+
+
 func _ready() -> void:
 	set_process(false)
 	_owner_enemy = get_parent() as Enemy
@@ -70,11 +74,32 @@ func _fill_pool() -> void:
 	for i: int in max_alive:
 		var summon: Enemy = summon_scene.instantiate() as Enemy
 		summon.counts_for_stats = false
-		summon.name = "%s_Summon%d" % [_owner_enemy.name, i]
+		# Owner and summoner both in the name: a boss with several summoners
+		# would otherwise get clashing names, which Godot renames
+		# unpredictably, and quicksaves find nodes by name.
+		summon.name = "%s_%s%d" % [_owner_enemy.name, name, i]
 		level.add_child(summon)
 		summon.make_dormant()
 		_pool.append(summon)
 		_used.append(false)
+
+
+## Saveable contract. The summoned enemies are level children with fixed
+## names, so each saves itself; this keeps which pool slots were used and
+## when the next wave comes.
+func save_state() -> Dictionary:
+	return {"used": _used.duplicate(), "active": _active, "time_to_next": _time_to_next}
+
+
+func load_state(state: Dictionary) -> void:
+	var used: Variant = state.get("used")
+	if used is Array and (used as Array).size() == _used.size():
+		for i: int in _used.size():
+			_used[i] = bool(used[i])
+	# Set directly: set_active(true) would summon a wave at once.
+	_active = bool(state.get("active", false))
+	_time_to_next = float(state.get("time_to_next", summon_interval))
+	set_process(_active)
 
 
 func is_active() -> bool:
