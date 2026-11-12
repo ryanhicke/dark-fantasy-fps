@@ -4,8 +4,8 @@
 [ext_resource type="Resource" path="res://enemies/melee_demon/melee_demon_sprites.tres" id="8_sprites"]
 
 [resource]
-blood_color = Color(0.35, 0.02, 0.05, 1)
 script = ExtResource("1_data")
+blood_color = Color(0.35, 0.02, 0.05, 1)
 display_name = "Demon"
 max_health = 120.0
 placeholder_color = Color(0.6, 0.1, 0.08, 1)

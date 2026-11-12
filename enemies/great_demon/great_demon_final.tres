@@ -16,8 +16,8 @@ magic = 0.0
 thrown = 0.0
 
 [resource]
-blood_color = Color(1, 0.8, 0.3, 1)
 script = ExtResource("1_data")
+blood_color = Color(1, 0.8, 0.3, 1)
 display_name = "Great Demon"
 max_health = 300.0
 resistances = SubResource("Resource_lightning_only")

@@ -6,8 +6,8 @@
 [ext_resource type="Resource" path="res://enemies/imp/imp_sprites.tres" id="8_sprites"]
 
 [resource]
-blood_color = Color(0.25, 0.3, 0.75, 1)
 script = ExtResource("1_data")
+blood_color = Color(0.25, 0.3, 0.75, 1)
 display_name = "Imp"
 max_health = 30.0
 placeholder_color = Color(0.9, 0.4, 0.15, 1)

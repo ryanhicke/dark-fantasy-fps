@@ -10,8 +10,8 @@ pierce = 0.35
 blunt = 1.5
 
 [resource]
-blood_color = Color(0.8, 0.77, 0.65, 1)
 script = ExtResource("1_data")
+blood_color = Color(0.8, 0.77, 0.65, 1)
 display_name = "Skeleton"
 max_health = 25.0
 resistances = SubResource("Resource_bones")

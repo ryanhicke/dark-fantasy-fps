@@ -15,8 +15,8 @@ magic = 0.0
 thrown = 0.0
 
 [resource]
-blood_color = Color(0.45, 0.42, 0.38, 1)
 script = ExtResource("1_data")
+blood_color = Color(0.45, 0.42, 0.38, 1)
 display_name = "Great Demon (sealed)"
 max_health = 1000.0
 resistances = SubResource("Resource_sealed")
