@@ -15,6 +15,8 @@ signal dev_level_selected(scene_path: String)
 
 @export_file("*.tscn") var enemy_gallery_path: String = "res://levels/enemy_gallery.tscn"
 @export_file("*.tscn") var great_demon_arena_path: String = "res://levels/great_demon_arena.tscn"
+## Looping menu track. Empty fades out whatever the last level was playing.
+@export var music: AudioStream
 
 @onready var _main_page: MenuPage = $MainPage
 @onready var _options_page: OptionsMenu = $OptionsMenu
@@ -52,6 +54,7 @@ func _on_dev_level_pressed(scene_path: String) -> void:
 func open() -> void:
 	visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	AudioManager.play_music(music)
 	_show_page(_main_page)
 
 

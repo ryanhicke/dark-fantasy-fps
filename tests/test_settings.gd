@@ -74,3 +74,48 @@ func test_out_of_range_saved_value_is_clamped_on_load() -> void:
 	config.set_value(SettingsScript.SECTION_GRAPHICS, SettingsScript.KEY_PIXEL_SIZE, 50)
 	config.save(TEST_PATH)
 	assert_eq(_fresh_load().pixel_size, GameView.MAX_PIXEL_SIZE)
+
+
+func test_volumes_start_at_their_defaults() -> void:
+	_settings.load_settings()
+	for bus: StringName in AudioBuses.DEFAULT_VOLUMES:
+		assert_eq(_settings.get_volume(bus), AudioBuses.DEFAULT_VOLUMES[bus], String(bus))
+
+
+func test_changed_volume_is_saved_and_reloaded() -> void:
+	_settings.set_volume(AudioBuses.MUSIC, 30)
+	assert_signal_emitted_with_parameters(_settings, "volume_changed", [AudioBuses.MUSIC, 30])
+	var reloaded: Node = _fresh_load()
+	assert_eq(reloaded.get_volume(AudioBuses.MUSIC), 30)
+	assert_eq(reloaded.get_volume(AudioBuses.SFX), AudioBuses.DEFAULT_VOLUMES[AudioBuses.SFX])
+
+
+func test_volume_is_clamped_to_0_100() -> void:
+	_settings.set_volume(AudioBuses.SFX, 250)
+	assert_eq(_settings.get_volume(AudioBuses.SFX), 100)
+	_settings.set_volume(AudioBuses.SFX, -10)
+	assert_eq(_settings.get_volume(AudioBuses.SFX), 0)
+
+
+func test_unknown_bus_volume_is_ignored() -> void:
+	_settings.set_volume(&"Nope", 10)
+	assert_signal_not_emitted(_settings, "volume_changed")
+	assert_eq(_settings.get_volume(&"Nope"), 100)
+
+
+func test_bad_saved_volume_falls_back_to_the_default() -> void:
+	var config: ConfigFile = ConfigFile.new()
+	config.set_value(SettingsScript.SECTION_AUDIO, SettingsScript.volume_key(AudioBuses.MUSIC), "loud")
+	config.set_value(SettingsScript.SECTION_AUDIO, SettingsScript.volume_key(AudioBuses.SFX), 999)
+	config.save(TEST_PATH)
+	var reloaded: Node = _fresh_load()
+	assert_eq(reloaded.get_volume(AudioBuses.MUSIC), AudioBuses.DEFAULT_VOLUMES[AudioBuses.MUSIC])
+	assert_eq(reloaded.get_volume(AudioBuses.SFX), 100)
+
+
+func test_saving_volume_keeps_the_graphics_setting() -> void:
+	_settings.set_pixel_size(3)
+	_settings.set_volume(AudioBuses.MASTER, 40)
+	var reloaded: Node = _fresh_load()
+	assert_eq(reloaded.pixel_size, 3)
+	assert_eq(reloaded.get_volume(AudioBuses.MASTER), 40)

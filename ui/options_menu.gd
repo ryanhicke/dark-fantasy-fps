@@ -1,7 +1,8 @@
 class_name OptionsMenu
 extends MenuPage
-## Options page. Enter on the graphics row cycles the graphics level; the
-## change applies (and is saved) at once through Settings.
+## Options page. Enter on the graphics row cycles the graphics level, and the
+## volume rows (VolumeButton) step their bus volume. Every change applies
+## (and is saved) at once through Settings.
 
 signal back_selected
 

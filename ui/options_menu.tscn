@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://ui/options_menu.gd" id="1_options"]
+[ext_resource type="Script" path="res://ui/volume_button.gd" id="2_volume"]
 
 [node name="OptionsMenu" type="VBoxContainer"]
 anchors_preset = 8
@@ -9,9 +10,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -220.0
-offset_top = -110.0
+offset_top = -170.0
 offset_right = 220.0
-offset_bottom = 110.0
+offset_bottom = 170.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -28,6 +29,30 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Graphics: Medium (640x360)"
+
+[node name="MasterVolumeButton" type="Button" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Master Volume: 100%"
+script = ExtResource("2_volume")
+bus = &"Master"
+label = "Master Volume"
+
+[node name="MusicVolumeButton" type="Button" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Music: 70%"
+script = ExtResource("2_volume")
+bus = &"Music"
+label = "Music"
+
+[node name="EffectsVolumeButton" type="Button" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Effects: 100%"
+script = ExtResource("2_volume")
+bus = &"SFX"
+label = "Effects"
 
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 2

@@ -12,6 +12,9 @@ const MAIN_SCENE_PATH: String = "res://main.tscn"
 @export var player_scene: PackedScene
 ## Name shown on the intermission screen. Empty uses the root node's name.
 @export var display_name: String = ""
+## Looping track for this level (tick Loop in the Import dock). Empty fades
+## the previous music out.
+@export var music: AudioStream
 ## Effects drawn once at load so their first real use doesn't hitch.
 @export var prewarm_list: EffectPrewarmList = preload("res://levels/effect_prewarm_list.tres")
 
@@ -32,6 +35,7 @@ func _ready() -> void:
 	EventBus.level_completed.connect(_on_level_completed)
 	_spawn_player()
 	_prewarm_effects()
+	AudioManager.play_music(music)
 
 
 func _physics_process(delta: float) -> void:

@@ -68,6 +68,7 @@ before shipping. Note the license of every replacement asset.
 | Game title | `ui/main_menu.tscn` (`TitleLabel`) | Placeholder text "Dark Fantasy FPS" in the default font | Final game name and logo |
 | Main and options menus | `ui/main_menu.tscn`, `ui/options_menu.tscn` | Flat dark `ColorRect` background, default Godot `Button` theme and font; highlight is the default focus outline | Menu background art, themed buttons/font, highlight style |
 | Menu sounds | — | None (silent) | Move, select, and back SFX |
+| Music | `Level.music` on each `levels/*.tscn`, `music` on `ui/main_menu.tscn` | None (silent); AudioManager plays and crossfades whatever is assigned | A looping menu track and per-level tracks (tick Loop on import) |
 
 ## Dev-only (not shipped, remove or exclude from release builds)
 
