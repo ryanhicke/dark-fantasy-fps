@@ -53,6 +53,7 @@ func _ready() -> void:
 		push_error("%s: no EnemyData assigned." % name)
 		set_physics_process(false)
 		return
+	_setup_voice()
 	_health.damaged.connect(_on_damaged)
 	_health.died.connect(_on_died)
 	_sight_cast.enabled = false
@@ -137,6 +138,7 @@ func _on_damaged(_amount: float, _type: Damage.Type, _source: Node) -> void:
 
 func _on_died(_source: Node) -> void:
 	_brain.die()
+	play_sound(data.death_sound)
 	set_physics_process(false)
 	# Deferred: changing collision state inside a physics callback is not allowed.
 	_collision.set_deferred("disabled", true)
@@ -244,6 +246,10 @@ func _on_brain_state_changed(new_state: EnemyBrain.State, old_state: EnemyBrain.
 	if old_state == EnemyBrain.State.IDLE and new_state == EnemyBrain.State.CHASE:
 		play_sound(data.alert_sound)
 		alerted.emit()
+	elif new_state == EnemyBrain.State.ATTACK:
+		play_sound(data.attack_sound)
+	elif new_state == EnemyBrain.State.PAIN:
+		play_sound(data.pain_sound)
 
 
 func _on_brain_attack_struck(hit: bool) -> void:
@@ -262,8 +268,21 @@ func _show_state() -> void:
 
 
 ## Plays through the optional Voice child; silent if either is missing.
+## A slight random pitch keeps a room of the same enemy from sounding cloned.
 func play_sound(stream: AudioStream) -> void:
 	if stream == null or _voice == null:
 		return
 	_voice.stream = stream
+	_voice.pitch_scale = 1.0 + randf_range(
+		-AudioManager.DEFAULT_PITCH_VARIATION, AudioManager.DEFAULT_PITCH_VARIATION
+	)
 	_voice.play()
+
+
+## Set here rather than in each enemy scene, so every enemy (and any new
+## one) follows the Effects volume and the shared culling distance.
+func _setup_voice() -> void:
+	if _voice == null:
+		return
+	_voice.bus = AudioBuses.SFX
+	_voice.max_distance = AudioManager.POSITIONAL_MAX_DISTANCE

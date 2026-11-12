@@ -57,8 +57,20 @@ extends Resource
 @export var projectile_data: WeaponData
 
 @export_group("Sounds")
-## Played once when the enemy wakes up. Null is silent.
+## All sounds play through the enemy's Voice, so a new one cuts off the
+## last (one mouth per enemy, like Doom). Null is silent.
+## Played once when the enemy wakes up. For a revived second phase this is
+## the rising sound (the werewolf's howl), since rising wakes it. Disguised
+## enemies need their own alert, clearly different from the human version,
+## or they can't be told apart.
 @export var alert_sound: AudioStream
+## Played as an attack starts winding up (a grunt, a bowstring, a chant),
+## so the player can hear the hit coming.
+@export var attack_sound: AudioStream
+## Played when a hit staggers the enemy (only on a pain roll, not every hit).
+@export var pain_sound: AudioStream
+## Played on death. A disguised enemy's death plays before it rises again.
+@export var death_sound: AudioStream
 
 @export_group("Second Phase")
 ## If set, a lethal hit doesn't kill: the enemy collapses, then rises in
