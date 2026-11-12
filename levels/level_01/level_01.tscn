@@ -35,6 +35,9 @@ background_mode = 1
 background_color = Color(0.32, 0.36, 0.44, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.55, 0.5, 0.5, 1)
+fog_enabled = true
+fog_light_color = Color(0.18, 0.2, 0.24, 1)
+fog_density = 0.018
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_lb7yx"]
 _surfaces = [{

@@ -10,6 +10,9 @@ background_mode = 1
 background_color = Color(0.03, 0.03, 0.04, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.5, 0.47, 0.52, 1)
+fog_enabled = true
+fog_light_color = Color(0.02, 0.02, 0.03, 1)
+fog_density = 0.03
 
 [node name="Level05" type="Node3D"]
 script = ExtResource("1_level")
