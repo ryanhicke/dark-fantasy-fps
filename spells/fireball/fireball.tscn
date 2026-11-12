@@ -12,6 +12,29 @@ billboard_mode = 1
 material = SubResource("Material_fireball")
 size = Vector2(0.4, 0.4)
 
+[sub_resource type="StandardMaterial3D" id="Material_core"]
+shading_mode = 0
+albedo_color = Color(1, 0.92, 0.55, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_core"]
+material = SubResource("Material_core")
+size = Vector2(0.22, 0.22)
+
+[sub_resource type="StandardMaterial3D" id="Material_ember"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_ember"]
+material = SubResource("Material_ember")
+size = Vector2(0.12, 0.12)
+
+[sub_resource type="Gradient" id="Gradient_ember"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 0.85, 0.3, 1, 0.95, 0.35, 0.05, 1, 0.3, 0.05, 0.02, 1)
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_splash"]
 resource_local_to_scene = true
 radius = 2.5
@@ -23,6 +46,26 @@ explosion_scene = ExtResource("2_explosion")
 [node name="Sprite" type="MeshInstance3D" parent="."]
 cast_shadow = 0
 mesh = SubResource("QuadMesh_fireball")
+
+[node name="Core" type="MeshInstance3D" parent="Sprite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_core")
+
+[node name="Embers" type="CPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 10
+lifetime = 0.3
+local_coords = false
+mesh = SubResource("QuadMesh_ember")
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, 1.5, 0)
+initial_velocity_min = 0.2
+initial_velocity_max = 0.8
+scale_amount_min = 0.5
+scale_amount_max = 1.2
+color_ramp = SubResource("Gradient_ember")
 
 [node name="PathCast" type="RayCast3D" parent="."]
 enabled = false

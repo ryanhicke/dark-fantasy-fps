@@ -18,11 +18,17 @@ extends Node3D
 
 @onready var _sprite: MeshInstance3D = $Sprite
 @onready var _material: StandardMaterial3D = _sprite.material_override as StandardMaterial3D
+## Optional burst of sparks; fired once at spawn.
+@onready var _sparks: CPUParticles3D = get_node_or_null("Sparks") as CPUParticles3D
 
 
 func _ready() -> void:
 	# Deferred: the spawner sets global_position right after add_child.
 	_play_sound.call_deferred()
+	if _sparks != null:
+		# Deferred with the sound: emitting before the spawner moves the
+		# effect would spray the sparks from the world origin.
+		_sparks.restart.call_deferred()
 	var tween: Tween = create_tween().set_parallel()
 	tween.tween_property(_sprite, "scale", Vector3.ONE * end_scale, duration)
 	tween.tween_property(_material, "albedo_color:a", 0.0, duration)

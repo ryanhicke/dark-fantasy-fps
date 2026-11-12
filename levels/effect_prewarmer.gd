@@ -33,16 +33,17 @@ static func start(camera: Camera3D, scenes: Array[PackedScene]) -> EffectPrewarm
 	prewarmer.position = Vector3.FORWARD * camera.far * FAR_PLANE_FRACTION
 	prewarmer.scale = Vector3.ONE * SCALE
 	for scene: PackedScene in scenes:
-		for mesh: MeshInstance3D in copy_meshes(scene):
+		for mesh: GeometryInstance3D in copy_meshes(scene):
 			prewarmer.add_child(mesh)
 	camera.add_child(prewarmer)
 	return prewarmer
 
 
 ## Returns script-free copies of every MeshInstance3D in [param scene], with
-## the same mesh and materials (including overrides).
-static func copy_meshes(scene: PackedScene) -> Array[MeshInstance3D]:
-	var copies: Array[MeshInstance3D] = []
+## the same mesh and materials (including overrides), plus emitting copies of
+## its CPUParticles3D (particles draw instanced, a separate shader variant).
+static func copy_meshes(scene: PackedScene) -> Array[GeometryInstance3D]:
+	var copies: Array[GeometryInstance3D] = []
 	if scene == null:
 		return copies
 	# Never added to the tree, so its scripts' _ready never runs.
@@ -52,7 +53,15 @@ static func copy_meshes(scene: PackedScene) -> Array[MeshInstance3D]:
 	return copies
 
 
-static func _collect(node: Node, copies: Array[MeshInstance3D]) -> void:
+static func _collect(node: Node, copies: Array[GeometryInstance3D]) -> void:
+	var particles: CPUParticles3D = node as CPUParticles3D
+	if particles != null and particles.mesh != null:
+		var emitter: CPUParticles3D = CPUParticles3D.new()
+		emitter.mesh = particles.mesh
+		emitter.color_ramp = particles.color_ramp
+		emitter.amount = 1
+		emitter.emitting = true
+		copies.append(emitter)
 	var source: MeshInstance3D = node as MeshInstance3D
 	if source != null and source.mesh != null:
 		var copy: MeshInstance3D = MeshInstance3D.new()

@@ -13,6 +13,20 @@ albedo_color = Color(1, 0.7, 0.2, 0.9)
 billboard_mode = 1
 billboard_keep_scale = true
 
+[sub_resource type="StandardMaterial3D" id="Material_spark"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_spark"]
+material = SubResource("Material_spark")
+size = Vector2(0.12, 0.12)
+
+[sub_resource type="Gradient" id="Gradient_spark"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1, 0.95, 0.6, 1, 1, 0.45, 0.08, 1, 0.25, 0.05, 0.02, 1)
+
 [node name="FireballExplosion" type="Node3D"]
 script = ExtResource("1_effect")
 
@@ -20,3 +34,21 @@ script = ExtResource("1_effect")
 cast_shadow = 0
 material_override = SubResource("Material_burst")
 mesh = SubResource("QuadMesh_burst")
+
+[node name="Sparks" type="CPUParticles3D" parent="."]
+cast_shadow = 0
+emitting = false
+amount = 18
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+mesh = SubResource("QuadMesh_spark")
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, -9, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 7.0
+scale_amount_min = 0.6
+scale_amount_max = 1.4
+color_ramp = SubResource("Gradient_spark")
