@@ -11,7 +11,13 @@ build_visuals = false
 collision_shape_type = 1
 collision_layer = 0
 classname = "trigger_exit"
-description = "Invisible volume. The player walking into it completes the level."
+description = "Invisible volume. The player walking into it completes the level. With boss = 1 it stays closed until the boss dies, then shows as a portal."
+class_properties = Dictionary[String, Variant]({
+"boss": 0
+})
+class_property_descriptions = Dictionary[String, Variant]({
+"boss": ["Closed until the boss (necromancer, great demon) dies (1 = yes)", 0]
+})
 meta_properties = Dictionary[String, Variant]({
 "color": Color(0.8, 0.2, 0.8, 1)
 })

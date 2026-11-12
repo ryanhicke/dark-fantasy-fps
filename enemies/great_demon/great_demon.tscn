@@ -52,7 +52,7 @@ material = SubResource("Material_crack")
 size = Vector2(0.25, 1.4)
 center_offset = Vector3(0.4, 1.4, 0.05)
 
-[node name="GreatDemon" type="CharacterBody3D"]
+[node name="GreatDemon" type="CharacterBody3D" groups=["boss"]]
 script = ExtResource("1_enemy")
 data = ExtResource("2_data")
 

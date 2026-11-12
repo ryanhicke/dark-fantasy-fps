@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" format=3]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_point"]
+[ext_resource type="PackedScene" path="res://levels/entities/lever.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_point")
+classname = "func_lever"
+description = "Lever pulled once with use (E). Triggers every func_door whose targetname matches its target."
+class_properties = Dictionary[String, Variant]({
+"marked": 0,
+"target": ""
+})
+class_property_descriptions = Dictionary[String, Variant]({
+"marked": ["Shows the necromancer's bone mark (1 = yes)", 0],
+"target": "targetname of the door(s) this lever triggers"
+})
+meta_properties = Dictionary[String, Variant]({
+"color": Color(0.7, 0.7, 0.75, 1),
+"size": AABB(-8, -8, 0, 8, 8, 44)
+})
+scene_file = ExtResource("2_scene")

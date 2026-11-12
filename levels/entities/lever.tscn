@@ -1,0 +1,50 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/entities/lever.gd" id="1_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lever"]
+size = Vector3(0.5, 1.4, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_post"]
+size = Vector3(0.4, 1.0, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="Material_post"]
+albedo_color = Color(0.3, 0.3, 0.32, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_handle"]
+size = Vector3(0.08, 0.6, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="Material_handle"]
+albedo_color = Color(0.45, 0.32, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mark"]
+size = Vector3(0.25, 0.25, 0.44)
+
+[sub_resource type="StandardMaterial3D" id="Material_mark"]
+shading_mode = 0
+albedo_color = Color(0.92, 0.88, 0.75, 1)
+
+[node name="Lever" type="StaticBody3D"]
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("BoxShape3D_lever")
+
+[node name="Post" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_post")
+surface_material_override/0 = SubResource("Material_post")
+
+[node name="Handle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.0, 0)
+
+[node name="HandleMesh" type="MeshInstance3D" parent="Handle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_handle")
+surface_material_override/0 = SubResource("Material_handle")
+
+[node name="Mark" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_mark")
+surface_material_override/0 = SubResource("Material_mark")

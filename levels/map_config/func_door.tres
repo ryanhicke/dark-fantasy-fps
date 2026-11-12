@@ -17,14 +17,18 @@ class_properties = Dictionary[String, Variant]({
 "Silver": 1,
 "Bone": 2
 },
+"count": 1,
 "lip": 8.0,
 "speed": 100.0,
+"targetname": "",
 "wait": 3.0
 })
 class_property_descriptions = Dictionary[String, Variant]({
 "key_type": ["Key required", -1],
+"count": "Lever pulls needed to open (with targetname)",
 "lip": "Units of door left showing when fully open",
 "speed": "Movement speed in units per second",
+"targetname": "Name levers target; a named door ignores the use key",
 "wait": "Seconds before closing again (-1 = stay open)"
 })
 meta_properties = Dictionary[String, Variant]({

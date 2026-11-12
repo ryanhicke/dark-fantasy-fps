@@ -16,6 +16,8 @@ enum State {
 
 ## Must match inverse_scale_factor in levels/map_config/dark_fantasy_map_settings.tres.
 const MAP_UNITS_PER_METER: float = 32.0
+## Doors with a targetname join this group so levers can find them.
+const TRIGGER_GROUP: StringName = &"trigger_targets"
 ## A wait of this (or any negative value) keeps the door open forever.
 const STAY_OPEN: float = -1.0
 ## Meters trimmed off each side of the blocking check, so walls touching
@@ -32,6 +34,12 @@ const DEFAULT_LIP_UNITS: float = 8.0
 
 var required_key: int = KeyRing.NO_KEY
 var state: State = State.CLOSED
+## Set from TrenchBroom. A door with a targetname is opened only by levers
+## that target it, never by the use key.
+var targetname: String = ""
+## Lever pulls needed before the door opens (e.g. 2 for a two-lever gate).
+var trigger_count: int = 1
+var _triggers_received: int = 0
 
 var _speed: float = 0.0
 var _wait: float = 0.0
@@ -45,6 +53,10 @@ func _ready() -> void:
 	required_key = int(func_godot_properties.get("key_type", KeyRing.NO_KEY))
 	_speed = float(func_godot_properties.get("speed", DEFAULT_SPEED_UNITS)) / MAP_UNITS_PER_METER
 	_wait = float(func_godot_properties.get("wait", DEFAULT_WAIT))
+	targetname = str(func_godot_properties.get("targetname", ""))
+	trigger_count = maxi(int(func_godot_properties.get("count", 1)), 1)
+	if not targetname.is_empty():
+		add_to_group(TRIGGER_GROUP)
 	var lip: float = float(func_godot_properties.get("lip", DEFAULT_LIP_UNITS)) / MAP_UNITS_PER_METER
 	var bounds: AABB = _local_bounds()
 	_closed_y = position.y
@@ -60,6 +72,8 @@ static func is_unlocked_for(key: int, keys: KeyRing) -> bool:
 
 ## Called by the player's use key.
 func use(user: Node) -> void:
+	if not targetname.is_empty():
+		return
 	match state:
 		State.CLOSED, State.CLOSING:
 			if not is_unlocked_for(required_key, KeyRing.find_on(user)):
@@ -69,6 +83,13 @@ func use(user: Node) -> void:
 		State.OPEN:
 			# Using an open door holds it open a little longer.
 			_wait_left = _wait
+
+
+## Called by a lever targeting this door. Opens once enough pulls arrive.
+func trigger() -> void:
+	_triggers_received += 1
+	if _triggers_received >= trigger_count and state != State.OPEN:
+		_set_state(State.OPENING)
 
 
 func _physics_process(delta: float) -> void:
