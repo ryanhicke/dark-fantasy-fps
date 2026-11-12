@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dbbqxg5jx81wc" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Script" uid="uid://b5x8laxs0505c" path="res://core/components/damage_resistances.gd" id="2_resist"]
-[ext_resource type="Resource" path="res://enemies/werewolf/werewolf_sprites.tres" id="8_sprites"]
+[ext_resource type="Resource" uid="uid://cc7luenak0acq" path="res://enemies/werewolf/werewolf_sprites.tres" id="8_sprites"]
 
 [sub_resource type="Resource" id="Resource_fur"]
 script = ExtResource("2_resist")
@@ -14,6 +14,7 @@ display_name = "Werewolf"
 max_health = 45.0
 resistances = SubResource("Resource_fur")
 placeholder_color = Color(0.35, 0.28, 0.42, 1)
+sprite_sheet = ExtResource("8_sprites")
 move_speed = 6.5
 sight_range = 25.0
 attack_range = 1.9
@@ -22,4 +23,3 @@ attack_windup = 0.35
 attack_recovery = 0.5
 pain_chance = 0.6
 pain_duration = 0.3
-sprite_sheet = ExtResource("8_sprites")

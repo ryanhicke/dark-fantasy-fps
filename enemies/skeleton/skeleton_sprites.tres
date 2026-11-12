@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="EnemySpriteSheet" format=3]
+[gd_resource type="Resource" script_class="EnemySpriteSheet" format=3 uid="uid://c2vdrk7y1em7j"]
 
-[ext_resource type="Script" path="res://enemies/enemy_sprite_sheet.gd" id="1_sheet"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/skeleton_sheet.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://cxegctlhvr7u2" path="res://enemies/enemy_sprite_sheet.gd" id="1_sheet"]
+[ext_resource type="Texture2D" uid="uid://bv23l8a68t8xf" path="res://assets/sprites/enemies/skeleton_sheet.png" id="2_tex"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_skeleton_art"]
 size = Vector2(1.8, 1.8)
@@ -10,8 +10,6 @@ center_offset = Vector3(0, 0.9, 0)
 [resource]
 script = ExtResource("1_sheet")
 texture = ExtResource("2_tex")
-columns = 4
-rows = 4
 quad = SubResource("QuadMesh_skeleton_art")
 idle_frames = PackedInt32Array(0)
 walk_frames = PackedInt32Array(1, 2, 3, 4)
@@ -20,4 +18,3 @@ attack_frames = PackedInt32Array(6)
 pain_frames = PackedInt32Array(7)
 death_frames = PackedInt32Array(8, 9, 10, 11)
 walk_fps = 6
-death_fps = 8

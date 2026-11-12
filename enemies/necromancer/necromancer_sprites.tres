@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="EnemySpriteSheet" format=3]
+[gd_resource type="Resource" script_class="EnemySpriteSheet" format=3 uid="uid://cffgr4wixgiqm"]
 
-[ext_resource type="Script" path="res://enemies/enemy_sprite_sheet.gd" id="1_sheet"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/necromancer_sheet.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://cxegctlhvr7u2" path="res://enemies/enemy_sprite_sheet.gd" id="1_sheet"]
+[ext_resource type="Texture2D" uid="uid://cwi8wcdc7ejwk" path="res://assets/sprites/enemies/necromancer_sheet.png" id="2_tex"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_necromancer_art"]
 size = Vector2(2.1, 2.1)
@@ -10,8 +10,6 @@ center_offset = Vector3(0, 1.05, 0)
 [resource]
 script = ExtResource("1_sheet")
 texture = ExtResource("2_tex")
-columns = 4
-rows = 4
 quad = SubResource("QuadMesh_necromancer_art")
 idle_frames = PackedInt32Array(0)
 walk_frames = PackedInt32Array(1, 2, 3, 4)

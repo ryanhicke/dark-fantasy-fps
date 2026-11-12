@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="EnemySpriteSheet" format=3]
+[gd_resource type="Resource" script_class="EnemySpriteSheet" format=3 uid="uid://dcdjswb83ynnt"]
 
-[ext_resource type="Script" path="res://enemies/enemy_sprite_sheet.gd" id="1_sheet"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/great_demon_sheet.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://cxegctlhvr7u2" path="res://enemies/enemy_sprite_sheet.gd" id="1_sheet"]
+[ext_resource type="Texture2D" uid="uid://cj14fpjqq2lmh" path="res://assets/sprites/enemies/great_demon_sheet.png" id="2_tex"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_great_demon_art"]
 size = Vector2(6, 6)
@@ -10,8 +10,6 @@ center_offset = Vector3(0, 3, 0)
 [resource]
 script = ExtResource("1_sheet")
 texture = ExtResource("2_tex")
-columns = 4
-rows = 4
 quad = SubResource("QuadMesh_great_demon_art")
 idle_frames = PackedInt32Array(0)
 walk_frames = PackedInt32Array(1, 2, 3, 4)

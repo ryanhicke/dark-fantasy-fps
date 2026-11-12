@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dbbqxg5jx81wc" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Script" uid="uid://b5x8laxs0505c" path="res://core/components/damage_resistances.gd" id="2_resist"]
-[ext_resource type="Resource" path="res://enemies/great_demon/great_demon_sprites.tres" id="8_sprites"]
+[ext_resource type="Resource" uid="uid://dcdjswb83ynnt" path="res://enemies/great_demon/great_demon_sprites.tres" id="8_sprites"]
 
 [sub_resource type="Resource" id="Resource_sealed"]
 script = ExtResource("2_resist")
@@ -20,9 +20,9 @@ display_name = "Great Demon (sealed)"
 max_health = 1000.0
 resistances = SubResource("Resource_sealed")
 placeholder_color = Color(0.25, 0.05, 0.08, 1)
+sprite_sheet = ExtResource("8_sprites")
 move_speed = 0.0
 sight_range = 40.0
 attack_range = 0.0
 attack_damage = 0.0
 pain_chance = 0.0
-sprite_sheet = ExtResource("8_sprites")

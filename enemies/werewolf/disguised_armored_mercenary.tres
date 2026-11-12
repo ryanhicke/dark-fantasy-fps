@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dbbqxg5jx81wc" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Script" uid="uid://b5x8laxs0505c" path="res://core/components/damage_resistances.gd" id="2_resist"]
+[ext_resource type="Resource" uid="uid://dgfn0ysx3vfhh" path="res://enemies/armored_mercenary/armored_mercenary_sprites.tres" id="8_sprites"]
 [ext_resource type="Resource" uid="uid://bqkrp67aaqde8" path="res://enemies/werewolf/werewolf.tres" id="9_werewolf"]
-[ext_resource type="Resource" path="res://enemies/armored_mercenary/armored_mercenary_sprites.tres" id="8_sprites"]
 
 [sub_resource type="Resource" id="Resource_plate_armor"]
 script = ExtResource("2_resist")
@@ -16,6 +16,7 @@ script = ExtResource("1_data")
 display_name = "Werewolf (as Armored Mercenary)"
 max_health = 100.0
 resistances = SubResource("Resource_plate_armor")
+sprite_sheet = ExtResource("8_sprites")
 move_speed = 2.8
 attack_range = 1.9
 attack_damage_type = 4
@@ -23,4 +24,3 @@ attack_windup = 0.7
 attack_recovery = 0.8
 revive_as = ExtResource("9_werewolf")
 pain_chance = 0.2
-sprite_sheet = ExtResource("8_sprites")
