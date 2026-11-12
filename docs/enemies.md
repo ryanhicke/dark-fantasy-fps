@@ -72,6 +72,9 @@ Enemy stats live in `EnemyData` resources (health, speed, damage, sight range, p
 - Level 4. Weak, but rises from the ground when the player walks past.
 - Story: the skeletons are the necromancer's failed attempts to raise his wife: each one rose "hollow" (see story.md, The necromancer).
 
+**Graphics**
+Human Skeleton wearing a horned helmet. Is armed with another skeletons femur as a weapon. Should have a coloration that implies it's been buried a long time.
+
 **Ideas**
 - Code note: skeletons only need to rise once. Use a trigger area so the AI doesn't check distance every frame (fits the "stagger AI updates" rule).
 
@@ -81,6 +84,8 @@ Enemy stats live in `EnemyData` resources (health, speed, damage, sight range, p
 - Shoots fireballs.
 - Their notes tell part of the story: they are scared of their master ("The master no longer sleeps." "He says the girl is the key.").
 - **Sequel secret:** one apprentice wizard was never found, because the necromancer's wife possessed that apprentice's body. The player never learns this in this game (see story.md, The necromancer's wife).
+**Graphics**
+Wearing a full robe with the hood up. You cannot see their face but they have glowing red eyes. Their robes are a brownish grey and are wearing 
 
 ## Demons
 
