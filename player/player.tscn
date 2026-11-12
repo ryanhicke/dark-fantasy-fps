@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://weapons/healing_wand/healing_wand.tscn" id="14_healing_wand"]
 [ext_resource type="PackedScene" path="res://weapons/armor_spell/armor_spell.tscn" id="15_armor_spell"]
 [ext_resource type="PackedScene" path="res://weapons/lightning/lightning.tscn" id="16_lightning"]
+[ext_resource type="Script" path="res://player/view_feel.gd" id="17_view_feel"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.4
@@ -58,3 +59,9 @@ inventory = NodePath("../../../Inventory")
 [node name="UseCast" type="RayCast3D" parent="Head/Camera3D"]
 enabled = false
 target_position = Vector3(0, 0, -2)
+
+[node name="ViewFeel" type="Node" parent="." node_paths=PackedStringArray("player", "camera", "weapon_holder")]
+script = ExtResource("17_view_feel")
+player = NodePath("..")
+camera = NodePath("../Head/Camera3D")
+weapon_holder = NodePath("../Head/Camera3D/WeaponHolder")

@@ -24,6 +24,8 @@ signal stage_changed(obelisks_destroyed: int)
 @export_range(0.1, 1.0) var interval_scale_per_obelisk: float = 0.75
 ## Played on each destroyed obelisk. Null is silent.
 @export var roar_sound: AudioStream
+## View shake (0..1) on each roar, so the hit lands even while silent.
+@export var roar_shake: float = 0.8
 
 var obelisks_destroyed: int = 0
 
@@ -107,3 +109,4 @@ func _enter_final_phase() -> void:
 func _roar() -> void:
 	_demon.play_sound(roar_sound)
 	_sprite.flash_pain(EnemyBrain.State.CHASE, false)
+	EventBus.screen_shake_requested.emit(roar_shake)

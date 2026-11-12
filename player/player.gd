@@ -168,6 +168,15 @@ func _try_use() -> void:
 		target.call(&"use", self)
 
 
+## Head bob state, so ViewFeel can keep the weapon bob in step.
+func get_bob_phase() -> float:
+	return _bob_phase
+
+
+func get_bob_weight() -> float:
+	return _bob_weight
+
+
 func can_heal() -> bool:
 	return not _health.is_dead() and _health.current_health < _health.max_health
 

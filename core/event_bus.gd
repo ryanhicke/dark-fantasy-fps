@@ -79,3 +79,7 @@ signal render_resolution_changed(render_size: Vector2i)
 ## Emitted when the player starts raising a weapon. Null means no weapon.
 @warning_ignore("unused_signal")
 signal player_weapon_changed(weapon_data: WeaponData)
+
+## Shakes the player's view; [param strength] 0..1 (explosions, roars).
+@warning_ignore("unused_signal")
+signal screen_shake_requested(strength: float)

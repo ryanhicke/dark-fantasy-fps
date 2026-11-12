@@ -11,6 +11,10 @@ extends Node3D
 @export var end_scale: float = 2.5
 ## Blast sound, played through the pool so it outlives this short effect.
 @export var sound: AudioStream
+## View shake (0..1) for a player standing at the blast.
+@export var shake_strength: float = 0.5
+## Meters from the blast at which the shake fades to nothing.
+@export var shake_radius: float = 10.0
 
 @onready var _sprite: MeshInstance3D = $Sprite
 @onready var _material: StandardMaterial3D = _sprite.material_override as StandardMaterial3D
@@ -27,3 +31,13 @@ func _ready() -> void:
 
 func _play_sound() -> void:
 	AudioManager.play_sfx_at(sound, global_position)
+	_shake_view()
+
+
+func _shake_view() -> void:
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	if camera == null or shake_strength <= 0.0 or shake_radius <= 0.0:
+		return
+	var falloff: float = 1.0 - global_position.distance_to(camera.global_position) / shake_radius
+	if falloff > 0.0:
+		EventBus.screen_shake_requested.emit(shake_strength * falloff)
