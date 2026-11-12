@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="PackedScene" path="res://weapons/arrow/arrow.tscn" id="2_arrow"]
+[ext_resource type="Resource" path="res://enemies/bandit_archer/bandit_archer_sprites.tres" id="8_sprites"]
 
 [resource]
 script = ExtResource("1_data")
@@ -20,3 +21,4 @@ projectile_gravity = 0.95
 muzzle_height = 1.4
 pain_chance = 0.7
 pain_duration = 0.4
+sprite_sheet = ExtResource("8_sprites")

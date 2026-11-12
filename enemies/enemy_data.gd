@@ -11,6 +11,8 @@ extends Resource
 ## Stand-in for sprite frames until real art exists: tints the placeholder
 ## quad. Alpha 0 keeps the scene's material color.
 @export var placeholder_color: Color = Color(0.0, 0.0, 0.0, 0.0)
+## Animation frames. Null keeps the flat placeholder quad.
+@export var sprite_sheet: EnemySpriteSheet
 
 @export_group("Movement")
 ## Chase speed in m/s. Keep well below the player's so they can kite.

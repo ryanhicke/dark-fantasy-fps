@@ -10,7 +10,7 @@ radius = 0.4
 height = 1.8
 
 [sub_resource type="QuadMesh" id="QuadMesh_bandit"]
-size = Vector2(1, 1.8)
+size = Vector2(1.8, 1.8)
 center_offset = Vector3(0, 0.9, 0)
 
 [sub_resource type="StandardMaterial3D" id="Material_bandit"]

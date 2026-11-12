@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="EnemyData" format=3]
 
 [ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
+[ext_resource type="Resource" path="res://enemies/bandit/bandit_sprites.tres" id="8_sprites"]
 
 [resource]
 script = ExtResource("1_data")
@@ -15,3 +16,4 @@ attack_windup = 0.5
 attack_recovery = 0.6
 pain_chance = 0.5
 pain_duration = 0.35
+sprite_sheet = ExtResource("8_sprites")

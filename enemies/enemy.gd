@@ -73,6 +73,7 @@ func _apply_data() -> void:
 	_health.max_health = data.max_health
 	_health.resistances = data.resistances
 	_health.reset()
+	_sprite.set_sheet(data.sprite_sheet)
 	_sprite.set_base_color(data.placeholder_color)
 	_show_state()
 
