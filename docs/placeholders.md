@@ -33,6 +33,15 @@ before shipping. Note the license of every replacement asset.
 | Level 1 props and note | `assets/maps/level_01.map` | Plain brush boxes for the cart, grain crates, fences, strongbox, coin pile; no readable note (the exit trigger sits on the table) | Prop sprites or detailed brushes, and a readable note pickup |
 | Level 2 textures | `assets/maps/level_02.map`, materials in `assets/textures/outpost/*.tres`, `door/silver.tres` | Tinted FuncGodot default checker | 64x64 or 128x128 PNGs: mud, palisade logs, gate, watchtower, straw, plank wall/floor, thatch, stone floor, forge, anvil, bed, black wax, silver door |
 | Level 2 props and purse | `assets/maps/level_02.map` | Plain brush boxes for watchtowers (no ladders, archers unreachable), wagons, stalls, forge, anvil, beds, footlocker, tables, treasure; no purse item (the exit trigger sits on the treasury table) | Prop sprites or detailed brushes, climbable towers if wanted, and a black-wax purse pickup |
+| Levels 3-8 textures | `assets/maps/level_03.map` ... `level_08.map`, materials in `assets/textures/{town,forest,camp,mountain,monastery,lair,crypt,ritual,hell}/*.tres`, `door/bone_gate.tres`, `door/hell.tres` | Tinted FuncGodot default checker; fire, embers, candles, potions, and lava are unshaded tints | 64x64 or 128x128 PNGs for each material |
+| Level 3 props and evidence | `assets/maps/level_03.map` | Brush boxes for ruins, the captain's body, well, trees, tents, campfires; black-wax block and bone token on the leader's table (exit trigger) | Ruin and tree sprites or brushes, a body sprite, tent and fire sprites, readable order and seal pickup |
+| Level 4 props and levers | `assets/maps/level_04.map`, `levels/entities/lever.tscn` | Brush gravestones, mausoleum, pillars, altar; lever is a grey `BoxMesh` post with a brown handle and a bone-white square for the mark; trap alcove door is a plain rock-textured brush | Lever sprite or low-poly mesh with the necromancer's mark, lever pull SFX, gate opening SFX |
+| Level 5 props and notes | `assets/maps/level_05.map` | Brush bookshelves, feast table, lab benches, potions; no apprentice notes | Prop sprites or brushes, readable apprentice notes |
+| Level 6 props and tomb | `assets/maps/level_06.map` | Brush pillars, open tomb and lid, robe slab, pedestal, candles, portal frame | Tomb, robe, candle sprites; portal frame art |
+| Boss portals (Levels 6, 8) | `levels/entities/exit_trigger.gd` (boss = 1) | Flat unshaded red `BoxMesh` filling the exit brush once the boss dies | Portal sprite or animated texture, portal open SFX |
+| Level 7 view of the great demon | `assets/maps/level_07.map` | A dark red brush block for the demon and a brush box for the cage in the pit; lava is a decorative unshaded floor that does no damage | Great demon sprite (matching Level 8), cage with the daughter, lava damage if wanted |
+| Level 8 arena dressing | `assets/maps/level_08.map` | Brush cage and chain above the demon, decorative lava patches, tall pillar for the magic missile obelisk | Cage with the daughter, arena dressing |
+| Level intermission and story text | `ui/intermission.tscn` | Stats only; no per-level story text or ending screen | Intermission story text (drafts in `docs/story.md`) and the ending screen |
 | Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key") | Styled HUD and key icons |
 | Door and pickup sounds | — | None (silent) | Door open/close/locked, key pickup SFX |
 | Bandit sprite (**AI-generated**) | `assets/sprites/enemies/bandit_sheet.png`, made by `assets/source/sprites/bandit.py` | Claude-authored procedural pixel art (front-facing only: idle, 4-frame walk, windup, swing, pain, 4-frame death). **Must be disclosed on Steam as AI-generated if it ships.** Disguised variants share the sheet | Hand-made sprite sheet with 8 rotations, or keep and disclose |
@@ -72,7 +81,7 @@ before shipping. Note the license of every replacement asset.
 | F4 give all weapons and full ammo | `player/dev_cheats.gd` (debug builds only) |
 | F2 render scale cycle | `ui/game_view.gd` (debug builds only) |
 | F3 FPS / resolution readout | `ui/hud.gd`, `DebugLabel` in `ui/hud.tscn` (debug builds only) |
-| Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (level 2 in `levels/level_list.tres`) |
+| Test level geometry, colors, and green exit pad | `levels/test_level.tscn` (no longer in `levels/level_list.tres`) |
 | Enemy gallery (one walled bay per enemy type; not in the level list, run with F6) | `levels/enemy_gallery.tscn` |
 | Great demon arena | `levels/great_demon_arena.tscn` |
-| Starter test map | `levels/test_map/`, `assets/maps/test_map.map` |
+| Starter test map (no longer in the level list) | `levels/test_map/`, `assets/maps/test_map.map` |
