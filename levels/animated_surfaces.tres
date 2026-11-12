@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="AnimatedSurfaceList" format=3]
+[gd_resource type="Resource" script_class="AnimatedSurfaceList" format=3 uid="uid://131ma62osuy"]
 
-[ext_resource type="Script" path="res://levels/animated_surface_list.gd" id="1_list"]
-[ext_resource type="Script" path="res://levels/animated_surface.gd" id="2_surface"]
+[ext_resource type="Script" uid="uid://d5ifjnifsnut" path="res://levels/animated_surface_list.gd" id="1_list"]
+[ext_resource type="Script" uid="uid://cgn8uo4ouy72f" path="res://levels/animated_surface.gd" id="2_surface"]
 [ext_resource type="Material" path="res://assets/textures/hell/lava.tres" id="3_lava"]
 [ext_resource type="Material" path="res://assets/textures/camp/fire.tres" id="4_fire"]
 [ext_resource type="Material" path="res://assets/textures/town/embers.tres" id="5_embers"]

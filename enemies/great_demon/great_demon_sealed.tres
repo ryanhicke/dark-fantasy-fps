@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://dbbqxg5jx81wc" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Script" uid="uid://b5x8laxs0505c" path="res://core/components/damage_resistances.gd" id="2_resist"]
 [ext_resource type="Resource" uid="uid://dcdjswb83ynnt" path="res://enemies/great_demon/great_demon_sprites.tres" id="8_sprites"]
-[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_alert.wav" id="snd_great_demon_alert"]
-[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_attack.wav" id="snd_great_demon_attack"]
-[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_death.wav" id="snd_great_demon_death"]
-[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_pain.wav" id="snd_great_demon_pain"]
+[ext_resource type="AudioStream" uid="uid://bo8lktrhkc8ag" path="res://assets/audio/sfx/great_demon_alert.wav" id="snd_great_demon_alert"]
+[ext_resource type="AudioStream" uid="uid://v1khvxkqfnl0" path="res://assets/audio/sfx/great_demon_attack.wav" id="snd_great_demon_attack"]
+[ext_resource type="AudioStream" uid="uid://bla6hjwrdhf7t" path="res://assets/audio/sfx/great_demon_death.wav" id="snd_great_demon_death"]
+[ext_resource type="AudioStream" uid="uid://ccfm0sa11qaix" path="res://assets/audio/sfx/great_demon_pain.wav" id="snd_great_demon_pain"]
 
 [sub_resource type="Resource" id="Resource_sealed"]
 script = ExtResource("2_resist")
@@ -20,18 +20,18 @@ thrown = 0.0
 
 [resource]
 script = ExtResource("1_data")
-blood_color = Color(0.45, 0.42, 0.38, 1)
 display_name = "Great Demon (sealed)"
 max_health = 1000.0
 resistances = SubResource("Resource_sealed")
 placeholder_color = Color(0.25, 0.05, 0.08, 1)
 sprite_sheet = ExtResource("8_sprites")
+blood_color = Color(0.45, 0.42, 0.38, 1)
 move_speed = 0.0
 sight_range = 40.0
 attack_range = 0.0
 attack_damage = 0.0
-pain_chance = 0.0
 alert_sound = ExtResource("snd_great_demon_alert")
 attack_sound = ExtResource("snd_great_demon_attack")
 pain_sound = ExtResource("snd_great_demon_pain")
 death_sound = ExtResource("snd_great_demon_death")
+pain_chance = 0.0
