@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="AnimatedSurfaceList" format=3]
+
+[ext_resource type="Script" path="res://levels/animated_surface_list.gd" id="1_list"]
+[ext_resource type="Script" path="res://levels/animated_surface.gd" id="2_surface"]
+[ext_resource type="Material" path="res://assets/textures/hell/lava.tres" id="3_lava"]
+[ext_resource type="Material" path="res://assets/textures/camp/fire.tres" id="4_fire"]
+[ext_resource type="Material" path="res://assets/textures/town/embers.tres" id="5_embers"]
+
+[sub_resource type="Resource" id="Resource_lava"]
+script = ExtResource("2_surface")
+material = ExtResource("3_lava")
+scroll = Vector2(0.06, 0.03)
+flicker_amount = 0.15
+flicker_speed = 0.4
+
+[sub_resource type="Resource" id="Resource_fire"]
+script = ExtResource("2_surface")
+material = ExtResource("4_fire")
+scroll = Vector2(0, -0.6)
+flicker_amount = 0.25
+flicker_speed = 3.0
+
+[sub_resource type="Resource" id="Resource_embers"]
+script = ExtResource("2_surface")
+material = ExtResource("5_embers")
+flicker_amount = 0.3
+flicker_speed = 0.7
+
+[resource]
+script = ExtResource("1_list")
+surfaces = Array[ExtResource("2_surface")]([SubResource("Resource_lava"), SubResource("Resource_fire"), SubResource("Resource_embers")])

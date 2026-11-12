@@ -22,6 +22,8 @@ const MAIN_SCENE_PATH: String = "res://main.tscn"
 @export var music: AudioStream
 ## Effects drawn once at load so their first real use doesn't hitch.
 @export var prewarm_list: EffectPrewarmList = preload("res://levels/effect_prewarm_list.tres")
+## Map materials that scroll and flicker (lava, fire).
+@export var animated_surfaces: AnimatedSurfaceList = preload("res://levels/animated_surfaces.tres")
 
 var _player: Player
 var _stats: LevelStats = LevelStats.new()
@@ -42,6 +44,8 @@ func _ready() -> void:
 	EventBus.level_completed.connect(_on_level_completed)
 	_spawn_player()
 	_prewarm_effects()
+	if animated_surfaces != null:
+		add_child(SurfaceAnimator.create(animated_surfaces.surfaces))
 	AudioManager.play_music(music)
 
 
