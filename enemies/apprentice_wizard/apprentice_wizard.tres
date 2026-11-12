@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="2_fireball"]
 [ext_resource type="Resource" path="res://enemies/apprentice_wizard/apprentice_fireball.tres" id="3_spell"]
+[ext_resource type="Resource" path="res://enemies/apprentice_wizard/apprentice_wizard_sprites.tres" id="8_sprites"]
 
 [resource]
 script = ExtResource("1_data")
@@ -23,3 +24,4 @@ muzzle_height = 1.4
 projectile_data = ExtResource("3_spell")
 pain_chance = 0.5
 pain_duration = 0.4
+sprite_sheet = ExtResource("8_sprites")

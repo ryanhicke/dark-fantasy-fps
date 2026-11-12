@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b5x8laxs0505c" path="res://core/components/damage_resistances.gd" id="2_resist"]
 [ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="3_fireball"]
 [ext_resource type="Resource" path="res://enemies/great_demon/great_demon_fireball.tres" id="4_spell"]
+[ext_resource type="Resource" path="res://enemies/great_demon/great_demon_sprites.tres" id="8_sprites"]
 
 [sub_resource type="Resource" id="Resource_lightning_only"]
 script = ExtResource("2_resist")
@@ -33,3 +34,4 @@ muzzle_height = 4.5
 projectile_data = ExtResource("4_spell")
 pain_chance = 0.15
 pain_duration = 0.3
+sprite_sheet = ExtResource("8_sprites")
