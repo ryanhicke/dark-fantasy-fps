@@ -21,7 +21,7 @@ func _ready() -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	if not body.is_in_group(Player.GROUP):
+	if not body.is_in_group(Player.GROUP) or not _enemy.is_dormant():
 		return
 	body_entered.disconnect(_on_body_entered)
 	# Deferred: toggling monitoring inside a physics callback is not allowed.

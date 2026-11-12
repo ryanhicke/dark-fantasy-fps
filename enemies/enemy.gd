@@ -20,6 +20,8 @@ const SIGHT_CHECK_INTERVAL: float = 0.2
 const CORPSE_DROP_MAX: float = 50.0
 ## Seconds a dead flyer takes to fall to the floor.
 const CORPSE_FALL_TIME: float = 0.4
+## Longer than any death animation, to jump a restored corpse to its end.
+const CORPSE_SKIP_SECONDS: float = 60.0
 
 @export var data: EnemyData
 ## Separate from project gravity, matching the player.
@@ -36,6 +38,10 @@ var _target_health: HealthComponent
 var _sight_timer: float = 0.0
 var _can_see_target: bool = false
 var _blood: EnemyBlood
+## Hidden in the ground waiting to rise (RiseTrigger, unused summons).
+var _dormant: bool = false
+## While restoring a save: state changes play no sounds.
+var _restoring: bool = false
 
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _sprite: EnemySprite = $Sprite
@@ -47,6 +53,7 @@ var _blood: EnemyBlood
 func _enter_tree() -> void:
 	# The player's homing spells pick targets from this group.
 	add_to_group(HomingProjectile.TARGET_GROUP)
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
 
 
 func _ready() -> void:
@@ -211,6 +218,7 @@ func respawn_rising(at: Vector3) -> void:
 ## Hides the enemy in the ground with no AI or collision until
 ## rise_from_ground(). Used by RiseTrigger.
 func make_dormant() -> void:
+	_dormant = true
 	set_physics_process(false)
 	_collision.disabled = true
 	_sprite.hide_in_ground()
@@ -224,6 +232,7 @@ func rise_from_ground() -> void:
 
 
 func _finish_rising() -> void:
+	_dormant = false
 	_collision.disabled = false
 	set_physics_process(true)
 	_brain.wake()
@@ -252,6 +261,10 @@ func _rise_as(next_data: EnemyData) -> void:
 
 func _on_brain_state_changed(new_state: EnemyBrain.State, old_state: EnemyBrain.State) -> void:
 	_show_state()
+	if _restoring:
+		if old_state == EnemyBrain.State.IDLE and new_state == EnemyBrain.State.CHASE:
+			alerted.emit()
+		return
 	if old_state == EnemyBrain.State.IDLE and new_state == EnemyBrain.State.CHASE:
 		play_sound(data.alert_sound)
 		alerted.emit()
@@ -295,3 +308,77 @@ func _setup_voice() -> void:
 		return
 	_voice.bus = AudioBuses.SFX
 	_voice.max_distance = AudioManager.POSITIONAL_MAX_DISTANCE
+
+
+func is_dormant() -> bool:
+	return _dormant
+
+
+## Saveable contract (see SaveSnapshot). Mid-attack or mid-pain enemies
+## come back simply chasing; a rising one comes back risen.
+func save_state() -> Dictionary:
+	return {
+		"data": data.resource_path,
+		"dead": _health.is_dead(),
+		"health": _health.current_health,
+		"position": global_position,
+		"awake": _brain.state != EnemyBrain.State.IDLE,
+		# A rising enemy (already visible) counts as risen.
+		"dormant": _dormant and not _sprite.visible,
+	}
+
+
+func load_state(state: Dictionary) -> void:
+	if data == null:
+		return
+	_restoring = true
+	var path: String = str(state.get("data", ""))
+	if path != data.resource_path and ResourceLoader.exists(path):
+		var saved_data: EnemyData = load(path) as EnemyData
+		if saved_data != null:
+			data = saved_data
+			_apply_data()
+	global_position = SaveSnapshot.vec3(state, "position", global_position)
+	velocity = Vector3.ZERO
+	if bool(state.get("dead", false)):
+		if data.revive_as != null:
+			# Saved during a werewolf's rise delay: it comes back risen.
+			_sprite.stand_up()
+			change_data(data.revive_as)
+		else:
+			_restore_corpse()
+	elif bool(state.get("dormant", false)):
+		make_dormant()
+	else:
+		_restore_alive(float(state.get("health", _health.max_health)), bool(state.get("awake", false)))
+	_restoring = false
+
+
+func _restore_alive(health: float, awake: bool) -> void:
+	if _dormant:
+		# Also kills a climb-out tween, so its callback never fires.
+		_sprite.hide_in_ground()
+		_sprite.visible = true
+		_sprite.scale.y = 1.0
+		_dormant = false
+	_collision.disabled = false
+	set_physics_process(true)
+	# Set directly, not through set_health: health_changed would start
+	# health-triggered summoning that the summoner restores itself.
+	_health.current_health = clampf(health, 1.0, _health.max_health)
+	if awake:
+		_brain.wake()
+
+
+## Lies down at once, without the death sound, blood, or a kill report.
+func _restore_corpse() -> void:
+	_health.current_health = 0.0
+	_dormant = false
+	_sprite.visible = true
+	_sprite.scale.y = 1.0
+	_brain.die()
+	set_physics_process(false)
+	_collision.disabled = true
+	# Skips the fall: a large step finishes any tween at its last frame.
+	_sprite.collapse().custom_step(CORPSE_SKIP_SECONDS)
+
