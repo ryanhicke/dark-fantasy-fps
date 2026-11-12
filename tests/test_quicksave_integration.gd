@@ -58,3 +58,20 @@ func test_cannot_save_while_dead() -> void:
 	var player: Player = _player()
 	(player.get_node("HealthComponent") as HealthComponent).take_damage(9999.0, Damage.Type.SLASH, null)
 	assert_false(SaveManager.quicksave())
+
+
+func test_level_8_boss_fight_round_trip() -> void:
+	GameState.start_game(7)
+	await wait_process_frames(LOAD_FRAMES)
+	var demon: Enemy = get_tree().get_first_node_in_group(ExitTrigger.BOSS_GROUP) as Enemy
+	assert_not_null(demon)
+	var phases: GreatDemonPhases = demon.get_node("Phases") as GreatDemonPhases
+	demon.wake()
+	phases.on_obelisk_destroyed()
+	await wait_process_frames(LOAD_FRAMES)
+	assert_true(SaveManager.quicksave())
+	assert_true(SaveManager.quickload())
+	await wait_process_frames(LOAD_FRAMES)
+	var loaded: Enemy = get_tree().get_first_node_in_group(ExitTrigger.BOSS_GROUP) as Enemy
+	assert_ne(loaded, demon, "the level was reloaded")
+	assert_eq((loaded.get_node("Phases") as GreatDemonPhases).obelisks_destroyed, 1)

@@ -80,6 +80,7 @@ The rest of the steps are the same.
 | Select weapon | 1-9 |
 | Next / previous weapon | Mouse wheel |
 | Respawn after dying | Enter |
+| Quicksave / quickload | F5 / F9 |
 | Release the mouse | Esc |
 
 Debug builds (running from the editor, or an export with debug) also have
