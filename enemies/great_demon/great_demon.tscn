@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://enemies/werewolf/werewolf.tscn" id="9_werewolf"]
 [ext_resource type="Script" path="res://enemies/great_demon/great_demon_phases.gd" id="10_phases"]
 [ext_resource type="Resource" path="res://enemies/great_demon/great_demon_final.tres" id="11_final"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_roar.wav" id="snd_great_demon_roar"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_great_demon"]
 radius = 1.5
@@ -143,6 +144,7 @@ target_position = Vector3(0, 0, -1)
 
 [node name="Phases" type="Node" parent="."]
 script = ExtResource("10_phases")
+roar_sound = ExtResource("snd_great_demon_roar")
 obelisk_count = 4
 final_data = ExtResource("11_final")
 interval_scale_per_obelisk = 0.75

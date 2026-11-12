@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Resource" path="res://enemies/melee_demon/melee_demon_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/demon_alert.wav" id="snd_demon_alert"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/demon_attack.wav" id="snd_demon_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/demon_death.wav" id="snd_demon_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/demon_pain.wav" id="snd_demon_pain"]
 
 [resource]
 script = ExtResource("1_data")
@@ -19,3 +23,7 @@ attack_recovery = 0.6
 pain_chance = 0.25
 pain_duration = 0.3
 sprite_sheet = ExtResource("8_sprites")
+alert_sound = ExtResource("snd_demon_alert")
+attack_sound = ExtResource("snd_demon_attack")
+pain_sound = ExtResource("snd_demon_pain")
+death_sound = ExtResource("snd_demon_death")

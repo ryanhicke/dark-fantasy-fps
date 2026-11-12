@@ -29,6 +29,7 @@
 [ext_resource type="PackedScene" path="res://levels/entities/ammo_arrows.tscn" id="27_q4tdk"]
 [ext_resource type="PackedScene" path="res://levels/entities/key_pickup.tscn" id="28_3prhw"]
 [ext_resource type="PackedScene" path="res://levels/entities/health_large.tscn" id="29_atgku"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/music/outlaws.wav" id="snd_outlaws"]
 
 [sub_resource type="Environment" id="Environment_level01"]
 background_mode = 1
@@ -512,6 +513,7 @@ points = PackedVector3Array(2, 2, 2.5, 2, 2, -2.5, -2, 2, 2.5, -2, 2, -2.5, 2, -
 
 [node name="Level01" type="Node3D" unique_id=1089998643]
 script = ExtResource("1_level")
+music = ExtResource("snd_outlaws")
 player_scene = ExtResource("2_player")
 display_name = "The Robbers' Cave"
 intermission_text = "The bandits were not working alone. Their leader carried a mercenary's seal and a list of farms marked for burning."

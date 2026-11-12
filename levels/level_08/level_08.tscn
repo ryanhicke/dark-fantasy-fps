@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" path="res://levels/entities/crystal_obelisk.tscn" id="21_ih04q"]
 [ext_resource type="PackedScene" path="res://levels/entities/health_small.tscn" id="22_bbg31"]
 [ext_resource type="PackedScene" path="res://levels/entities/weapon_lightning.tscn" id="23_makbx"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/music/abyss.wav" id="snd_abyss"]
 
 [sub_resource type="Environment" id="Environment_level08"]
 background_mode = 1
@@ -227,6 +228,7 @@ points = PackedVector3Array(1, 3, 4, 1, 3, -4, -1, 3, 4, -1, 3, -4, 1, -3, 4, 1,
 
 [node name="Level08" type="Node3D" unique_id=589703576]
 script = ExtResource("1_level")
+music = ExtResource("snd_abyss")
 player_scene = ExtResource("2_player")
 display_name = "The Great Demon"
 intermission_text = "The demon falls. The cage comes down, and the portal home opens."

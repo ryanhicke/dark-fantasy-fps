@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="3_map"]
 [ext_resource type="Resource" path="res://levels/map_config/dark_fantasy_map_settings.tres" id="4_settings"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/music/outlaws.wav" id="snd_outlaws"]
 
 [sub_resource type="Environment" id="Environment_level02"]
 background_mode = 1
@@ -16,6 +17,7 @@ fog_density = 0.012
 
 [node name="Level02" type="Node3D"]
 script = ExtResource("1_level")
+music = ExtResource("snd_outlaws")
 player_scene = ExtResource("2_player")
 display_name = "The Mercenary Outpost"
 intermission_text = "You recovered the stolen goods, and a purse of strange coin sealed in black wax. But the outpost was half-empty. Where had the rest of the mercenaries gone? Smoke rose over the trees, toward home."

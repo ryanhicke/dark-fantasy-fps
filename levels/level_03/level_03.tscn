@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="3_map"]
 [ext_resource type="Resource" path="res://levels/map_config/dark_fantasy_map_settings.tres" id="4_settings"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/music/outlaws.wav" id="snd_outlaws"]
 
 [sub_resource type="Environment" id="Environment_level03"]
 background_mode = 1
@@ -16,6 +17,7 @@ fog_density = 0.025
 
 [node name="Level03" type="Node3D"]
 script = ExtResource("1_level")
+music = ExtResource("snd_outlaws")
 player_scene = ExtResource("2_player")
 display_name = "The Wolves' Camp"
 intermission_text = "Silver coins and a black-wax seal. The beasts were paid, and the one who paid them does not deal in coin alone. The girl was taken up the Feldberg."

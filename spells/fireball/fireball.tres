@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://spells/spell_data.gd" id="1_data"]
 [ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="2_projectile"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/fireball_cast.wav" id="snd_fireball_cast"]
 
 [resource]
 script = ExtResource("1_data")
@@ -20,3 +21,4 @@ projectile_gravity = 0.0
 splash_radius = 2.5
 splash_damage = 20.0
 caster_splash_scale = 0.5
+attack_sound = ExtResource("snd_fireball_cast")

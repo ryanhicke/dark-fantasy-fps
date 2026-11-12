@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="3_map"]
 [ext_resource type="Resource" path="res://levels/map_config/dark_fantasy_map_settings.tres" id="4_settings"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/music/abyss.wav" id="snd_abyss"]
 
 [sub_resource type="Environment" id="Environment_level07"]
 background_mode = 1
@@ -16,6 +17,7 @@ fog_density = 0.02
 
 [node name="Level07" type="Node3D"]
 script = ExtResource("1_level")
+music = ExtResource("snd_abyss")
 player_scene = ExtResource("2_player")
 display_name = "Hell: The Fortress"
 intermission_text = "Below the fortress, in a pit of fire, the thing waits. Above it, in a cage, the mayor's daughter is still alive."

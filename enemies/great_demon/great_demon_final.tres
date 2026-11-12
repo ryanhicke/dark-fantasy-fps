@@ -5,6 +5,10 @@
 [ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="3_fireball"]
 [ext_resource type="Resource" path="res://enemies/great_demon/great_demon_fireball.tres" id="4_spell"]
 [ext_resource type="Resource" uid="uid://dcdjswb83ynnt" path="res://enemies/great_demon/great_demon_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_alert.wav" id="snd_great_demon_alert"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_attack.wav" id="snd_great_demon_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_death.wav" id="snd_great_demon_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/great_demon_pain.wav" id="snd_great_demon_pain"]
 
 [sub_resource type="Resource" id="Resource_lightning_only"]
 script = ExtResource("2_resist")
@@ -36,3 +40,7 @@ muzzle_height = 4.5
 projectile_data = ExtResource("4_spell")
 pain_chance = 0.15
 pain_duration = 0.3
+alert_sound = ExtResource("snd_great_demon_alert")
+attack_sound = ExtResource("snd_great_demon_attack")
+pain_sound = ExtResource("snd_great_demon_pain")
+death_sound = ExtResource("snd_great_demon_death")

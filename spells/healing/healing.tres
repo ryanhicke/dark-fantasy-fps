@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="SpellData" format=3]
 
 [ext_resource type="Script" path="res://spells/spell_data.gd" id="1_data"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/heal_cast.wav" id="snd_heal_cast"]
 
 [resource]
 script = ExtResource("1_data")
@@ -14,3 +15,4 @@ ammo_type = &"mana"
 ammo_cost = 20
 self_effect = 1
 effect_amount = 10.0
+attack_sound = ExtResource("snd_heal_cast")

@@ -3,6 +3,10 @@
 [ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="PackedScene" path="res://weapons/arrow/arrow.tscn" id="2_arrow"]
 [ext_resource type="Resource" path="res://enemies/bandit_archer/bandit_archer_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/archer_alert.wav" id="snd_archer_alert"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/archer_attack.wav" id="snd_archer_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/archer_death.wav" id="snd_archer_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/archer_pain.wav" id="snd_archer_pain"]
 
 [resource]
 script = ExtResource("1_data")
@@ -22,3 +26,7 @@ muzzle_height = 1.4
 pain_chance = 0.7
 pain_duration = 0.4
 sprite_sheet = ExtResource("8_sprites")
+alert_sound = ExtResource("snd_archer_alert")
+attack_sound = ExtResource("snd_archer_attack")
+pain_sound = ExtResource("snd_archer_pain")
+death_sound = ExtResource("snd_archer_death")

@@ -4,6 +4,10 @@
 [ext_resource type="PackedScene" path="res://weapons/arrow/arrow.tscn" id="2_arrow"]
 [ext_resource type="Resource" path="res://enemies/bandit_archer/bandit_archer_sprites.tres" id="8_sprites"]
 [ext_resource type="Resource" path="res://enemies/werewolf/werewolf.tres" id="9_werewolf"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/archer_attack.wav" id="snd_archer_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/archer_death.wav" id="snd_archer_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/archer_pain.wav" id="snd_archer_pain"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/werewolf_growl.wav" id="snd_werewolf_growl"]
 
 [resource]
 script = ExtResource("1_data")
@@ -25,3 +29,7 @@ pain_duration = 0.4
 revive_as = ExtResource("9_werewolf")
 revive_delay = 1.2
 sprite_sheet = ExtResource("8_sprites")
+alert_sound = ExtResource("snd_werewolf_growl")
+attack_sound = ExtResource("snd_archer_attack")
+pain_sound = ExtResource("snd_archer_pain")
+death_sound = ExtResource("snd_archer_death")

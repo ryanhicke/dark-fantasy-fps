@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://dbbqxg5jx81wc" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Script" uid="uid://b5x8laxs0505c" path="res://core/components/damage_resistances.gd" id="2_resist"]
 [ext_resource type="Resource" uid="uid://dgfn0ysx3vfhh" path="res://enemies/armored_mercenary/armored_mercenary_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/mercenary_alert.wav" id="snd_mercenary_alert"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/mercenary_attack.wav" id="snd_mercenary_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/mercenary_death.wav" id="snd_mercenary_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/mercenary_pain.wav" id="snd_mercenary_pain"]
 
 [sub_resource type="Resource" id="Resource_plate_armor"]
 script = ExtResource("2_resist")
@@ -22,3 +26,7 @@ attack_damage_type = 4
 attack_windup = 0.7
 attack_recovery = 0.8
 pain_chance = 0.2
+alert_sound = ExtResource("snd_mercenary_alert")
+attack_sound = ExtResource("snd_mercenary_attack")
+pain_sound = ExtResource("snd_mercenary_pain")
+death_sound = ExtResource("snd_mercenary_death")

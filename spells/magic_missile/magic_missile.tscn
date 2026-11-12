@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://spells/magic_missile/homing_projectile.gd" id="1_homing"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/missile_impact.wav" id="snd_missile_impact"]
 
 [sub_resource type="StandardMaterial3D" id="Material_missile"]
 shading_mode = 0
@@ -13,6 +14,7 @@ size = Vector2(0.25, 0.25)
 
 [node name="MagicMissile" type="Node3D"]
 script = ExtResource("1_homing")
+impact_sound = ExtResource("snd_missile_impact")
 lifetime = 4.0
 
 [node name="Sprite" type="MeshInstance3D" parent="."]

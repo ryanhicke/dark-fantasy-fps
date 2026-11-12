@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://spells/explosion_effect.gd" id="1_effect"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/explosion.wav" id="snd_explosion"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_burst"]
 size = Vector2(0.6, 0.6)
@@ -29,6 +30,7 @@ colors = PackedColorArray(1, 0.95, 0.6, 1, 1, 0.45, 0.08, 1, 0.25, 0.05, 0.02, 1
 
 [node name="FireballExplosion" type="Node3D"]
 script = ExtResource("1_effect")
+sound = ExtResource("snd_explosion")
 
 [node name="Sprite" type="MeshInstance3D" parent="."]
 cast_shadow = 0

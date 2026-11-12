@@ -3,6 +3,10 @@
 [ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Resource" path="res://enemies/werewolf/werewolf.tres" id="9_werewolf"]
 [ext_resource type="Resource" path="res://enemies/bandit/bandit_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bandit_attack.wav" id="snd_bandit_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bandit_death.wav" id="snd_bandit_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bandit_pain.wav" id="snd_bandit_pain"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/werewolf_growl.wav" id="snd_werewolf_growl"]
 
 [resource]
 script = ExtResource("1_data")
@@ -20,3 +24,7 @@ pain_duration = 0.35
 revive_as = ExtResource("9_werewolf")
 revive_delay = 1.2
 sprite_sheet = ExtResource("8_sprites")
+alert_sound = ExtResource("snd_werewolf_growl")
+attack_sound = ExtResource("snd_bandit_attack")
+pain_sound = ExtResource("snd_bandit_pain")
+death_sound = ExtResource("snd_bandit_death")

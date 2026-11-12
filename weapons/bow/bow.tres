@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://weapons/weapon_data.gd" id="1_data"]
 [ext_resource type="PackedScene" path="res://weapons/arrow/arrow.tscn" id="2_arrow"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bow_draw.wav" id="snd_bow_draw"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bow_release.wav" id="snd_bow_release"]
 
 [resource]
 script = ExtResource("1_data")
@@ -21,3 +23,5 @@ projectile_gravity = 0.95
 charge_time = 1.5
 max_charge_damage = 30.0
 max_charge_speed = 55.0
+attack_sound = ExtResource("snd_bow_release")
+charge_sound = ExtResource("snd_bow_draw")

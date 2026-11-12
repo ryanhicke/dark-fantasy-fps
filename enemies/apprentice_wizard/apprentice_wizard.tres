@@ -4,6 +4,10 @@
 [ext_resource type="PackedScene" path="res://spells/fireball/fireball.tscn" id="2_fireball"]
 [ext_resource type="Resource" path="res://enemies/apprentice_wizard/apprentice_fireball.tres" id="3_spell"]
 [ext_resource type="Resource" path="res://enemies/apprentice_wizard/apprentice_wizard_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/wizard_alert.wav" id="snd_wizard_alert"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/wizard_attack.wav" id="snd_wizard_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/wizard_death.wav" id="snd_wizard_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/wizard_pain.wav" id="snd_wizard_pain"]
 
 [resource]
 script = ExtResource("1_data")
@@ -25,3 +29,7 @@ projectile_data = ExtResource("3_spell")
 pain_chance = 0.5
 pain_duration = 0.4
 sprite_sheet = ExtResource("8_sprites")
+alert_sound = ExtResource("snd_wizard_alert")
+attack_sound = ExtResource("snd_wizard_attack")
+pain_sound = ExtResource("snd_wizard_pain")
+death_sound = ExtResource("snd_wizard_death")

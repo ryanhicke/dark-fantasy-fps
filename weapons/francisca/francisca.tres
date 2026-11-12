@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://weapons/weapon_data.gd" id="1_data"]
 [ext_resource type="PackedScene" path="res://weapons/francisca/francisca_projectile.tscn" id="2_axe"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/axe_throw.wav" id="snd_axe_throw"]
 
 [resource]
 script = ExtResource("1_data")
@@ -18,3 +19,4 @@ ammo_cost = 1
 projectile_scene = ExtResource("2_axe")
 projectile_speed = 18.0
 projectile_gravity = 9.8
+attack_sound = ExtResource("snd_axe_throw")

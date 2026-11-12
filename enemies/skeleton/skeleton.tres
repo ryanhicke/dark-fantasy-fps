@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://dbbqxg5jx81wc" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Script" uid="uid://b5x8laxs0505c" path="res://core/components/damage_resistances.gd" id="2_resist"]
 [ext_resource type="Resource" uid="uid://c2vdrk7y1em7j" path="res://enemies/skeleton/skeleton_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/skeleton_alert.wav" id="snd_skeleton_alert"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/skeleton_attack.wav" id="snd_skeleton_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/skeleton_death.wav" id="snd_skeleton_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/skeleton_pain.wav" id="snd_skeleton_pain"]
 
 [sub_resource type="Resource" id="Resource_bones"]
 script = ExtResource("2_resist")
@@ -20,3 +24,7 @@ sprite_sheet = ExtResource("8_sprites")
 attack_damage = 4.0
 pain_chance = 0.6
 pain_duration = 0.3
+alert_sound = ExtResource("snd_skeleton_alert")
+attack_sound = ExtResource("snd_skeleton_attack")
+pain_sound = ExtResource("snd_skeleton_pain")
+death_sound = ExtResource("snd_skeleton_death")

@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" path="res://enemies/enemy_data.gd" id="1_data"]
 [ext_resource type="Resource" path="res://enemies/bandit/bandit_sprites.tres" id="8_sprites"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bandit_alert.wav" id="snd_bandit_alert"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bandit_attack.wav" id="snd_bandit_attack"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bandit_death.wav" id="snd_bandit_death"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/bandit_pain.wav" id="snd_bandit_pain"]
 
 [resource]
 script = ExtResource("1_data")
@@ -17,3 +21,7 @@ attack_recovery = 0.6
 pain_chance = 0.5
 pain_duration = 0.35
 sprite_sheet = ExtResource("8_sprites")
+alert_sound = ExtResource("snd_bandit_alert")
+attack_sound = ExtResource("snd_bandit_attack")
+pain_sound = ExtResource("snd_bandit_pain")
+death_sound = ExtResource("snd_bandit_death")

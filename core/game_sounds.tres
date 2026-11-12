@@ -1,6 +1,42 @@
 [gd_resource type="Resource" script_class="GameSounds" format=3]
 
 [ext_resource type="Script" path="res://core/game_sounds.gd" id="1_sounds"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/ammo_pickup.wav" id="snd_ammo_pickup"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/armor_fading.wav" id="snd_armor_fading"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/door_close.wav" id="snd_door_close"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/door_locked.wav" id="snd_door_locked"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/door_open.wav" id="snd_door_open"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/health_pickup.wav" id="snd_health_pickup"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/intermission_continue.wav" id="snd_intermission_continue"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/key_pickup.wav" id="snd_key_pickup"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/level_exit.wav" id="snd_level_exit"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/lever_pull.wav" id="snd_lever_pull"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/menu_back.wav" id="snd_menu_back"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/menu_move.wav" id="snd_menu_move"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/menu_select.wav" id="snd_menu_select"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/obelisk_clink.wav" id="snd_obelisk_clink"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/obelisk_shatter.wav" id="snd_obelisk_shatter"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/portal_open.wav" id="snd_portal_open"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/secret_found.wav" id="snd_secret_found"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/weapon_pickup.wav" id="snd_weapon_pickup"]
 
 [resource]
 script = ExtResource("1_sounds")
+weapon_pickup = ExtResource("snd_weapon_pickup")
+ammo_pickup = ExtResource("snd_ammo_pickup")
+health_pickup = ExtResource("snd_health_pickup")
+key_pickup = ExtResource("snd_key_pickup")
+door_open = ExtResource("snd_door_open")
+door_close = ExtResource("snd_door_close")
+door_locked = ExtResource("snd_door_locked")
+lever_pull = ExtResource("snd_lever_pull")
+portal_open = ExtResource("snd_portal_open")
+level_exit = ExtResource("snd_level_exit")
+secret_found = ExtResource("snd_secret_found")
+obelisk_shatter = ExtResource("snd_obelisk_shatter")
+obelisk_clink = ExtResource("snd_obelisk_clink")
+armor_fading = ExtResource("snd_armor_fading")
+menu_move = ExtResource("snd_menu_move")
+menu_select = ExtResource("snd_menu_select")
+menu_back = ExtResource("snd_menu_back")
+intermission_continue = ExtResource("snd_intermission_continue")

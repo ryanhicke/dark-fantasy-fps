@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://weapons/francisca/spinning_projectile.gd" id="1_spin"]
+[ext_resource type="AudioStreamWAV" path="res://assets/audio/sfx/axe_impact.wav" id="snd_axe_impact"]
 
 [sub_resource type="StandardMaterial3D" id="Material_haft"]
 albedo_color = Color(0.35, 0.22, 0.12, 1)
@@ -18,6 +19,7 @@ size = Vector3(0.02, 0.12, 0.14)
 
 [node name="FranciscaProjectile" type="Node3D"]
 script = ExtResource("1_spin")
+impact_sound = ExtResource("snd_axe_impact")
 lifetime = 4.0
 
 [node name="Spin" type="Node3D" parent="."]
