@@ -35,6 +35,7 @@ var _target: Node3D
 var _target_health: HealthComponent
 var _sight_timer: float = 0.0
 var _can_see_target: bool = false
+var _blood: EnemyBlood
 
 @onready var _health: HealthComponent = $HealthComponent
 @onready var _sprite: EnemySprite = $Sprite
@@ -58,6 +59,10 @@ func _ready() -> void:
 	_health.died.connect(_on_died)
 	_sight_cast.enabled = false
 	_sight_cast.add_exception(self)
+	# Built in code so every enemy scene gets it without scene edits.
+	_blood = EnemyBlood.create(data.blood_color)
+	add_child(_blood)
+	_blood.position = _collision.position
 	_apply_data()
 	_sight_timer = randf() * SIGHT_CHECK_INTERVAL
 	# Deferred: in map levels the player is spawned by the Level root, whose
@@ -76,6 +81,8 @@ func _apply_data() -> void:
 	_health.reset()
 	_sprite.set_sheet(data.sprite_sheet)
 	_sprite.set_base_color(data.placeholder_color)
+	if _blood != null:
+		_blood.set_spray_color(data.blood_color)
 	_show_state()
 
 
@@ -133,11 +140,13 @@ func _on_damaged(_amount: float, _type: Damage.Type, _source: Node) -> void:
 	if _health.is_dead():
 		return
 	_brain.take_hit(randf())
+	_blood.spray_hit()
 	_sprite.flash_pain(_brain.state, _brain.is_winding_up())
 
 
 func _on_died(_source: Node) -> void:
 	_brain.die()
+	_blood.spray_death()
 	play_sound(data.death_sound)
 	set_physics_process(false)
 	# Deferred: changing collision state inside a physics callback is not allowed.

@@ -13,6 +13,8 @@ extends Resource
 @export var placeholder_color: Color = Color(0.0, 0.0, 0.0, 0.0)
 ## Animation frames. Null keeps the flat placeholder quad.
 @export var sprite_sheet: EnemySpriteSheet
+## Color of the spray when hit (blood, bone dust, ichor). Alpha 0 sprays nothing.
+@export var blood_color: Color = Color(0.5, 0.02, 0.02, 1)
 
 @export_group("Movement")
 ## Chase speed in m/s. Keep well below the player's so they can kite.
