@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://c64ulffweesls"
+path="res://.godot/imported/level_06.map-e05513d8cb3573187c11dd1abb3a9193.tres"
+
+[deps]
+
+source_file="res://assets/maps/level_06.map"
+dest_files=["res://.godot/imported/level_06.map-e05513d8cb3573187c11dd1abb3a9193.tres"]
+
+[params]
+
