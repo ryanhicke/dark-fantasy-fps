@@ -36,6 +36,11 @@ var _bob_phase: float = 0.0
 @onready var _sprite: MeshInstance3D = $Sprite
 
 
+func _enter_tree() -> void:
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
+	add_to_group(SaveSnapshot.REMOVABLE_GROUP)
+
+
 func _ready() -> void:
 	var material: StandardMaterial3D = _sprite.material_override as StandardMaterial3D
 	material.albedo_color = tint
@@ -77,6 +82,17 @@ func _on_body_entered(body: Node3D) -> void:
 	# Non-positional: the player is standing on it.
 	AudioManager.play_sfx(pickup_sound if pickup_sound != null else _default_sound())
 	queue_free()
+
+
+## Saveable contract. Collected pickups are freed, so being saved at all
+## means still there; only an unseal-time pickup's visibility needs storing.
+func save_state() -> Dictionary:
+	return {"present": visible}
+
+
+func load_state(state: Dictionary) -> void:
+	if bool(state.get("present", visible)) and not visible:
+		_set_present(true)
 
 
 ## Override. Returns true if the player gained anything; otherwise the

@@ -14,10 +14,22 @@ func _init() -> void:
 	# In _init, not _ready, so Level._ready (which runs after its children)
 	# can already count the group either way.
 	add_to_group(SECRET_GROUP)
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
 
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
+
+
+## Saveable contract. The level's secret tally is saved with its stats.
+func save_state() -> Dictionary:
+	return {"found": is_found}
+
+
+func load_state(state: Dictionary) -> void:
+	if bool(state.get("found", false)):
+		is_found = true
+		set_deferred("monitoring", false)
 
 
 func _on_body_entered(body: Node3D) -> void:

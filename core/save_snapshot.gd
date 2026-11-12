@@ -12,6 +12,9 @@ extends RefCounted
 ## tampered save can never instance a script.
 
 const SAVEABLE_GROUP: StringName = &"saveable"
+## Saveables that free themselves when used up (pickups, keys). One missing
+## from a save had already been taken, so loading removes it.
+const REMOVABLE_GROUP: StringName = &"saveable_removable"
 ## Bump when the layout changes incompatibly. Older files are refused.
 const VERSION: int = 1
 const KEY_VERSION: String = "version"
@@ -88,6 +91,9 @@ static func apply_nodes(root: Node, nodes: Dictionary) -> int:
 			missing += 1
 			continue
 		node.call(&"load_state", state)
+	for node: Node in root.get_tree().get_nodes_in_group(REMOVABLE_GROUP):
+		if root.is_ancestor_of(node) and not nodes.has(String(root.get_path_to(node))):
+			node.queue_free()
 	return missing
 
 

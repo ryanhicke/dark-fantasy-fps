@@ -23,12 +23,28 @@ var is_pulled: bool = false
 @onready var _mark: Node3D = $Mark
 
 
+func _enter_tree() -> void:
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
+
+
 func _ready() -> void:
 	if func_godot_properties.has("target"):
 		target = str(func_godot_properties["target"])
 	if func_godot_properties.has("marked"):
 		marked = int(func_godot_properties["marked"]) != 0
 	_mark.visible = marked
+
+
+## Saveable contract. The doors it opened save their own state, so a
+## restored lever only needs to look pulled.
+func save_state() -> Dictionary:
+	return {"pulled": is_pulled}
+
+
+func load_state(state: Dictionary) -> void:
+	if bool(state.get("pulled", false)) and not is_pulled:
+		is_pulled = true
+		_handle.rotation_degrees.x += pull_angle
 
 
 func use(_user: Node) -> void:

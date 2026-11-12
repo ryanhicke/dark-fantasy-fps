@@ -27,6 +27,11 @@ var _bob_phase: float = 0.0
 @onready var _material: StandardMaterial3D = _sprite.material_override as StandardMaterial3D
 
 
+func _enter_tree() -> void:
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
+	add_to_group(SaveSnapshot.REMOVABLE_GROUP)
+
+
 func _ready() -> void:
 	if func_godot_properties.has("key_type"):
 		key_type = int(func_godot_properties["key_type"])
@@ -42,6 +47,15 @@ func _ready() -> void:
 	# Random start so several keys in view don't bob in lockstep.
 	_bob_phase = randf() * TAU
 	body_entered.connect(_on_body_entered)
+
+
+## Saveable contract: being in the save means not yet picked up.
+func save_state() -> Dictionary:
+	return {}
+
+
+func load_state(_state: Dictionary) -> void:
+	pass
 
 
 func _process(delta: float) -> void:

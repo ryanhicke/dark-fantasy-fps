@@ -19,6 +19,10 @@ var is_open: bool = true
 var _triggered: bool = false
 
 
+func _enter_tree() -> void:
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
+
+
 func _ready() -> void:
 	if func_godot_properties.has("boss"):
 		wait_for_boss = int(func_godot_properties["boss"]) != 0
@@ -36,13 +40,28 @@ func _on_enemy_killed(enemy: Node) -> void:
 	open()
 
 
-## Shows the portal and lets the player through.
-func open() -> void:
+## Saveable contract. Only a boss exit changes; the boss being dead in the
+## save never re-sends enemy_killed, so the exit restores itself.
+func save_state() -> Dictionary:
+	return {"open": is_open}
+
+
+func load_state(state: Dictionary) -> void:
+	if bool(state.get("open", false)) and not is_open:
+		open(true)
+
+
+## Shows the portal and lets the player through. [param silent] skips the
+## sound (restoring a save).
+func open(silent: bool = false) -> void:
 	if is_open:
 		return
 	is_open = true
+	if EventBus.enemy_killed.is_connected(_on_enemy_killed):
+		EventBus.enemy_killed.disconnect(_on_enemy_killed)
 	_add_portal_visual()
-	AudioManager.play_sfx_at(AudioManager.sounds.portal_open, global_transform * _local_bounds().get_center())
+	if not silent:
+		AudioManager.play_sfx_at(AudioManager.sounds.portal_open, global_transform * _local_bounds().get_center())
 	# Deferred: this can run inside the boss's physics callback.
 	set_deferred("monitoring", true)
 

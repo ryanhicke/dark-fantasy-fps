@@ -52,6 +52,10 @@ var _open_y: float = 0.0
 var _block_check: ShapeCast3D
 
 
+func _enter_tree() -> void:
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
+
+
 func _ready() -> void:
 	required_key = int(func_godot_properties.get("key_type", KeyRing.NO_KEY))
 	_speed = float(func_godot_properties.get("speed", DEFAULT_SPEED_UNITS)) / MAP_UNITS_PER_METER
@@ -95,6 +99,27 @@ func trigger() -> void:
 	_triggers_received += 1
 	if _triggers_received >= trigger_count and state != State.OPEN:
 		_set_state(State.OPENING)
+
+
+## Saveable contract.
+func save_state() -> Dictionary:
+	return {"state": state, "y": position.y, "triggers": _triggers_received, "wait_left": _wait_left}
+
+
+## Restores without sounds: the door just is where it was.
+func load_state(saved: Dictionary) -> void:
+	_triggers_received = int(saved.get("triggers", 0))
+	position.y = clampf(float(saved.get("y", _closed_y)), minf(_closed_y, _open_y), maxf(_closed_y, _open_y))
+	var restored: int = int(saved.get("state", State.CLOSED))
+	state = restored as State if restored >= State.CLOSED and restored <= State.CLOSING else State.CLOSED
+	_wait_left = float(saved.get("wait_left", _wait))
+	match state:
+		State.CLOSED:
+			set_physics_process(false)
+		State.OPEN:
+			set_physics_process(_wait >= 0.0)
+		_:
+			set_physics_process(true)
 
 
 func _physics_process(delta: float) -> void:
