@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="3_map"]
+[ext_resource type="Resource" path="res://levels/map_config/dark_fantasy_map_settings.tres" id="4_settings"]
+
+[sub_resource type="Environment" id="Environment_level03"]
+background_mode = 1
+background_color = Color(0.05, 0.06, 0.1, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.42, 0.52, 1)
+fog_enabled = true
+fog_light_color = Color(0.08, 0.09, 0.12, 1)
+fog_density = 0.025
+
+[node name="Level03" type="Node3D"]
+script = ExtResource("1_level")
+player_scene = ExtResource("2_player")
+display_name = "The Wolves' Camp"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_level03")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 10, 0)
+light_color = Color(0.7, 0.75, 1, 1)
+light_energy = 0.3
+
+[node name="FuncGodotMap" type="Node3D" parent="."]
+script = ExtResource("3_map")
+local_map_file = "res://assets/maps/level_03.map"
+map_settings = ExtResource("4_settings")
