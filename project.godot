@@ -34,6 +34,12 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/func_godot/plugin.cfg", "res://addons/gut/plugin.cfg")
 
+[importer_defaults]
+
+texture={
+"detect_3d/compress_to": 0
+}
+
 [input]
 
 move_forward={
@@ -142,9 +148,3 @@ weapon_9={
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-
-[importer_defaults]
-
-texture={
-"detect_3d/compress_to": 0
-}
