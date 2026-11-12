@@ -29,6 +29,8 @@ before shipping. Note the license of every replacement asset.
 | Pickup sounds | — | None (silent) | Weapon, ammo, and health pickup SFX |
 | Key pickup | `levels/entities/key_pickup.tscn` | Small tinted billboarded `QuadMesh` | Key sprites (gold, silver, bone) |
 | Map textures | `assets/maps/test_map.map` (`base/wall`, `base/floor`, `base/ceiling`, `base/door`, `base/door_gold`) | None: FuncGodot default checker | 64x64 or 128x128 PNGs in `assets/textures/base/` |
+| Level 1 textures | `assets/maps/level_01.map`, materials in `assets/textures/{forest,cave,wood,door,gold}/*.tres` | Tinted FuncGodot default checker (bright forest, dark cave tints fake the lack of light) | 64x64 or 128x128 PNGs: forest ground/cliff, cave rock/floor/dirt/straw/ceiling, wood planks/crate/cart/fence/door/strongbox, grain sack, gold door, coins |
+| Level 1 props and note | `assets/maps/level_01.map` | Plain brush boxes for the cart, grain crates, fences, strongbox, coin pile; no readable note (the exit trigger sits on the table) | Prop sprites or detailed brushes, and a readable note pickup |
 | Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key") | Styled HUD and key icons |
 | Door and pickup sounds | — | None (silent) | Door open/close/locked, key pickup SFX |
 | Bandit sprite | `enemies/bandit/bandit.tscn` | Brown flat-color billboarded `QuadMesh`; color changes for windup/pain, squashed quad for corpse | Sprite sheet (idle/walk/attack/pain/death frames) |
