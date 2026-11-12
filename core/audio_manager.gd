@@ -16,6 +16,10 @@ extends Node
 ##
 ## No class_name: the autoload name (AudioManager) is the global identifier.
 
+## Emitted for every sound started through a pool. Lets tests (and any
+## future debug readout) see what played without polling the players.
+signal sound_played(stream: AudioStream)
+
 ## Non-positional game sounds (the player's own weapon, pickups).
 const SFX_POOL_SIZE: int = 8
 const UI_POOL_SIZE: int = 4
@@ -83,6 +87,7 @@ func play_sfx_at(
 	player.volume_db = volume_db
 	player.pitch_scale = _random_pitch(pitch_variation)
 	player.play()
+	sound_played.emit(stream)
 	return player
 
 
@@ -193,6 +198,7 @@ func _play_flat(
 	player.volume_db = volume_db
 	player.pitch_scale = _random_pitch(pitch_variation)
 	player.play()
+	sound_played.emit(stream)
 	return player
 
 

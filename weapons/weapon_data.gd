@@ -52,3 +52,17 @@ extends Resource
 ## Launch speed at full charge. Partial charges blend from
 ## [member projectile_speed].
 @export var max_charge_speed: float = 0.0
+
+@export_group("Sounds")
+## Swing, release, or cast: plays as the attack begins (after the charge for
+## a bow).
+@export var attack_sound: AudioStream
+## Bow draw: plays when charging starts and is cut off if the shot is
+## cancelled.
+@export var charge_sound: AudioStream
+## A melee strike or hitscan spell that hurt something.
+@export var hit_sound: AudioStream
+## A melee strike or hitscan spell that only touched scenery (blade on stone).
+## Projectile impacts are set on the projectile scene instead, so enemies
+## firing the same projectile sound the same.
+@export var wall_hit_sound: AudioStream

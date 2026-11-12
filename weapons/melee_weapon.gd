@@ -70,6 +70,9 @@ func _strike() -> void:
 	var target: HealthComponent = _find_nearest_target()
 	if target != null:
 		target.take_damage(data.damage, data.damage_type, _owner_body)
+	# A swing through empty air makes only the swing sound.
+	if target != null or _hit_cast.get_collision_count() > 0:
+		_play_strike_sound(target != null)
 
 
 ## The cast stops at the first thing it touches, so a wall in front of an

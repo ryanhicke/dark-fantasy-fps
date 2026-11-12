@@ -85,6 +85,7 @@ func _fire_hitscan(spell: SpellData) -> void:
 		var target: HealthComponent = HealthComponent.find_on(_bolt_cast.get_collider() as Node)
 		if target != null:
 			target.take_damage(spell.damage, spell.damage_type, _owner_body)
+		_play_strike_sound(target != null)
 	if spell.effect_scene != null:
 		var bolt: Node3D = spell.effect_scene.instantiate() as Node3D
 		# The level owns it, so it doesn't swing with the camera.

@@ -129,11 +129,23 @@ func _physics_process(delta: float) -> void:
 	_tick(delta)
 
 
-## Starts the cooldown and announces the attack. Subclasses call this at the
-## moment an attack begins.
+## Starts the cooldown, plays the attack sound, and announces the attack.
+## Subclasses call this at the moment an attack begins.
 func _begin_cooldown() -> void:
 	_cooldown_remaining = data.cooldown
+	_play_sound(data.attack_sound)
 	attacked.emit()
+
+
+## The player's own weapon sounds are non-positional: they come from the
+## camera, so placing them in the world would add nothing.
+func _play_sound(stream: AudioStream) -> AudioStreamPlayer:
+	return AudioManager.play_sfx(stream)
+
+
+## Hit or wall-hit sound for a strike that touched something.
+func _play_strike_sound(hurt_something: bool) -> void:
+	_play_sound(data.hit_sound if hurt_something else data.wall_hit_sound)
 
 
 func _holstered_position() -> Vector3:

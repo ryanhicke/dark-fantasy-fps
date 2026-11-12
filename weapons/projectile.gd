@@ -11,6 +11,14 @@ extends Node3D
 ## Seconds before a projectile that hit nothing removes itself.
 @export var lifetime: float = 6.0
 
+@export_group("Sounds")
+## Plays where the projectile hits anything. On the scene rather than the
+## weapon, so an enemy firing the same projectile sounds the same.
+@export var impact_sound: AudioStream
+## Looping sound carried in flight (e.g. a fireball's roar). Needs Loop
+## ticked on import. Its player is only created when this is set.
+@export var flight_sound: AudioStream
+
 var velocity: Vector3 = Vector3.ZERO
 var gravity: float = 0.0
 var damage: float = 0.0
@@ -40,6 +48,7 @@ func launch(
 	if attacker != null:
 		_path_cast.add_exception(attacker)
 	_face_velocity()
+	_start_flight_sound()
 
 
 ## Called by the firing weapon after launch() so subclasses can read extra
@@ -86,11 +95,31 @@ func _physics_process(delta: float) -> void:
 
 
 ## Override for different impact behavior (explosions, sticking, etc.).
-func _on_hit(collider: Object, _point: Vector3) -> void:
+## Overrides should call _play_impact_sound() themselves.
+func _on_hit(collider: Object, point: Vector3) -> void:
 	var health: HealthComponent = HealthComponent.find_on(collider as Node)
 	if health != null:
 		health.take_damage(damage, damage_type, source)
+	_play_impact_sound(point)
 	queue_free()
+
+
+## Through the pool, because this projectile is freed right after.
+func _play_impact_sound(point: Vector3) -> void:
+	AudioManager.play_sfx_at(impact_sound, point)
+
+
+## A child player (not the pool) so the sound follows the projectile and
+## stops when it is freed.
+func _start_flight_sound() -> void:
+	if flight_sound == null:
+		return
+	var player: AudioStreamPlayer3D = AudioStreamPlayer3D.new()
+	player.stream = flight_sound
+	player.bus = AudioBuses.SFX
+	player.max_distance = AudioManager.POSITIONAL_MAX_DISTANCE
+	add_child(player)
+	player.play()
 
 
 func _face_velocity() -> void:

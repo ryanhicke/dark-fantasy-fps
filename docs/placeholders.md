@@ -10,7 +10,7 @@ before shipping. Note the license of every replacement asset.
 | Arrow projectile | `weapons/arrow/arrow.tscn` | `BoxMesh` shaft and fletching | Arrow sprite or low-poly mesh |
 | Ammo counter | `ui/hud.tscn` | Default-font `Label` ("Arrows: 50") | Styled HUD |
 | Crosshair | `ui/hud.tscn` | Two `ColorRect`s | Final crosshair art (or keep if it fits the style) |
-| Weapon sounds | — | None (silent) | Sword swing/hit, bow draw/release, arrow impact SFX |
+| Weapon sounds | `WeaponData` Sounds group (`attack_sound`, `charge_sound`, `hit_sound`, `wall_hit_sound`) on `weapons/*/*.tres`; `impact_sound` / `flight_sound` on `weapons/arrow/arrow.tscn`, `weapons/francisca/francisca_projectile.tscn` | None (silent); slots exist, nothing assigned | Swing, hit, and blade-on-stone SFX per melee weapon; bow draw/release; francisca throw; arrow and axe impacts |
 | Warhammer view model | `weapons/warhammer/warhammer.tscn` | `BoxMesh` haft and head; heavier, slower swing | Warhammer sprite or low-poly mesh with swing animation |
 | Francisca view model and projectile | `weapons/francisca/francisca.tscn`, `francisca_projectile.tscn` | `BoxMesh` haft and blade; the thrown axe tumbles end over end | Axe sprite (spinning frames) or low-poly mesh |
 | Magic wand view model | `weapons/magic_wand/magic_wand.tscn` | `BoxMesh` wand with a pale-blue tip; cast is a forward thrust | Wand sprite or low-poly mesh with cast animation |
@@ -22,7 +22,7 @@ before shipping. Note the license of every replacement asset.
 | Fire staff view model | `weapons/fire_staff/fire_staff.tscn` | `BoxMesh` shaft and orange orb; cast is a forward thrust | Staff sprite or low-poly mesh with cast animation |
 | Fireball projectile | `spells/fireball/fireball.tscn` | Flat orange billboarded `QuadMesh` | Animated fireball sprite |
 | Fireball explosion | `spells/fireball/fireball_explosion.tscn` | Growing, fading orange billboarded `QuadMesh` | Explosion sprite animation |
-| Spell sounds | — | None (silent) | Fireball cast, flight loop, explosion SFX |
+| Spell sounds | `attack_sound` (and `hit_sound` / `wall_hit_sound` for lightning) on `spells/*/*.tres`; `flight_sound` / `impact_sound` on `spells/fireball/fireball.tscn`, `spells/magic_missile/magic_missile.tscn`; `sound` on `spells/fireball/fireball_explosion.tscn` | None (silent); slots exist, nothing assigned | Cast SFX per spell, fireball flight loop, explosion, missile impact, lightning crack and hit |
 | Weapon pickup sprites (**AI-generated**) | `assets/sprites/pickups/weapon_*.png`, made by `assets/source/sprites/pickups.py` | Claude-authored procedural pixel art, 64x32, one per pickup: bow with an arrow, francisca, warhammer, fire staff, magic wand, healing wand, lightning crystal, armor amulet. Static (no glint or spin). **Must be disclosed on Steam as AI-generated if it ships.** | Hand-made pickup sprites, or keep and disclose |
 | Ammo and mana pickup sprites (**AI-generated**) | `assets/sprites/pickups/ammo_*.png`, made by `assets/source/sprites/pickups.py` | Claude-authored procedural pixel art, 32x32: tied bundle of three arrows, two crossed franciscas, blue mana crystal. **Must be disclosed on Steam as AI-generated if it ships.** | Hand-made sprites, or keep and disclose |
 | Health pickup sprites (**AI-generated**) | `assets/sprites/pickups/health_small.png`, `health_large.png`, made by `assets/source/sprites/pickups.py` | Claude-authored procedural pixel art, 32x32: small corked flask of light red draught, large round potion of dark red. **Must be disclosed on Steam as AI-generated if it ships.** | Hand-made sprites, or keep and disclose |
@@ -58,7 +58,7 @@ before shipping. Note the license of every replacement asset.
 | Health counter | `ui/hud.tscn` | Default-font `Label` ("Health: 100") | Styled HUD |
 | Armor spell screen tint | `ui/hud.tscn` (`ArmorTint`) | Flat gold `ColorRect`; blinks in the last second | Keep or restyle (gold/silver frame) |
 | Heal flash | `ui/hud.gd` (`heal_flash_color`) | Green version of the damage flash | Keep or restyle |
-| Self-spell sounds | — | None (silent) | Heal cast, armor cast, armor fading SFX |
+| Self-spell sounds | `attack_sound` on `spells/healing/*.tres`, `spells/armor/*.tres`; armor fading not hooked up yet | None (silent) | Heal cast, armor cast, armor fading SFX |
 | Damage flash | `ui/hud.tscn` | Full-screen red `ColorRect` fade | Keep or restyle |
 | Death prompt | `ui/hud.tscn` | Default-font `Label` ("Hit Enter to respawn") | Proper death screen |
 | Intermission screen | `ui/intermission.tscn` | Flat dark `ColorRect` with default-font stat `Label`s | Styled stats screen (background art, font, tally-up animation) |

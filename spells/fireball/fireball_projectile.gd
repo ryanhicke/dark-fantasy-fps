@@ -51,6 +51,7 @@ func _on_hit(collider: Object, point: Vector3) -> void:
 	if splash_radius > 0.0 and splash_damage > 0.0:
 		_apply_splash(center, collider)
 	_spawn_explosion(center)
+	_play_impact_sound(center)
 	queue_free()
 
 

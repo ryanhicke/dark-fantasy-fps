@@ -22,6 +22,9 @@ extends Weapon
 var _charging: bool = false
 var _charge_elapsed: float = 0.0
 var _draw_rest_position: Vector3 = Vector3.ZERO
+## The pooled player carrying the charge sound, so a cancelled draw can cut
+## it off. Pooled players are reused, so check its stream before stopping.
+var _charge_player: AudioStreamPlayer
 
 @onready var _draw_part: Node3D = get_node_or_null("ViewModel/Draw") as Node3D
 @onready var _loaded_part: Node3D = get_node_or_null("ViewModel/Draw/Loaded") as Node3D
@@ -41,6 +44,7 @@ func _tick(delta: float) -> void:
 		if data.charge_time > 0.0:
 			_charging = true
 			_charge_elapsed = 0.0
+			_charge_player = _play_sound(data.charge_sound)
 		else:
 			_fire(0.0)
 	if _loaded_part != null:
@@ -53,6 +57,8 @@ func _on_trigger_released() -> void:
 
 
 func _on_interrupted() -> void:
+	if _charging:
+		_stop_charge_sound()
 	_charging = false
 	_charge_elapsed = 0.0
 	_update_draw_pose()
@@ -105,6 +111,12 @@ func _fire_without_projectile() -> void:
 ## Override for per-shot extras, e.g. a homing spell picking its target.
 func _on_projectile_launched(_projectile: Projectile) -> void:
 	pass
+
+
+func _stop_charge_sound() -> void:
+	if _charge_player != null and _charge_player.stream == data.charge_sound:
+		_charge_player.stop()
+	_charge_player = null
 
 
 func _charge_ratio() -> float:
