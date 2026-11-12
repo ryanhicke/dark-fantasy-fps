@@ -25,7 +25,8 @@ before shipping. Note the license of every replacement asset.
 | Spell sounds | — | None (silent) | Fireball cast, flight loop, explosion SFX |
 | Weapon pickups | `levels/entities/weapon_pickup.tscn`, `weapon_*.tscn` | Flat tinted billboarded `QuadMesh` per weapon | Weapon pickup sprites |
 | Ammo and mana pickups | `levels/entities/ammo_pickup.tscn`, `ammo_*.tscn` | Small flat tinted billboarded `QuadMesh` (arrows, franciscas, mana) | Arrow bundle, axe stack, mana crystal sprites |
-| Pickup sounds | — | None (silent) | Weapon and ammo pickup SFX |
+| Health pickups | `levels/entities/health_pickup.tscn`, `health_small.tscn`, `health_large.tscn` | Small flat tinted billboarded `QuadMesh` (light red draught, dark red potion) | Healing draught and healing potion sprites |
+| Pickup sounds | — | None (silent) | Weapon, ammo, and health pickup SFX |
 | Key pickup | `levels/entities/key_pickup.tscn` | Small tinted billboarded `QuadMesh` | Key sprites (gold, silver, bone) |
 | Map textures | `assets/maps/test_map.map` (`base/wall`, `base/floor`, `base/ceiling`, `base/door`, `base/door_gold`) | None: FuncGodot default checker | 64x64 or 128x128 PNGs in `assets/textures/base/` |
 | Keys / message text | `ui/hud.tscn` | Default-font `Label`s ("Keys: Gold", "Picked up the Gold Key") | Styled HUD and key icons |

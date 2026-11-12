@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://levels/entities/health_pickup.tscn" id="1_base"]
+
+[node name="HealthLarge" instance=ExtResource("1_base")]
+amount = 25.0
+pickup_message = "Picked up a healing potion"
+tint = Color(0.8, 0.05, 0.1, 1)
