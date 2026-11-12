@@ -1,9 +1,9 @@
 [gd_resource type="StandardMaterial3D" format=3]
 
-[ext_resource type="Texture2D" path="res://addons/func_godot/textures/default_texture.png" id="1_tex"]
+[ext_resource type="Texture2D" path="res://assets/textures/wood/grain_sack.png" id="1_tex"]
 
 [resource]
-albedo_color = Color(0.75, 0.66, 0.45, 1)
+albedo_color = Color(0.393, 0.393, 0.393, 1)
 albedo_texture = ExtResource("1_tex")
 metallic_specular = 0.0
 texture_filter = 0
