@@ -17,6 +17,16 @@ extends CanvasLayer
 ## Seconds a pickup or door message stays on screen.
 @export var message_duration: float = 2.5
 
+@export_group("Health Colors")
+## Health at or below these fractions of maximum turns the counter amber,
+## then red, so low health reads at a glance.
+@export_range(0.0, 1.0) var health_warning_fraction: float = 0.5
+@export_range(0.0, 1.0) var health_danger_fraction: float = 0.25
+@export var health_normal_color: Color = Color(0.9, 0.9, 0.85)
+@export var health_warning_color: Color = Color(1.0, 0.75, 0.2)
+@export var health_danger_color: Color = Color(1.0, 0.2, 0.15)
+@export_group("")
+
 ## Dev tool, so a raw key rather than an input action.
 const DEBUG_TOGGLE_KEY: Key = KEY_F3
 
@@ -84,9 +94,19 @@ func _on_player_weapon_changed(weapon_data: WeaponData) -> void:
 	_refresh_ammo()
 
 
-func _on_player_health_changed(current: float, _maximum: float) -> void:
+func _on_player_health_changed(current: float, maximum: float) -> void:
 	# Round up so the player never sees 0 while still alive.
 	_health_label.text = "Health: %d" % ceili(current)
+	_health_label.add_theme_color_override(&"font_color", health_color(current, maximum))
+
+
+func health_color(current: float, maximum: float) -> Color:
+	var fraction: float = current / maximum if maximum > 0.0 else 0.0
+	if fraction <= health_danger_fraction:
+		return health_danger_color
+	if fraction <= health_warning_fraction:
+		return health_warning_color
+	return health_normal_color
 
 
 func _on_player_damaged(_amount: float) -> void:
