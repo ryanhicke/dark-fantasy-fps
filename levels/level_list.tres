@@ -4,4 +4,4 @@
 
 [resource]
 script = ExtResource("1_list")
-level_paths = Array[String](["res://levels/level_01/level_01.tscn", "res://levels/test_map/test_map.tscn", "res://levels/test_level.tscn"])
+level_paths = Array[String](["res://levels/level_01/level_01.tscn", "res://levels/level_02/level_02.tscn", "res://levels/test_map/test_map.tscn", "res://levels/test_level.tscn"])
