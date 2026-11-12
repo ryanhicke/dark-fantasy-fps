@@ -101,7 +101,7 @@ All damage flows through a single `HealthComponent` (or equivalent) with `take_d
 
 1. **Work in small, testable increments.** One system at a time. After each one, tell me exactly how to test it in the editor (which scene to open, what to press, what I should see).
 2. **Plan first for anything non-trivial.** For new systems, propose the approach briefly and wait for confirmation before writing a lot of code.
-3. **Do not touch** the `.godot/` folder, `*.import` files, or binary assets. Do not generate or modify image, audio, or model files.
+3. **Do not touch** the `.godot/` folder, `*.import` files, or binary assets. 
 4. Edit `.tscn` and `.tres` files carefully. They are text but sensitive to syntax and unique resource IDs. Prefer creating scenes through scripts or minimal, well-formed edits, and tell me to reopen the editor afterward if needed.
 5. Do not install new addons or dependencies without asking. List the license and size impact first.
 6. Do not refactor unrelated code while working on a task. Mention improvements instead of silently making them.
