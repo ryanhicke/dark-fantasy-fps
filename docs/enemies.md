@@ -43,6 +43,9 @@ Enemy stats live in `EnemyData` resources (health, speed, damage, sight range, p
 - The first one should appear **before** the warhammer pickup, so the player meets the problem first (see [weapons.md](weapons.md#warhammer)).
 - Code note: the armor should use the damage-type system (`take_damage(amount, type, source)`), e.g. reduced physical damage from blades and arrows, normal or bonus damage from blunt weapons.
 
+**Graphics** 
+wearing chainmail cowl with a plate cuirrass, chain pants. Is Armed with a two handed warhammer. He is blonde with a goatee.
+
 ## Beasts
 
 ### Werewolf (disguised)
@@ -85,7 +88,7 @@ Human Skeleton wearing a horned helmet. Is armed with another skeletons femur as
 - Their notes tell part of the story: they are scared of their master ("The master no longer sleeps." "He says the girl is the key.").
 - **Sequel secret:** one apprentice wizard was never found, because the necromancer's wife possessed that apprentice's body. The player never learns this in this game (see story.md, The necromancer's wife).
 **Graphics**
-Wearing a full robe with the hood up. You cannot see their face but they have glowing red eyes. Their robes are a brownish grey and are wearing 
+Wearing a full robe with the hood up. You cannot see their face but they have glowing red eyes. Their robes are a brownish grey and are wearing a brown belt with potions on it.
 
 ## Demons
 
@@ -93,6 +96,8 @@ Wearing a full robe with the hood up. You cannot see their face but they have gl
 **Canon**
 - Strong melee. First appears in Level 6, summoned by the necromancer.
 - Common in Hell (Level 7). Constantly summoned by the great demon in Level 8.
+**Grapihcs**
+Pink skinned muscular demon with large red horns. Has large glowing white eyes with sharp red claws on the hands and feet.
 
 ### Imp
 **Canon**
@@ -101,6 +106,9 @@ Wearing a full robe with the hood up. You cannot see their face but they have gl
 
 **Ideas**
 - Fast flyers are the problem the wand of magic missile (homing, found in Level 6) solves. The imps use the same spell, a nice echo.
+
+**Graphics**
+small blue skinned demon with a black pointed goatee, has white horns and no wings. It appears to fly through magic.
 
 ## Bosses
 
@@ -112,6 +120,9 @@ Wearing a full robe with the hood up. You cannot see their face but they have gl
 
 **Ideas**
 - Phase 1: fireballs only. Phase 2 (below half health): starts summoning melee demons.
+
+**Graphics**
+Wearing black robes with the hood down. He has a pointed black beard, is wearing a skull medallion and has a green belt with green leather shoes.
 
 ### Great demon (Level 8)
 **Canon**
@@ -128,3 +139,6 @@ Wearing a full robe with the hood up. You cannot see their face but they have gl
 - Final phase: it stops summoning (or summons less) and attacks directly. It takes damage **only from lightning**.
 - See story.md, Level 8, for the arena and obelisk details, and [weapons.md](weapons.md#lightning) for lightning.
 - **Performance:** "constantly summons" needs a **cap on how many summoned enemies can be alive at once** (e.g. 8–12). That keeps the fight within the integrated-GPU budget and stops it from becoming impossible. Use object pooling for summoned enemies (CLAUDE.md rule 7).
+
+**Graphics**
+Grey skinned rock demon with cracks that glow yellow. Is wearing a broken crown.
