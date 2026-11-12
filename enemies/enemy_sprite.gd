@@ -26,6 +26,9 @@ extends MeshInstance3D
 
 var _base_color: Color
 var _placeholder_color: Color
+## The scene's own quad, restored when a sheet without its own quad (or no
+## sheet) takes over.
+var _scene_mesh: Mesh
 var _color_tween: Tween
 ## Only one height (or death) animation at a time; a pooled enemy may be
 ## reused while its corpse is still collapsing.
@@ -42,6 +45,7 @@ var _frame: int = -1
 func _ready() -> void:
 	_placeholder_color = _material.albedo_color
 	_base_color = _placeholder_color
+	_scene_mesh = mesh
 	set_process(false)
 
 
@@ -53,12 +57,15 @@ func set_sheet(sheet: EnemySpriteSheet) -> void:
 	_stop_anim()
 	if sheet == null or sheet.texture == null:
 		_sheet = null
+		mesh = _scene_mesh
 		_material.albedo_texture = null
 		_material.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED
 		_material.uv1_scale = Vector3.ONE
 		_material.uv1_offset = Vector3.ZERO
 		_base_color = _placeholder_color
 		return
+	# Shared resources, so swapping meshes allocates nothing.
+	mesh = sheet.quad if sheet.quad != null else _scene_mesh
 	_material.albedo_texture = sheet.texture
 	_material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR

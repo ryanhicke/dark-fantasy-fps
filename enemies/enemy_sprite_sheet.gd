@@ -7,6 +7,10 @@ extends Resource
 @export var texture: Texture2D
 @export var columns: int = 4
 @export var rows: int = 4
+## Quad sized to the art (one frame's world size). Lets the same art show
+## at its own size on any enemy scene, e.g. a werewolf rising from a
+## disguised human's smaller quad. Null keeps the scene's own mesh.
+@export var quad: QuadMesh
 
 @export_group("Animations")
 @export var idle_frames: PackedInt32Array = PackedInt32Array([0])
