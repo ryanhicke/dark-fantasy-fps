@@ -59,6 +59,10 @@ func _on_exit_selected() -> void:
 
 
 func _on_level_load_requested(scene_path: String) -> void:
+	# A quickload can start from the main menu.
+	_game_view.visible = true
+	if _main_menu.visible:
+		_main_menu.close()
 	# Deferred: requests arrive mid input handling or physics callbacks.
 	_load_level.call_deferred(scene_path)
 

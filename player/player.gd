@@ -56,12 +56,14 @@ var _is_dead: bool = false
 @onready var _use_cast: RayCast3D = $Head/Camera3D/UseCast
 @onready var _inventory: Inventory = $Inventory
 @onready var _invulnerability: Invulnerability = $Invulnerability
+@onready var _key_ring: KeyRing = $KeyRing
 
 
 func _enter_tree() -> void:
 	# In _enter_tree, not _ready: enemies look the player up in their own
 	# _ready, which can run before the player's.
 	add_to_group(GROUP)
+	add_to_group(SaveSnapshot.SAVEABLE_GROUP)
 
 
 func _ready() -> void:
@@ -236,3 +238,40 @@ func apply_state(state: PlayerState) -> void:
 	# ownership existed; keep the starting weapons rather than none.
 	if not state.owned_weapons.is_empty():
 		_weapon_holder.set_owned(state.owned_weapons)
+
+
+func is_dead() -> bool:
+	return _is_dead
+
+
+## Saveable contract (see SaveSnapshot). The bundle plus everything that
+## only matters mid-level: where you stand and look, keys, the armor spell.
+func save_state() -> Dictionary:
+	return {
+		"bundle": capture_state().to_dict(),
+		"position": global_position,
+		"yaw": rotation.y,
+		"pitch": _head.rotation.x,
+		"velocity": velocity,
+		"keys": _key_ring.get_keys(),
+		"armor_time": _invulnerability.get_time_left(),
+		"weapon": _weapon_holder.get_current_id(),
+	}
+
+
+func load_state(state: Dictionary) -> void:
+	var bundle: Variant = state.get("bundle")
+	if bundle is Dictionary:
+		apply_state(PlayerState.from_dict(bundle))
+	global_position = SaveSnapshot.vec3(state, "position", global_position)
+	velocity = SaveSnapshot.vec3(state, "velocity")
+	rotation.y = float(state.get("yaw", rotation.y))
+	_head.rotation.x = clampf(float(state.get("pitch", 0.0)), -PITCH_LIMIT, PITCH_LIMIT)
+	var keys: Variant = state.get("keys")
+	if keys is Array:
+		_key_ring.set_keys(keys)
+	var armor_time: float = float(state.get("armor_time", 0.0))
+	if armor_time > 0.0:
+		_invulnerability.start(armor_time)
+	_weapon_holder.select(StringName(str(state.get("weapon", ""))))
+

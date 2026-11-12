@@ -25,7 +25,7 @@ func _on_body_entered(body: Node3D) -> void:
 		return
 	is_found = true
 	AudioManager.play_ui(AudioManager.sounds.secret_found)
-	EventBus.pickup_collected.emit(FOUND_MESSAGE)
+	EventBus.hud_message_requested.emit(FOUND_MESSAGE)
 	EventBus.secret_found.emit()
 	# Deferred: this runs inside a physics callback.
 	set_deferred("monitoring", false)

@@ -43,10 +43,43 @@ func _ready() -> void:
 	EventBus.secret_found.connect(_on_secret_found)
 	EventBus.level_completed.connect(_on_level_completed)
 	_spawn_player()
+	SaveManager.current_level = self
+	var snapshot: Dictionary = GameState.take_pending_snapshot()
+	if not snapshot.is_empty():
+		# Deferred: enemies find the player in their own deferred calls,
+		# queued earlier in their _ready, so state lands after that.
+		_apply_save.call_deferred(snapshot)
 	_prewarm_effects()
 	if animated_surfaces != null:
 		add_child(SurfaceAnimator.create(animated_surfaces.surfaces))
 	AudioManager.play_music(music)
+
+
+func _exit_tree() -> void:
+	if SaveManager.current_level == self:
+		SaveManager.current_level = null
+
+
+## Saving is refused while dead or once the exit has been reached.
+func can_save() -> bool:
+	return not _finished and _player != null and not _player.is_dead()
+
+
+## This level's half of a quicksave: stats plus every saveable node.
+func capture_save() -> Dictionary:
+	return {"stats": _stats.to_dict(), "nodes": SaveSnapshot.capture_nodes(self)}
+
+
+## Returns how many saved nodes no longer exist (map edited since).
+func _apply_save(snapshot: Dictionary) -> int:
+	var stats: Variant = snapshot.get("stats")
+	if stats is Dictionary:
+		_stats.load_dict(stats)
+	var nodes: Variant = snapshot.get("nodes")
+	var missing: int = SaveSnapshot.apply_nodes(self, nodes) if nodes is Dictionary else 0
+	if missing > 0:
+		push_warning("%s: %d saved objects not found; the map changed since the save." % [name, missing])
+	return missing
 
 
 func _physics_process(delta: float) -> void:

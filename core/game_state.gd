@@ -27,6 +27,8 @@ var _exit_state: PlayerState
 ## Set while playing a single scene outside the level list (running a level
 ## on its own from the editor). Finishing it ends the run.
 var _single_level_path: String = ""
+## Level half of a quickload, waiting for the level it belongs to.
+var _pending_snapshot: Dictionary = {}
 
 
 func _ready() -> void:
@@ -45,6 +47,7 @@ func start_game(index: int = 0) -> void:
 	_single_level_path = ""
 	_entry_state = null
 	_exit_state = null
+	_pending_snapshot = {}
 	_request_load()
 
 
@@ -52,6 +55,7 @@ func start_game(index: int = 0) -> void:
 ## on its own from the editor. Its exit ends the run like a final level.
 func start_single_level(scene_path: String) -> void:
 	_single_level_path = scene_path
+	_pending_snapshot = {}
 	current_level_index = 0
 	_entry_state = null
 	_exit_state = null
@@ -85,6 +89,7 @@ func advance_to_next_level() -> void:
 		game_completed.emit()
 		return
 	current_level_index += 1
+	_pending_snapshot = {}
 	_entry_state = _exit_state
 	_exit_state = null
 	_request_load()
@@ -94,7 +99,46 @@ func advance_to_next_level() -> void:
 ## undoes anything gained or spent during the failed attempt.
 func restart_level() -> void:
 	_exit_state = null
+	_pending_snapshot = {}
 	_request_load()
+
+
+## Progress half of a quicksave: which level, and the bundle it was entered
+## with (so dying after a quickload still restarts the level as entered).
+func capture_save() -> Dictionary:
+	return {
+		"level_index": current_level_index,
+		"single_level_path": _single_level_path,
+		"entry_state": _entry_state.to_dict() if _entry_state != null else {},
+	}
+
+
+## Loads the saved level from scratch; it then picks up [param level_snapshot]
+## through take_pending_snapshot(). Returns false if the level is gone.
+func load_save(game: Dictionary, level_snapshot: Dictionary) -> bool:
+	var single_path: String = str(game.get("single_level_path", ""))
+	var index: int = int(game.get("level_index", 0))
+	if single_path.is_empty() and not level_list.has_level(index):
+		push_warning("GameState: saved level %d no longer exists." % index)
+		return false
+	if not single_path.is_empty() and not ResourceLoader.exists(single_path):
+		push_warning("GameState: saved level '%s' no longer exists." % single_path)
+		return false
+	current_level_index = index
+	_single_level_path = single_path
+	var entry: Variant = game.get("entry_state", {})
+	_entry_state = PlayerState.from_dict(entry) if entry is Dictionary and not entry.is_empty() else null
+	_exit_state = null
+	_pending_snapshot = level_snapshot
+	_request_load()
+	return true
+
+
+## Hands the waiting quickload state to the level that just loaded, once.
+func take_pending_snapshot() -> Dictionary:
+	var snapshot: Dictionary = _pending_snapshot
+	_pending_snapshot = {}
+	return snapshot
 
 
 func _request_load() -> void:

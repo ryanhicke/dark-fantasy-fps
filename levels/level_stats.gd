@@ -16,6 +16,17 @@ var story_text: String = ""
 var ending_text: String = ""
 
 
+## Only the progress made; totals and text come from the level itself.
+func to_dict() -> Dictionary:
+	return {"kills": kills, "secrets": secrets, "time_seconds": time_seconds}
+
+
+func load_dict(data: Dictionary) -> void:
+	kills = int(data.get("kills", kills))
+	secrets = int(data.get("secrets", secrets))
+	time_seconds = float(data.get("time_seconds", time_seconds))
+
+
 ## Formats as m:ss, e.g. 75.4 -> "1:15". Minutes are not capped at 59.
 static func format_time(seconds: float) -> String:
 	var whole: int = maxi(floori(seconds), 0)

@@ -127,6 +127,20 @@ func get_all_weapon_data() -> Array[WeaponData]:
 	return result
 
 
+## The weapon in hand, or the one being switched to. Empty before the first draw.
+func get_current_id() -> StringName:
+	var index: int = _pending_index if _pending_index >= 0 else _current_index
+	return _weapons[index].data.id if index >= 0 else &""
+
+
+## Switches to an owned weapon by id (quickload). Unknown ids do nothing.
+func select(id: StringName) -> void:
+	var index: int = _index_of(id)
+	if index < 0 or not owns(id):
+		return
+	_pending_index = -1 if index == _current_index else index
+
+
 func request_slot(slot: int) -> void:
 	var index: int = _index_of_slot(slot)
 	if index < 0:

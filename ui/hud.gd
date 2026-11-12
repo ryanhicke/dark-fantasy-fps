@@ -33,6 +33,9 @@ const DEBUG_TOGGLE_KEY: Key = KEY_F3
 var _ammo_counts: Dictionary[StringName, int] = {}
 var _current_ammo_type: StringName = &""
 var _awaiting_respawn: bool = false
+## Bumped on every level load, so a death prompt still waiting from the
+## previous life (e.g. quickload right after dying) never appears.
+var _life: int = 0
 var _flash_tween: Tween
 var _armor_blink_tween: Tween
 var _render_size: Vector2i = Vector2i.ZERO
@@ -63,6 +66,8 @@ func _ready() -> void:
 	EventBus.player_keys_changed.connect(_on_player_keys_changed)
 	EventBus.key_picked_up.connect(_on_key_picked_up)
 	EventBus.pickup_collected.connect(_show_message)
+	EventBus.hud_message_requested.connect(_show_message)
+	GameState.level_load_requested.connect(_on_level_load_requested)
 	EventBus.door_locked.connect(_on_door_locked)
 	_message_timer.timeout.connect(_on_message_timer_timeout)
 	EventBus.render_resolution_changed.connect(_on_render_resolution_changed)
@@ -156,9 +161,18 @@ func _stop_armor_blink() -> void:
 
 
 func _on_player_died() -> void:
+	var life: int = _life
 	await get_tree().create_timer(respawn_prompt_delay).timeout
+	if life != _life:
+		return
 	_death_prompt.visible = true
 	_awaiting_respawn = true
+
+
+func _on_level_load_requested(_scene_path: String) -> void:
+	_life += 1
+	_awaiting_respawn = false
+	_death_prompt.visible = false
 
 
 func _on_player_respawn_requested() -> void:

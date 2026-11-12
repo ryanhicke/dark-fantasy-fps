@@ -116,3 +116,27 @@ func test_single_level_finishing_ends_the_run_and_clears_it() -> void:
 	_state.start_game(0)
 	assert_signal_emitted_with_parameters(_state, "level_load_requested", [LEVEL_A])
 	assert_false(_state.is_final_level())
+
+
+func test_save_round_trip_reloads_the_saved_level_with_its_entry_bundle() -> void:
+	_state.start_game(0)
+	_state.finish_level(_bundle(55.0, 9), LevelStats.new())
+	_state.advance_to_next_level()
+	var game: Dictionary = _state.capture_save()
+	_state.start_game(0)
+	assert_true(_state.load_save(game, {"stats": {"kills": 2}}))
+	assert_eq(_state.current_level_index, 1)
+	assert_signal_emitted_with_parameters(_state, "level_load_requested", [LEVEL_B])
+	assert_eq(_state.get_entry_state().health, 55.0)
+	assert_eq(_state.take_pending_snapshot()["stats"]["kills"], 2)
+	assert_true(_state.take_pending_snapshot().is_empty(), "handed over once")
+
+
+func test_load_save_refuses_a_level_that_no_longer_exists() -> void:
+	assert_false(_state.load_save({"level_index": 9}, {}))
+
+
+func test_restart_drops_a_pending_quickload() -> void:
+	_state.load_save({"level_index": 0}, {"stats": {}})
+	_state.restart_level()
+	assert_true(_state.take_pending_snapshot().is_empty())

@@ -83,3 +83,8 @@ signal player_weapon_changed(weapon_data: WeaponData)
 ## Shakes the player's view; [param strength] 0..1 (explosions, roars).
 @warning_ignore("unused_signal")
 signal screen_shake_requested(strength: float)
+
+## A short line in the HUD message area (game saved, secret found).
+@warning_ignore("unused_signal")
+signal hud_message_requested(text: String)
+

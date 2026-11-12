@@ -68,6 +68,16 @@ func add_key(key_type: int) -> bool:
 	return true
 
 
+## Replaces every key at once (quickload). Unknown values are dropped.
+func set_keys(keys: Array) -> void:
+	_keys.clear()
+	for key: Variant in keys:
+		if key is int and key >= 0 and key < KEY_NAMES.size() and not _keys.has(key):
+			_keys.append(key)
+	_keys.sort()
+	_announce()
+
+
 func get_keys() -> Array[int]:
 	return _keys.duplicate()
 
