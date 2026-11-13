@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/options_menu.gd" id="1_options"]
 [ext_resource type="Script" path="res://ui/volume_button.gd" id="2_volume"]
+[ext_resource type="Script" path="res://ui/step_setting_button.gd" id="3_step"]
 
 [node name="OptionsMenu" type="VBoxContainer"]
 anchors_preset = 8
@@ -10,9 +11,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -220.0
-offset_top = -170.0
+offset_top = -270.0
 offset_right = 220.0
-offset_bottom = 170.0
+offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -29,6 +30,26 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Graphics: Medium (640x360)"
+
+[node name="FullscreenButton" type="Button" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Fullscreen: Off"
+
+[node name="FovButton" type="Button" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Field of View: 75"
+script = ExtResource("3_step")
+label = "Field of View"
+
+[node name="SensitivityButton" type="Button" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Mouse Sensitivity: 100%"
+script = ExtResource("3_step")
+setting = 1
+label = "Mouse Sensitivity"
 
 [node name="MasterVolumeButton" type="Button" parent="."]
 layout_mode = 2

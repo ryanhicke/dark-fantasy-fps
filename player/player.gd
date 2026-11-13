@@ -26,7 +26,8 @@ const HEAD_BOB_BLEND_SPEED: float = 6.0
 @export var gravity: float = 15.0
 
 @export_group("Look")
-## Radians of rotation per pixel of mouse movement.
+## Radians of rotation per pixel of mouse movement at 100% sensitivity in
+## the options menu (Settings.mouse_sensitivity scales it).
 @export var mouse_sensitivity: float = 0.002
 
 @export_group("Head Bob")
@@ -77,6 +78,8 @@ func _ready() -> void:
 	_use_cast.enabled = false
 	_use_cast.target_position = Vector3.FORWARD * use_range
 	_use_cast.add_exception(self)
+	Settings.fov_changed.connect(_on_fov_changed)
+	_on_fov_changed(Settings.fov)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -85,9 +88,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			# screen_relative ignores window stretch scaling, so sensitivity
 			# stays the same regardless of window size or render resolution.
 			var motion: InputEventMouseMotion = event as InputEventMouseMotion
-			rotate_y(-motion.screen_relative.x * mouse_sensitivity)
+			var sensitivity: float = mouse_sensitivity * Settings.mouse_sensitivity_scale()
+			rotate_y(-motion.screen_relative.x * sensitivity)
 			_head.rotation.x = clampf(
-				_head.rotation.x - motion.screen_relative.y * mouse_sensitivity,
+				_head.rotation.x - motion.screen_relative.y * sensitivity,
 				-PITCH_LIMIT, PITCH_LIMIT
 			)
 	elif event.is_action_pressed("ui_cancel"):
@@ -276,3 +280,6 @@ func load_state(state: Dictionary) -> void:
 		_invulnerability.start(armor_time)
 	_weapon_holder.select(StringName(str(state.get("weapon", ""))))
 
+
+func _on_fov_changed(degrees: int) -> void:
+	_camera.fov = degrees

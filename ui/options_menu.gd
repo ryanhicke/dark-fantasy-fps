@@ -1,8 +1,9 @@
 class_name OptionsMenu
 extends MenuPage
-## Options page. Enter on the graphics row cycles the graphics level, and the
-## volume rows (VolumeButton) step their bus volume. Every change applies
-## (and is saved) at once through Settings.
+## Options page. Enter on the graphics row cycles the graphics level and on
+## the fullscreen row toggles it; the field of view and sensitivity rows
+## (StepSettingButton) and the volume rows (VolumeButton) step their value.
+## Every change applies (and is saved) at once through Settings.
 
 signal back_selected
 
@@ -15,6 +16,7 @@ const LEVEL_NAMES: Dictionary[int, String] = {
 }
 
 @onready var _graphics_button: Button = $GraphicsButton
+@onready var _fullscreen_button: Button = $FullscreenButton
 @onready var _back_button: Button = $BackButton
 
 
@@ -25,6 +27,9 @@ func _ready() -> void:
 	_back_button.pressed.connect(back_selected.emit)
 	Settings.pixel_size_changed.connect(_refresh)
 	_refresh(Settings.pixel_size)
+	_fullscreen_button.pressed.connect(_on_fullscreen_pressed)
+	Settings.fullscreen_changed.connect(_refresh_fullscreen)
+	_refresh_fullscreen(Settings.fullscreen)
 
 
 ## E.g. "Graphics: Medium (640x360)" for pixel size 2 at a 1280x720 base.
@@ -40,6 +45,18 @@ static func base_size() -> Vector2:
 		ProjectSettings.get_setting("display/window/size/viewport_width"),
 		ProjectSettings.get_setting("display/window/size/viewport_height")
 	)
+
+
+static func fullscreen_label(enabled: bool) -> String:
+	return "Fullscreen: %s" % ("On" if enabled else "Off")
+
+
+func _on_fullscreen_pressed() -> void:
+	Settings.set_fullscreen(not Settings.fullscreen)
+
+
+func _refresh_fullscreen(enabled: bool) -> void:
+	_fullscreen_button.text = fullscreen_label(enabled)
 
 
 func _on_graphics_pressed() -> void:

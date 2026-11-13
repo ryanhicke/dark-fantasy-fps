@@ -33,6 +33,30 @@ func test_every_pixel_size_has_a_name() -> void:
 		assert_true(OptionsMenu.LEVEL_NAMES.has(pixel_size), "no name for %d" % pixel_size)
 
 
+func test_fullscreen_label_shows_on_or_off() -> void:
+	assert_eq(OptionsMenu.fullscreen_label(true), "Fullscreen: On")
+	assert_eq(OptionsMenu.fullscreen_label(false), "Fullscreen: Off")
+
+
+func test_step_rows_label_fov_in_degrees_and_sensitivity_in_percent() -> void:
+	assert_eq(
+		StepSettingButton.label_for("Field of View", StepSettingButton.Setting.FOV, 75),
+		"Field of View: 75"
+	)
+	assert_eq(
+		StepSettingButton.label_for(
+			"Mouse Sensitivity", StepSettingButton.Setting.MOUSE_SENSITIVITY, 120
+		),
+		"Mouse Sensitivity: 120%"
+	)
+
+
+func test_step_row_enter_steps_up_and_wraps_at_the_maximum() -> void:
+	assert_eq(StepSettingButton.next_on_press(75, 60, 110, 5), 80)
+	assert_eq(StepSettingButton.next_on_press(108, 60, 110, 5), 110)
+	assert_eq(StepSettingButton.next_on_press(110, 60, 110, 5), 60)
+
+
 func test_base_size_matches_the_project_setting() -> void:
 	assert_eq(OptionsMenu.base_size(), BASE_SIZE)
 
