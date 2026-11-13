@@ -20,7 +20,8 @@ const HEAD_BOB_BLEND_SPEED: float = 6.0
 @export var ground_friction: float = 50.0
 ## m/s² of steering while airborne. Low, so jumps commit to a direction.
 @export var air_acceleration: float = 15.0
-@export var jump_velocity: float = 5.5
+## Peak height is jump_velocity² / (2 × gravity): about 1.5 m.
+@export var jump_velocity: float = 6.74
 ## Separate from the project gravity so jump arc can be tuned on its own.
 @export var gravity: float = 15.0
 
