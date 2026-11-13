@@ -81,6 +81,7 @@ The rest of the steps are the same.
 | Next / previous weapon | Mouse wheel |
 | Respawn after dying | Enter |
 | Quicksave / quickload | F5 / F9 |
+| Invulnerability cheat (HUD shows CHEATER) | Tab |
 | Release the mouse | Esc |
 
 Debug builds (running from the editor, or an export with debug) also have

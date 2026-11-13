@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://weapons/fire_staff/fire_staff.tscn" id="7_staff"]
 [ext_resource type="Script" path="res://player/key_ring.gd" id="8_keys"]
 [ext_resource type="Script" path="res://player/dev_cheats.gd" id="9_cheats"]
+[ext_resource type="Script" path="res://player/god_mode.gd" id="20_god_mode"]
 [ext_resource type="PackedScene" path="res://weapons/warhammer/warhammer.tscn" id="10_warhammer"]
 [ext_resource type="PackedScene" path="res://weapons/francisca/francisca.tscn" id="11_francisca"]
 [ext_resource type="PackedScene" path="res://weapons/magic_wand/magic_wand.tscn" id="12_magic_wand"]
@@ -41,6 +42,9 @@ script = ExtResource("8_keys")
 
 [node name="DevCheats" type="Node" parent="."]
 script = ExtResource("9_cheats")
+
+[node name="GodMode" type="Node" parent="."]
+script = ExtResource("20_god_mode")
 
 [node name="Invulnerability" type="Node" parent="."]
 script = ExtResource("13_invulnerability")

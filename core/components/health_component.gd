@@ -22,6 +22,10 @@ const NODE_NAME: StringName = &"HealthComponent"
 
 ## While true, all damage is ignored (the armor spell; see Invulnerability).
 var invulnerable: bool = false
+## The player's cheat (see GodMode). Kept apart from [member invulnerable]
+## so the armor spell wearing off can't switch the cheat off, or the cheat
+## cut the spell short.
+var cheat_invulnerable: bool = false
 
 var current_health: float = 0.0
 
@@ -49,8 +53,9 @@ func take_damage(amount: float, type: Damage.Type, source: Node) -> void:
 	# Ignoring hits on the dead prevents double kills (and double died signals)
 	# when several attacks land in the same frame. Immune hits (0) are ignored
 	# entirely, so they don't cause pain or wake anything.
-	if amount <= 0.0 or is_dead() or invulnerable:
-		if amount <= 0.0 and not is_dead() and not invulnerable:
+	var shielded: bool = invulnerable or cheat_invulnerable
+	if amount <= 0.0 or is_dead() or shielded:
+		if amount <= 0.0 and not is_dead() and not shielded:
 			immune_hit.emit(type, source)
 		return
 	var applied: float = minf(amount, current_health)

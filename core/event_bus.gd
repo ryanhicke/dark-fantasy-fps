@@ -37,6 +37,10 @@ signal player_invulnerability_changed(active: bool)
 @warning_ignore("unused_signal")
 signal player_invulnerability_ending
 
+## The invulnerability cheat was switched on or off (see GodMode).
+@warning_ignore("unused_signal")
+signal player_cheat_changed(active: bool)
+
 ## Emitted when the player asks to respawn after dying.
 @warning_ignore("unused_signal")
 signal player_respawn_requested

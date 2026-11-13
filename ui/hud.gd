@@ -49,6 +49,7 @@ var _render_size: Vector2i = Vector2i.ZERO
 @onready var _message_label: Label = $MessageLabel
 @onready var _message_timer: Timer = $MessageTimer
 @onready var _debug_label: Label = $DebugLabel
+@onready var _cheater_label: Label = $CheaterLabel
 @onready var _debug_timer: Timer = $DebugTimer
 
 
@@ -72,6 +73,8 @@ func _ready() -> void:
 	_message_timer.timeout.connect(_on_message_timer_timeout)
 	EventBus.render_resolution_changed.connect(_on_render_resolution_changed)
 	_debug_timer.timeout.connect(_refresh_debug)
+	EventBus.player_cheat_changed.connect(_on_player_cheat_changed)
+	_on_player_cheat_changed(GodMode.active)
 	_refresh_ammo()
 
 
@@ -143,6 +146,10 @@ func _on_player_invulnerability_changed(active: bool) -> void:
 
 ## Blink the tint in the last moment so the player knows exactly when they
 ## can be hurt again.
+func _on_player_cheat_changed(active: bool) -> void:
+	_cheater_label.visible = active
+
+
 func _on_player_invulnerability_ending() -> void:
 	AudioManager.play_sfx(AudioManager.sounds.armor_fading)
 	_stop_armor_blink()
