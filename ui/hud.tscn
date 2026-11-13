@@ -1,6 +1,50 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://ui/hud_status.gd" id="2_status"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/health_small.png" id="3_health"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/ammo_mana.png" id="4_mana"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/ammo_arrows.png" id="5_arrows"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/ammo_axes.png" id="6_axes"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/key_gold.png" id="7_key_gold"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/key_silver.png" id="8_key_silver"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/key_bone.png" id="9_key_bone"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.06, 0.04, 0.05, 0.75)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.5, 0.38, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_back"]
+bg_color = Color(0, 0, 0, 0.8)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3, 0.24, 0.16, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
+bg_color = Color(0.75, 0.1, 0.08, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3, 0.24, 0.16, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mana_fill"]
+bg_color = Color(0.2, 0.42, 0.95, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3, 0.24, 0.16, 1)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hud")
@@ -51,37 +95,177 @@ offset_bottom = 6.0
 mouse_filter = 2
 color = Color(1, 1, 1, 0.8)
 
-[node name="AmmoLabel" type="Label" parent="."]
+[node name="Status" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_status")
+ammo_icons = Dictionary[StringName, Texture2D]({
+&"arrows": ExtResource("5_arrows"),
+&"axes": ExtResource("6_axes")
+})
+
+[node name="Vitals" type="PanelContainer" parent="Status"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -96.0
+offset_right = 16.0
+offset_bottom = -16.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Row" type="HBoxContainer" parent="Status/Vitals"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="HealthIcon" type="TextureRect" parent="Status/Vitals/Row"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_health")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HealthBar" type="ProgressBar" parent="Status/Vitals/Row"]
+custom_minimum_size = Vector2(150, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_back")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HealthValue" type="Label" parent="Status/Vitals/Row"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "100"
+
+[node name="ManaIcon" type="TextureRect" parent="Status/Vitals/Row"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_mana")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ManaBar" type="ProgressBar" parent="Status/Vitals/Row"]
+custom_minimum_size = Vector2(150, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_back")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mana_fill")
+value = 100.0
+show_percentage = false
+
+[node name="ManaValue" type="Label" parent="Status/Vitals/Row"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "100"
+
+[node name="Ammo" type="PanelContainer" parent="Status"]
+visible = false
+layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -260.0
-offset_top = -64.0
-offset_right = -24.0
-offset_bottom = -20.0
+offset_left = -16.0
+offset_top = -96.0
+offset_right = -16.0
+offset_bottom = -16.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
-theme_override_font_sizes/font_size = 28
-text = "Arrows: 0"
-horizontal_alignment = 2
-vertical_alignment = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="HealthLabel" type="Label" parent="."]
+[node name="Row" type="HBoxContainer" parent="Status/Ammo"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="AmmoValue" type="Label" parent="Status/Ammo/Row"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 36
+text = "100"
+horizontal_alignment = 2
+
+[node name="AmmoIcon" type="TextureRect" parent="Status/Ammo/Row"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_arrows")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Keys" type="HBoxContainer" parent="Status"]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = -64.0
-offset_right = 260.0
-offset_bottom = -20.0
+offset_left = 16.0
+offset_top = -168.0
+offset_right = 16.0
+offset_bottom = -104.0
 grow_vertical = 0
 mouse_filter = 2
-theme_override_font_sizes/font_size = 28
-text = "Health: 100"
-vertical_alignment = 2
+theme_override_constants/separation = 6
+
+[node name="KeyGold" type="TextureRect" parent="Status/Keys"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_key_gold")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="KeySilver" type="TextureRect" parent="Status/Keys"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_key_silver")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="KeyBone" type="TextureRect" parent="Status/Keys"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_key_bone")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="DeathPrompt" type="Label" parent="."]
 visible = false
@@ -97,25 +281,12 @@ offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 36
 text = "Hit Enter to respawn"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="KeysLabel" type="Label" parent="."]
-visible = false
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = -104.0
-offset_right = 400.0
-offset_bottom = -64.0
-grow_vertical = 0
-mouse_filter = 2
-theme_override_font_sizes/font_size = 24
-text = "Keys: Gold"
-vertical_alignment = 2
 
 [node name="MessageLabel" type="Label" parent="."]
 visible = false
@@ -125,6 +296,8 @@ offset_top = 40.0
 offset_bottom = 90.0
 grow_horizontal = 2
 mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 28
 text = "Picked up the Gold Key"
 horizontal_alignment = 1

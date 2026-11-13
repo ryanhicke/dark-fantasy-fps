@@ -1,6 +1,7 @@
 extends CanvasLayer
-## Crosshair, health, ammo, keys, pickup/door messages, damage flash, the
-## respawn prompt, and a debug FPS/resolution readout (F3, debug builds).
+## Crosshair, pickup/door messages, damage flash, the respawn prompt, and a
+## debug FPS/resolution readout (F3, debug builds). Health, mana, ammo, and
+## keys are the Status child (HudStatus).
 ##
 ## Listens to EventBus only, so it never needs a reference to the player and
 ## survives level changes untouched.
@@ -17,21 +18,9 @@ extends CanvasLayer
 ## Seconds a pickup or door message stays on screen.
 @export var message_duration: float = 2.5
 
-@export_group("Health Colors")
-## Health at or below these fractions of maximum turns the counter amber,
-## then red, so low health reads at a glance.
-@export_range(0.0, 1.0) var health_warning_fraction: float = 0.5
-@export_range(0.0, 1.0) var health_danger_fraction: float = 0.25
-@export var health_normal_color: Color = Color(0.9, 0.9, 0.85)
-@export var health_warning_color: Color = Color(1.0, 0.75, 0.2)
-@export var health_danger_color: Color = Color(1.0, 0.2, 0.15)
-@export_group("")
-
 ## Dev tool, so a raw key rather than an input action.
 const DEBUG_TOGGLE_KEY: Key = KEY_F3
 
-var _ammo_counts: Dictionary[StringName, int] = {}
-var _current_ammo_type: StringName = &""
 var _awaiting_respawn: bool = false
 ## Bumped on every level load, so a death prompt still waiting from the
 ## previous life (e.g. quickload right after dying) never appears.
@@ -40,12 +29,9 @@ var _flash_tween: Tween
 var _armor_blink_tween: Tween
 var _render_size: Vector2i = Vector2i.ZERO
 
-@onready var _ammo_label: Label = $AmmoLabel
-@onready var _health_label: Label = $HealthLabel
 @onready var _damage_flash: ColorRect = $DamageFlash
 @onready var _armor_tint: ColorRect = $ArmorTint
 @onready var _death_prompt: Label = $DeathPrompt
-@onready var _keys_label: Label = $KeysLabel
 @onready var _message_label: Label = $MessageLabel
 @onready var _message_timer: Timer = $MessageTimer
 @onready var _debug_label: Label = $DebugLabel
@@ -54,9 +40,6 @@ var _render_size: Vector2i = Vector2i.ZERO
 
 
 func _ready() -> void:
-	EventBus.player_ammo_changed.connect(_on_player_ammo_changed)
-	EventBus.player_weapon_changed.connect(_on_player_weapon_changed)
-	EventBus.player_health_changed.connect(_on_player_health_changed)
 	EventBus.player_damaged.connect(_on_player_damaged)
 	EventBus.player_healed.connect(_on_player_healed)
 	EventBus.screen_flash_requested.connect(_on_screen_flash_requested)
@@ -64,7 +47,6 @@ func _ready() -> void:
 	EventBus.player_invulnerability_ending.connect(_on_player_invulnerability_ending)
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.player_respawn_requested.connect(_on_player_respawn_requested)
-	EventBus.player_keys_changed.connect(_on_player_keys_changed)
 	EventBus.key_picked_up.connect(_on_key_picked_up)
 	EventBus.pickup_collected.connect(_show_message)
 	EventBus.hud_message_requested.connect(_show_message)
@@ -75,7 +57,6 @@ func _ready() -> void:
 	_debug_timer.timeout.connect(_refresh_debug)
 	EventBus.player_cheat_changed.connect(_on_player_cheat_changed)
 	_on_player_cheat_changed(GodMode.active)
-	_refresh_ammo()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -88,33 +69,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		_death_prompt.visible = false
 		get_viewport().set_input_as_handled()
 		EventBus.player_respawn_requested.emit()
-
-
-func _on_player_ammo_changed(ammo_type: StringName, amount: int, _maximum: int) -> void:
-	# Cache every type so switching weapons can show the right count at once.
-	_ammo_counts[ammo_type] = amount
-	if ammo_type == _current_ammo_type:
-		_refresh_ammo()
-
-
-func _on_player_weapon_changed(weapon_data: WeaponData) -> void:
-	_current_ammo_type = weapon_data.ammo_type if weapon_data != null else &""
-	_refresh_ammo()
-
-
-func _on_player_health_changed(current: float, maximum: float) -> void:
-	# Round up so the player never sees 0 while still alive.
-	_health_label.text = "Health: %d" % ceili(current)
-	_health_label.add_theme_color_override(&"font_color", health_color(current, maximum))
-
-
-func health_color(current: float, maximum: float) -> Color:
-	var fraction: float = current / maximum if maximum > 0.0 else 0.0
-	if fraction <= health_danger_fraction:
-		return health_danger_color
-	if fraction <= health_warning_fraction:
-		return health_warning_color
-	return health_normal_color
 
 
 func _on_player_damaged(_amount: float) -> void:
@@ -186,14 +140,6 @@ func _on_player_respawn_requested() -> void:
 	_hide_message()
 
 
-func _on_player_keys_changed(keys: Array[int]) -> void:
-	_keys_label.visible = not keys.is_empty()
-	var names: PackedStringArray = PackedStringArray()
-	for key: int in keys:
-		names.append(KeyRing.key_name(key))
-	_keys_label.text = "Keys: %s" % ", ".join(names)
-
-
 func _on_key_picked_up(key_type: int) -> void:
 	_show_message("Picked up the %s Key" % KeyRing.key_name(key_type))
 
@@ -218,14 +164,6 @@ func _show_message(text: String, expires: bool = true) -> void:
 func _hide_message() -> void:
 	_message_timer.stop()
 	_message_label.visible = false
-
-
-func _refresh_ammo() -> void:
-	_ammo_label.visible = _current_ammo_type != &""
-	if _ammo_label.visible:
-		_ammo_label.text = "%s: %d" % [
-			String(_current_ammo_type).capitalize(), _ammo_counts.get(_current_ammo_type, 0)
-		]
 
 
 func _on_render_resolution_changed(render_size: Vector2i) -> void:
