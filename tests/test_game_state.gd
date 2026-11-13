@@ -140,3 +140,31 @@ func test_restart_drops_a_pending_quickload() -> void:
 	_state.load_save({"level_index": 0}, {"stats": {}})
 	_state.restart_level()
 	assert_true(_state.take_pending_snapshot().is_empty())
+
+
+func test_difficulty_starts_at_the_default_and_survives_level_changes() -> void:
+	assert_eq(_state.difficulty, Difficulty.DEFAULT)
+	_state.difficulty = Difficulty.Skill.HARD
+	_state.start_game(0)
+	_state.finish_level(_bundle(50.0, 3), LevelStats.new())
+	_state.advance_to_next_level()
+	_state.restart_level()
+	assert_eq(_state.difficulty, Difficulty.Skill.HARD)
+
+
+func test_difficulty_is_saved_and_restored() -> void:
+	_state.difficulty = Difficulty.Skill.EASY
+	_state.start_game(1)
+	var game: Dictionary = _state.capture_save()
+	_state.difficulty = Difficulty.Skill.HARD
+	assert_true(_state.load_save(game, {}))
+	assert_eq(_state.difficulty, Difficulty.Skill.EASY)
+
+
+func test_a_save_without_a_valid_difficulty_loads_as_the_default() -> void:
+	_state.difficulty = Difficulty.Skill.HARD
+	_state.load_save({"level_index": 0}, {})
+	assert_eq(_state.difficulty, Difficulty.DEFAULT)
+	_state.difficulty = Difficulty.Skill.HARD
+	_state.load_save({"level_index": 0, "difficulty": 42}, {})
+	assert_eq(_state.difficulty, Difficulty.DEFAULT)

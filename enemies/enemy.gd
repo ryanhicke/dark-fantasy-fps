@@ -83,7 +83,7 @@ func _apply_data() -> void:
 	_brain = EnemyBrain.new(data)
 	_brain.state_changed.connect(_on_brain_state_changed)
 	_brain.attack_struck.connect(_on_brain_attack_struck)
-	_health.max_health = data.max_health
+	_health.max_health = data.max_health * Difficulty.enemy_health(GameState.difficulty)
 	_health.resistances = data.resistances
 	_health.reset()
 	_sprite.set_sheet(data.sprite_sheet)

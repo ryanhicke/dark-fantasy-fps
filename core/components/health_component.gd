@@ -20,6 +20,9 @@ const NODE_NAME: StringName = &"HealthComponent"
 ## Optional. Scales incoming damage by type. Null takes all damage as-is.
 @export var resistances: DamageResistances
 
+## Scales every hit after resistances. The player's is set from the run's
+## difficulty; everything else leaves it at 1.
+var damage_taken_multiplier: float = 1.0
 ## While true, all damage is ignored (the armor spell; see Invulnerability).
 var invulnerable: bool = false
 ## The player's cheat (see GodMode). Kept apart from [member invulnerable]
@@ -50,6 +53,7 @@ func is_dead() -> bool:
 func take_damage(amount: float, type: Damage.Type, source: Node) -> void:
 	if resistances != null:
 		amount *= resistances.multiplier_for(type)
+	amount *= damage_taken_multiplier
 	# Ignoring hits on the dead prevents double kills (and double died signals)
 	# when several attacks land in the same frame. Immune hits (0) are ignored
 	# entirely, so they don't cause pain or wake anything.

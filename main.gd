@@ -42,8 +42,9 @@ func _show_main_menu() -> void:
 	_main_menu.open()
 
 
-func _on_new_game_selected() -> void:
+func _on_new_game_selected(difficulty: Difficulty.Skill) -> void:
 	_game_view.visible = true
+	GameState.difficulty = difficulty
 	GameState.start_game(start_level_index)
 
 

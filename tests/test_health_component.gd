@@ -116,3 +116,10 @@ func test_immune_type_is_ignored() -> void:
 	_health.take_damage(50.0, Damage.Type.PIERCE, null)
 	assert_eq(_health.current_health, MAX_HEALTH)
 	assert_signal_not_emitted(_health, "damaged")
+
+
+func test_damage_taken_multiplier_scales_hits() -> void:
+	_health.damage_taken_multiplier = 0.5
+	_health.take_damage(40.0, Damage.Type.SLASH, null)
+	assert_eq(_health.current_health, 80.0)
+	assert_signal_emitted_with_parameters(_health, "damaged", [20.0, Damage.Type.SLASH, null])

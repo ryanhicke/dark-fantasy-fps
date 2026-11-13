@@ -17,6 +17,9 @@ const DEFAULT_LEVEL_LIST_PATH: String = "res://levels/level_list.tres"
 
 var level_list: LevelList
 var current_level_index: int = 0
+## Skill level of the current run. Set before start_game; kept across levels
+## and restarts, and restored by a quickload.
+var difficulty: Difficulty.Skill = Difficulty.DEFAULT
 
 ## Bundle the current level was entered with, restored on (re)load. Null
 ## means pistol start: the player keeps the defaults from player.tscn, so
@@ -108,6 +111,7 @@ func restart_level() -> void:
 func capture_save() -> Dictionary:
 	return {
 		"level_index": current_level_index,
+		"difficulty": difficulty,
 		"single_level_path": _single_level_path,
 		"entry_state": _entry_state.to_dict() if _entry_state != null else {},
 	}
@@ -125,6 +129,8 @@ func load_save(game: Dictionary, level_snapshot: Dictionary) -> bool:
 		push_warning("GameState: saved level '%s' no longer exists." % single_path)
 		return false
 	current_level_index = index
+	# Saves from before difficulty existed load as the default.
+	difficulty = Difficulty.from_variant(game.get("difficulty"))
 	_single_level_path = single_path
 	var entry: Variant = game.get("entry_state", {})
 	_entry_state = PlayerState.from_dict(entry) if entry is Dictionary and not entry.is_empty() else null

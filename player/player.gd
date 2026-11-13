@@ -73,6 +73,7 @@ func _ready() -> void:
 	_health.damaged.connect(_on_damaged)
 	_health.health_changed.connect(_on_health_changed)
 	_health.died.connect(_on_died)
+	_health.damage_taken_multiplier = Difficulty.player_damage_taken(GameState.difficulty)
 	EventBus.player_health_changed.emit(_health.current_health, _health.max_health)
 	# Updated only when use is pressed, so it costs nothing per frame.
 	_use_cast.enabled = false

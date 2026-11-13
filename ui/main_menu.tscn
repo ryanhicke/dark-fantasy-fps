@@ -70,3 +70,53 @@ text = "Exit"
 
 [node name="OptionsMenu" parent="." instance=ExtResource("3_options")]
 visible = false
+
+[node name="SkillPage" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -210.0
+offset_right = 260.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+script = ExtResource("2_menu_page")
+
+[node name="TitleLabel" type="Label" parent="SkillPage"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 40
+text = "Choose Your Fate"
+horizontal_alignment = 1
+
+[node name="EasyButton" type="Button" parent="SkillPage"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Mother, Hold My Hand"
+
+[node name="NormalButton" type="Button" parent="SkillPage"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Sharpen My Blade"
+
+[node name="HardButton" type="Button" parent="SkillPage"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Hell Fears Me"
+
+[node name="BackButton" type="Button" parent="SkillPage"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Back"
+
+[node name="DescriptionLabel" type="Label" parent="SkillPage"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
